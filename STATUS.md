@@ -155,3 +155,11 @@
 - No tests were performed against user Windows, actual Chrome E2E, n8n, customer API/DB, or production. All remain unverified/not applicable. No external app deployment.
 - Next confirmed unit: user Windows browser E2E at localhost:8010/nails if requested, then review console/network if errors. Do not edit existing shop/jobs or assume original formula.
 
+## Windows 실사용자 로컬 검증 보고 — 2026-10-18
+
+- 사용자 Windows PowerShell 실제 실행 결과 접수: `python -m pytest -q nail_dashboard/tests/test_dashboard.py` => **33 passed in 4.57s**.
+- `python -m nail_dashboard.tests.live_http_smoke` => **PASS** 실제 HTTP startup, /nails, 200/422, 프로세스 stop/restart, SQLite 영속성 및 DB 불변, `brand=mellow` 2페이지 5행.
+- 위 근거는 사용자 제공 콘솔 텍스트(로컬 Windows 실행)로 확인한 결과. ChatGPT가 사용자 PC에서 별도 명령을 직접 실행하지는 않음.
+- 기존 샌드박스의 33/33·HTTP 검증과 독립된 Windows 재현 성공. 브라우저 CSS/Canvas/Console/Network 자동 점검은 아직 미검증.
+- 기존 main 도서 쇼핑몰/채용 MVP와 데이터 및 테스트 수정 없음. 추가 코드 수정 불필요; 다음 단계는 Windows 브라우저 UI/Console/Network 점검.
+
