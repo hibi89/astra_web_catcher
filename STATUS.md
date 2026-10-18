@@ -69,3 +69,11 @@
 - **Preserved:** main `dc23ee604d02513c890615a3a98440c1ea8a5270`, app, research, experiment branches, data unchanged. Production/Vercel not applicable. Browser tests/API tests not rerun; no backend or DB inferred.
 - New code commit `bcfd140597e5ba750bd8586cf898a317bd7eb0d4`, branch `feature/observation-contract-20261018`; documentation commit and branch readback follow.
 - **Next ㄱ:** separate owned DB/API mapping contract & mismatch report, no mutations or approval bypass.
+
+## 2026-10-18 21:31 KST — p4 Step 4-B owned-schema mapping diagnostics (one unit)
+
+- **Added:** `astra_contracts/data_mapping.py`, `tests/test_data_mapping.py`, synthetic schema/report JSON and `docs/DATA_MAPPING_CONTRACT_V01.md` on `feature/observation-contract-20261018`. Code commit `6623cb139acd133b3cc89346f3b4a1f6d90a9e56`.
+- **Capability:** offline explicit UI-field→declared DB/API resource-field mapping comparison; classify unbound, absent resource/field, wrong scalar type, nullable mismatch and unknown types. Compatible means structural only, NOT approved. Report retains old unresolved assumptions and approval gates. Example synthetic 10 fields: 3 structural, 4 unbound, 1 missing resource, 1 missing field, 1 type mismatch. User schema was not supplied; no live verification.
+- **Tests:** 71/71 PASS (previous 46 + new 25); Python compileall PASS, CLI JSON output PASS; hashes of 5 new Git blobs match locally tested files. First 1 failing test was stale mapping in empty-candidate test, corrected fixture and all passed. No existing application/browser/live API suite rerun.
+- **Security/preservation:** never connect/modify actual API, DB, credentials, code or schema; fictional test manifest explicitly synthetic; `main`, shop/jobs, independent nail dashboard/experiment, data unchanged. No Vercel deployment.
+- **Next `ㄱ`:** isolated independent code-generation contract with explicit safety/approval boundaries (not actual generation or live deployment). Need user authorization and owned schema before connecting to real client DB.
