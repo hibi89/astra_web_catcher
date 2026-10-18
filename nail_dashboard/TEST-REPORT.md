@@ -66,3 +66,15 @@ Initial additional-test failure: test_empty_posts_yields_null_ratios_and_zero_ch
 
 Important boundary: Node VM executes a real JS state function but is not Chrome. Playwright visual E2E/CSS/Console/network was NOT run. User directly verified browser brand changes separately. Source demand/performance formulas remain unverified and demo-only; external user data/Instagram/n8n integration NOT completed.
 
+## Windows 실사용자 로컬 검증 보고 — 2026-10-18
+
+사용자가 Windows PowerShell에서 이 저장소의 최신 연구 브랜치를 받은 후 실행한 **실제 콘솔 출력**을 대화로 전달함. 실행은 사용자 PC에서 이루어졌으며 ChatGPT가 해당 PC의 프로세스를 직접 관찰하거나 로그 파일을 취득한 것은 아님.
+
+- 실행 명령: `python -m pytest -q nail_dashboard/tests/test_dashboard.py`
+- 실제 사용자 출력: `33 passed in 4.57s` (`[100%]`). 0개 실패.
+- 실행 명령: `python -m nail_dashboard.tests.live_http_smoke`
+- 실제 사용자 출력: `PASS HTTP startup + /nails + 200 API + validation 422 + process stop/restart + persistent SQLite + no mutation`.
+- 실제 사용자 출력: `PASS brand=mellow page2 rows 5`.
+- Windows 환경에서 테스트/실서버 스모크가 성공함을 확인하는 **사용자 실행 근거**. 앞선 격리 컨테이너의 33 PASS 및 스모크 결과와 구분해서 기록.
+- 여전히 미검증: 네 메뉴 전체의 Windows 브라우저 자동 E2E, 렌더링 차트 숫자와 API 응답 일치, Console/Network 에러. 사용자가 브랜드 전환 시 UI 연동을 수동 확인한 결과는 별개.
+
