@@ -1,0 +1,135 @@
+{
+  "version": "0.1",
+  "spec_source_sha256": "6d3c7b3a25c7a5cf3a3d3a209a2a6f185fea43007595669cf73303ae17cc1b0a",
+  "declaration_sha256": "7c27c0f797c2eec9a7d384288168395d9ec29ea85605bf58394bcf922eb16da1",
+  "declaration_source_kind": "synthetic_fixture",
+  "declaration_source_label": "SYNTHETIC ONLY - invented for offline diagnostics; not an OHORA or customer DB schema",
+  "status": "review_only",
+  "schema_verified_against_live_system": false,
+  "mapping_approved": false,
+  "implementation_ready": false,
+  "approval_gates": [
+    "approve_any_source_changes",
+    "approve_db_api_mapping",
+    "authorize_external_or_write_actions",
+    "confirm_behavior",
+    "confirm_mapping_semantics",
+    "confirm_metric_formulas",
+    "verify_declared_schema_against_owned_system"
+  ],
+  "unresolved_observation_ids": [
+    "filter_execution_unknown",
+    "ratio_formula_unknown"
+  ],
+  "findings": [
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "analyzed_posts",
+      "ui_type": "integer",
+      "resource_id": "dashboard_summary",
+      "resource_field": "analyzed_total",
+      "declared_type": "integer",
+      "status": "structurally_compatible_unapproved",
+      "detail": "Structural match only; no semantic or live-data verification or authorization."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "average_reactions_displayed",
+      "ui_type": "integer",
+      "resource_id": "dashboard_summary",
+      "resource_field": "avg_reactions",
+      "declared_type": "string",
+      "status": "type_conflict",
+      "detail": "Observed UI scalar type disagrees with declared field type; no conversion assumed."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "collected_posts",
+      "ui_type": "integer",
+      "resource_id": "dashboard_summary",
+      "resource_field": "collected_total",
+      "declared_type": "integer",
+      "status": "structurally_compatible_unapproved",
+      "detail": "Structural match only; no semantic or live-data verification or authorization."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "direct_application_posts",
+      "ui_type": "integer",
+      "resource_id": null,
+      "resource_field": null,
+      "declared_type": null,
+      "status": "unmapped",
+      "detail": "No explicit binding was supplied; ASTRA must not guess column names."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "reels_posts",
+      "ui_type": "integer",
+      "resource_id": "missing_resource",
+      "resource_field": "reel_count",
+      "declared_type": null,
+      "status": "missing_resource",
+      "detail": "Explicit resource identifier was not declared."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "reported_analyzed_percent",
+      "ui_type": "integer",
+      "resource_id": null,
+      "resource_field": null,
+      "declared_type": null,
+      "status": "unmapped",
+      "detail": "No explicit binding was supplied; ASTRA must not guess column names."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "reported_reels_percent",
+      "ui_type": "integer",
+      "resource_id": null,
+      "resource_field": null,
+      "declared_type": null,
+      "status": "unmapped",
+      "detail": "No explicit binding was supplied; ASTRA must not guess column names."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "selected_brand",
+      "ui_type": "string",
+      "resource_id": "dashboard_summary",
+      "resource_field": "brand_key",
+      "declared_type": "string",
+      "status": "structurally_compatible_unapproved",
+      "detail": "Structural match only; no semantic or live-data verification or authorization."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "sheet_posts",
+      "ui_type": "integer",
+      "resource_id": "dashboard_summary",
+      "resource_field": "no_such_field",
+      "declared_type": null,
+      "status": "missing_resource_field",
+      "detail": "Explicit field does not exist in the declared resource."
+    },
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "weekly_chart_brand_series",
+      "ui_type": "integer",
+      "resource_id": null,
+      "resource_field": null,
+      "declared_type": null,
+      "status": "unmapped",
+      "detail": "No explicit binding was supplied; ASTRA must not guess column names."
+    }
+  ],
+  "counts": {
+    "structurally_compatible_unapproved": 3,
+    "unmapped": 4,
+    "missing_resource": 1,
+    "missing_resource_field": 1,
+    "type_conflict": 1,
+    "unknown_ui_type": 0,
+    "nullable_conflict": 0
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "source_label": "SYNTHETIC ONLY - invented for offline diagnostics; not an OHORA or customer DB schema",
+  "resources": [
+    {"id":"dashboard_summary","kind":"api_response","fields":[
+      {"name":"brand_key","data_type":"string"},
+      {"name":"analyzed_total","data_type":"integer"},
+      {"name":"collected_total","data_type":"integer"},
+      {"name":"avg_reactions","data_type":"string"},
+      {"name":"reel_count","data_type":"integer"},
+      {"name":"sheet_count","data_type":"integer"}
+    ]}
+  ],
+  "bindings": [
+    {"observation_id":"brand_all_vs_ohora","ui_field":"selected_brand","resource_id":"dashboard_summary","resource_field":"brand_key"},
+    {"observation_id":"brand_all_vs_ohora","ui_field":"analyzed_posts","resource_id":"dashboard_summary","resource_field":"analyzed_total"},
+    {"observation_id":"brand_all_vs_ohora","ui_field":"collected_posts","resource_id":"dashboard_summary","resource_field":"collected_total"},
+    {"observation_id":"brand_all_vs_ohora","ui_field":"average_reactions_displayed","resource_id":"dashboard_summary","resource_field":"avg_reactions"},
+    {"observation_id":"brand_all_vs_ohora","ui_field":"reels_posts","resource_id":"missing_resource","resource_field":"reel_count"},
+    {"observation_id":"brand_all_vs_ohora","ui_field":"sheet_posts","resource_id":"dashboard_summary","resource_field":"no_such_field"}
+  ]
+}
