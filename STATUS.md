@@ -177,3 +177,11 @@
 - Windows 이전 `pytest` 33/33 (4.57s), 실제 Uvicorn HTTP 재시작·SQLite 영속/무변형 PASS 결과와 결합해 **로컬 B안 MVP 핵심 자동 검증 완료**.
 - 첫 Windows E2E 즉시 카운트 AssertionError 후 테스트에 비동기 UI 대기 추가한 변경본이 실제 Windows에서 통과함. 차트 렌더 DOM 값의 API 수치 대조, 모든 console.error/외부 Network, 프로덕션 보안/운영, 실제 고객 DB/API/n8n 연동은 별도 범위.
 - 기존 main 쇼핑몰/채용 MVP, 기존 DB와 해당 소스·테스트 변경 없음. 이번 갱신은 검증 문서만 업데이트.
+
+## 2026-10-18 — verified snapshot and customer-data mapping preparation
+
+- User requested preserve already verified B MVP, **no code or original data changes**, and move to customer data connection planning based on anonymized column headers plus 5–10 sample rows.
+- Created snapshot branch `snapshot/nail-atlas-b-e2e-verified-2026-10-18` at commit `343790e34967f0b20862d4ec7f5de8f084414234`; GitHub re-fetched branch commit and matched. Compared user's tested code commit `457cb9369699a74ee9706dfe922a2bcd58632919` to snapshot: only three docs changed (HANDOFF.md, STATUS.md, nail_dashboard/TEST-REPORT.md). Python/JS/SQL source unchanged.
+- Read existing `nail_dashboard/{schema.sql,db.py,repository.py,metrics.py,app.py,README.md}`; published **preliminary**, not user-confirmed field mapping and formula inventory in `research/jp-nail-dashboard/DATA_INTEGRATION_MAPPING_PREP_2026-10-18.md` (commit `451a9eef1f9b241b592b46cedbb458dc903b9279`).
+- Pending user input: sanitized original column names plus 5–10 representative rows from one posts dataset (IDs pseudonymized but consistently joinable; retain types/timezone and distinguish NULL vs 0). No passwords, signed URLs, individual identities, full dataset or customer DB credentials. Mapping will then classify matched/missing/derived fields and calculation feasibility; do not guess original scoring.
+- Snapshot branch not used for ongoing work; no current `main` changes, no `nail_dashboard/` runtime source modifications, no production connection, no source DB modifications/import.
