@@ -169,3 +169,11 @@
 - 기존 Playwright 테스트는 API 비동기 재렌더를 기다리지 않았으므로 타이밍 경합 가능. 테스트만 수정해 `expect(...).to_have_count(8)` 및 다른 뷰/페이지 전환도 최대 15초 대기·조건 진단 출력. GitHub 코드 SHA `8f50fb9b01460d9f2e98b526978237c19f5ebffc` 재조회 검증.
 - 변경 소스의 Python 구문 검사 PASS, 별도 컨테이너에서 기존 pytest **33/33 PASS** 및 실제 Uvicorn 재시작 HTTP 스모크 PASS. 이 결과는 Windows Playwright 전체 성공을 의미하지 않음.
 - 다음: 사용자 연구 브랜치 Git pull, 실행 중인 로컬 서버 유지, `python -m nail_dashboard.tests.browser_e2e` 재실행. 실패 시 새 진단 출력/Traceback 확인. 실제 FastAPI·SQLite·두 기존 MVP 소스는 변경 없음.
+
+## Windows Playwright E2E 재실행 PASS — 2026-10-18 (사용자 제공 로그)
+
+- Windows 연구 브랜치 fast-forward pull `ccdd567..457cb93` 이후 사용자 직접 실행 `python -m nail_dashboard.tests.browser_e2e` 전체 **PASS** (출력 원문 제공).
+- 7개 단계 PASS: dashboard KPI 카드 3, tags 14행, color 8행, brand 비교 4행, Top posts 1페이지 15행, 2페이지 5행, mellow 브랜드 변경 후 1페이지 15행; E2E 최종 문구 및 JS pageerror/네일 API HTTP 400+ 실패 없음.
+- Windows 이전 `pytest` 33/33 (4.57s), 실제 Uvicorn HTTP 재시작·SQLite 영속/무변형 PASS 결과와 결합해 **로컬 B안 MVP 핵심 자동 검증 완료**.
+- 첫 Windows E2E 즉시 카운트 AssertionError 후 테스트에 비동기 UI 대기 추가한 변경본이 실제 Windows에서 통과함. 차트 렌더 DOM 값의 API 수치 대조, 모든 console.error/외부 Network, 프로덕션 보안/운영, 실제 고객 DB/API/n8n 연동은 별도 범위.
+- 기존 main 쇼핑몰/채용 MVP, 기존 DB와 해당 소스·테스트 변경 없음. 이번 갱신은 검증 문서만 업데이트.
