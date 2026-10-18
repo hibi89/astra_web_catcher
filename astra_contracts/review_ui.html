@@ -8,6 +8,6 @@
 <div class="control"><label for="kind">검토 항목 보기</label><select id="kind"><option value="all">모든 항목</option><option value="observed_behavior">관찰된 기능</option><option value="unresolved_behavior">미확인 사항</option><option value="field_semantics">필드 매핑</option></select></div>
 <div id="items"></div>
 <section class="footer"><button id="save" type="button">검토 의견 저장</button><p id="result" role="status">저장 버튼을 누르기 전까지 아무 의견도 기록되지 않습니다.</p>
-<div class="retrieve"><label for="recordId">이전 기록 ID</label><input id="recordId" placeholder="24자리 기록 ID" autocomplete="off"><button id="load" type="button">기록 다시 보기</button></div><pre id="readback" aria-live="polite"></pre></section>
+<div class="retrieve"><label for="recordId">이전 기록 ID</label><input id="recordId" placeholder="24자리 기록 ID" autocomplete="off"><button id="load" type="button">기록 다시 보기</button></div><div class="retrieve"><button id="exportRecord" type="button">현재 기록 JSON 내보내기</button><label for="importFile">기존 의견 JSON 가져오기</label><input id="importFile" type="file" accept=".json,application/json"><button id="importRecord" type="button">파일 검증 후 가져오기</button></div><pre id="readback" aria-live="polite"></pre></section>
 <p class="footnote">임시 로컬 파일에만 저장됩니다. 실사이트·고객 DB/API와 연결되지 않으며 신원 검증·권한 부여·배포를 수행하지 않습니다.</p>
 </main></body></html>

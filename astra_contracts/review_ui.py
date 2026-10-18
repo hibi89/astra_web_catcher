@@ -10,13 +10,14 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, Header, HTTPException, Request
-from fastapi.responses import HTMLResponse, FileResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, FileResponse, PlainTextResponse, JSONResponse
 from pydantic import ValidationError
 
 from astra_contracts.data_mapping import MappingReport, OwnedSchemaDeclaration
 from astra_contracts.functional_spec import FunctionalSpecDraft
 from astra_contracts.generation_contract import fingerprint
 from astra_contracts.reviewer_decisions import ReviewRecord, ReviewSubmission, build_packet, record_opinions
+from astra_contracts.review_transfer import MAX_TRANSFER_BYTES, export_bundle, import_bundle
 
 HERE = Path(__file__).resolve().parent
 MAX_BODY = 65536
@@ -119,6 +120,53 @@ def create_review_app(spec: FunctionalSpecDraft, schema: OwnedSchemaDeclaration,
             raise HTTPException(409, "Stale packet fingerprint")
         return {"record_id": record_id, "record": record.model_dump(mode="json"),
                 "authorization_granted": False}
+
+    @app.get("/api/export/{record_id}")
+    def export_opinion(record_id: str, x_astra_review_token: str | None = Header(default=None)):
+        require_token(x_astra_review_token)
+        if not RECORD_ID.fullmatch(record_id):
+            raise HTTPException(404, "Record not found")
+        _safe_folder(folder)
+        path = folder / f"{record_id}.json"
+        if path.is_symlink() or not path.is_file():
+            raise HTTPException(404, "Record not found")
+        try:
+            if path.stat().st_size > MAX_TRANSFER_BYTES:
+                raise ValueError("Stored review too large")
+            record = ReviewRecord.model_validate_json(path.read_bytes())
+            bundle = export_bundle(packet, record)
+        except (OSError, ValueError, ValidationError) as exc:
+            raise HTTPException(422, "Invalid or stale review record") from exc
+        return JSONResponse(
+            bundle.model_dump(mode="json"),
+            headers={"Content-Disposition": f'attachment; filename="astra-opinions-{record_id}.json"'},
+        )
+
+    @app.post("/api/import")
+    async def import_opinion(request: Request,
+                             x_astra_review_token: str | None = Header(default=None)):
+        require_token(x_astra_review_token)
+        if request.headers.get("content-type", "").split(";")[0] != "application/json":
+            raise HTTPException(415, "JSON required")
+        try:
+            if int(request.headers.get("content-length", "0") or "0") > MAX_TRANSFER_BYTES:
+                raise HTTPException(413, "Transfer too large")
+        except ValueError as exc:
+            raise HTTPException(400, "Invalid content length") from exc
+        data = await request.body()
+        if len(data) > MAX_TRANSFER_BYTES:
+            raise HTTPException(413, "Transfer too large")
+        try:
+            record = import_bundle(packet, data)
+        except (ValueError, ValidationError) as exc:
+            raise HTTPException(422, "Invalid or stale opinion transfer") from exc
+        _safe_folder(folder)
+        identifier = secrets.token_hex(12)
+        path = folder / f"{identifier}.json"
+        with path.open("x", encoding="utf-8") as out:
+            out.write(record.model_dump_json(indent=2) + "\n")
+        return {"record_id": identifier, "record": record.model_dump(mode="json"),
+                "authorization_granted": False, "imported_unverified_opinions": True}
 
     return app
 
