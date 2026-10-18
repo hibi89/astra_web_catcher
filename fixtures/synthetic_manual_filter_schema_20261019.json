@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "source_label": "Synthetic manual-action pipeline declaration; no customer or live schema",
+  "resources": [
+    {"id": "fictional_category_summary", "kind": "api_response", "fields": [
+      {"name": "category_key", "data_type": "string"},
+      {"name": "shown_items", "data_type": "integer"}
+    ]}
+  ],
+  "bindings": [
+    {"observation_id": "demo_category_filter", "ui_field": "selected_category", "resource_id": "fictional_category_summary", "resource_field": "category_key"},
+    {"observation_id": "demo_category_filter", "ui_field": "visible_items", "resource_id": "fictional_category_summary", "resource_field": "shown_items"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.1",
+  "provenance": "unverified_operator_supplied_manual_test",
+  "observation_id": "demo_category_filter",
+  "evidence_id": "manual_test_demo",
+  "action": "Fictional example: choose a different category",
+  "before": {"selected_category": "ALL", "visible_items": 4},
+  "after": {"selected_category": "ART", "visible_items": 2},
+  "original_site_behavior_verified": false,
+  "reviewer_identity_verified": false,
+  "approval_granted": false
+}

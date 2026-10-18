@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://example.org/fictional-not-visited",
+  "scope": "Fictional demonstration only; the OBSERVED certainty is an operator claim, not an independently witnessed website",
+  "recorded_at": "2026-10-19T00:00:00+09:00",
+  "evidence": [{
+    "id": "manual_test_demo",
+    "kind": "manual_test",
+    "source_ref": "evidence/synthetic_manual_filter_trace_20261019.json",
+    "captured_at": "2026-10-19T00:00:00+09:00",
+    "notes": "Fabricated action trace for pipeline tests; never used on a real site"
+  }],
+  "observations": [{
+    "id": "demo_category_filter",
+    "feature": "filter",
+    "title": "Fictional selected-category transition",
+    "claim": "Only a made-up example; a reported category choice changed visible count",
+    "certainty": "observed",
+    "evidence_ids": ["manual_test_demo"],
+    "action": "Fictional example: choose a different category",
+    "before": {"selected_category": "ALL", "visible_items": 4},
+    "after": {"selected_category": "ART", "visible_items": 2}
+  }]
+}
