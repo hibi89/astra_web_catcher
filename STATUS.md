@@ -123,3 +123,14 @@
 - 미확인: 원본 API/정적 데이터/n8n 실제 연동, 수요지수·성과지수 정확한 공식, 보고서 조회 버튼의 외부 실행 여부, 차트/링크 부가 동작.
 - 기술 선택 두 안 문서화: 독립 Next.js+TypeScript+Prisma+SQLite(권고) 대 기존 FastAPI 기반 별도 모듈. 사용자 사전 승인까지 새 코드 구현 보류.
 - 원본 main /shop, /jobs, 테스트/SQLite 및 배포 설정 변경 없음. 기존 테스트 13/13과 HTTP 6/6은 과거 결과로 남김; 이 조사 단계 재실행/자동 UI 테스트 미실행.
+
+## Nail Atlas B안: 로컬 구현·검증 완료 / GitHub 코드 미반영
+- KST 확인 시각: 2026-10-18 17:56:19. 사용자가 승인한 B안으로 기존 두 MVP와 별도인 `nail_dashboard/`에서 FastAPI/SQLite/Vanilla JS 앱 실제 구현.
+- 4개 가상 브랜드·208개 가상 게시물·30개 태그를 독립 SQLite에 저장. 4메뉴 대시보드/태그 분석/브랜드 비교/상위 게시물, 브랜드 필터 및 15+5 페이지네이션과 브랜드 변경시 첫 페이지 초기화(코드 계약) 구현.
+- DB 접근 repository.py와 metrics.py 순수 집계, app.py FastAPI, static UI 분리. 원본 수식 미확인 항목은 데모 공식/게시물별 성과지수 null 표기. 저장 보고서 GET만 제공; 외부 수집·사용자 DB/API 미연동.
+- 새 독립 temp DB pytest **15/15 PASS**, JS 구문 PASS, Python compile PASS, 별도 Uvicorn HTTP 200·422 및 서버 완전 재시작 후 데이터 유지·DB 불변 PASS. 배포 미적용.
+- Browser 자동 E2E **미검증**: Playwright Chromium 내부 실행파일 없음; OS Chromium localhost/가상 인터셉트 둘 다 ERR_BLOCKED_BY_ADMINISTRATOR. 같은 방식 재시도 금지. 실제 사용자 PC용 browser_e2e.py 포함.
+- 최종 로컬 산출 패키지 `Astra_P4_Nail_Atlas_B_MVP_2026-10-18.zip` 62,821바이트, SHA256 `2bae267fbd8fd49b48db4597e898b699c4651c2d22ba13e7bc8b5650f92a1c11`. 기존 앱의 테스트 결과와 섞지 않음.
+- **중요:** GitHub에 직접 신규 소스 파일 18개 업로드는 현재 컨테이너 DNS 실패 및 connector 파일 바이트 전송 부재로 **미반영**. ZIP 다운로드/체크인 또는 지원 가능한 GitHub 업로드 경로 필요. 본 문서 작성과 실제 코드 체크인을 혼동 금지.
+- 연구 브랜치에 `research/jp-nail-dashboard/IMPLEMENTATION_AND_QA_2026-10-18.md` 검사 보고서 커밋 `97436a163fb4357ee1eaf862a1c2fb3bd425e093`. main `dd87ffc847c7b435c7eed7b4543b7db7d184e08c` 및 기존 /shop, /jobs 보존.
+- **다음 확정 작업:** 신규 소스 GitHub 체크인 → 재조회하여 18파일의 정확한 내용 검증 → 현재 PC 브라우저에서 주요 버튼 클릭·API Network·콘솔 점검 → 발견되는 오류만 수정. 추가 기능·실제 사용자 DB 연동은 미진행.
