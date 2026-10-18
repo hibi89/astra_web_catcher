@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "status": "public_page_readonly_and_publisher_documented_only",
+  "source_reference_url": "https://www.selenium.dev/selenium/web/web-form.html",
+  "documentation_url": "https://www.selenium.dev/documentation/webdriver/getting_started/first_script/",
+  "visible_control_labels_found": [
+    "Text input",
+    "Submit"
+  ],
+  "documented_input_selector": "my-text",
+  "documented_result_token": "Received!",
+  "excerpt_page_sha256": "1bee345696adb474fb811365f993ee0327ef9f9e6fecfb1b3f94370c4f87a763",
+  "excerpt_docs_sha256": "4a1cdf8a12978454e6321a4275bf51c0954611e9e2c09f8659ccb96648e55979",
+  "original_site_behavior_verified": false,
+  "live_browser_click_verified": false,
+  "customer_database_access_authorized": false,
+  "code_generation_authorized": false,
+  "ui_mapping_enabled": false,
+  "production_ready": false,
+  "source_kind": "human_curated_web_tool_text_excerpt_not_raw_html",
+  "repo_note": "Source/tests and opted-in browser probe script verified locally (36 new tests) and preserved in ChatGPT artifact ZIP; they are NOT in this GitHub commit.",
+  "next": "A separately authorized browser before/after capture is required before original-site behavior claims."
+}
