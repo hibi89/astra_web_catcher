@@ -1,0 +1,35 @@
+{
+  "version": "0.1",
+  "status": "review_only_never_authorized",
+  "observation_sha256": "7fcb73929654ea072d224b779bfe3705ccbab9309eded1bd5204d6fae6fbb46a",
+  "declaration_sha256": "7c27c0f797c2eec9a7d384288168395d9ec29ea85605bf58394bcf922eb16da1",
+  "synthetic_table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "plan_sha256": "75db95e1b84478c6984bff3f2675ba21b50eed1523d444cff359e7c99f810e92",
+  "evidence_integrity_verified": true,
+  "evidence_content_authenticated": false,
+  "original_site_behavior_verified": false,
+  "owner_db_accessed": false,
+  "generation_authorized": false,
+  "production_ready": false,
+  "unresolved_observation_ids": [
+    "filter_execution_unknown",
+    "ratio_formula_unknown"
+  ],
+  "findings": [
+    {
+      "link_id": "archived_brand_filter",
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "selected_brand",
+      "status": "archived_secondary_only",
+      "explanation": "Archived prose alone is insufficient to drive a UI control."
+    }
+  ],
+  "synthetic_preview_candidates": [],
+  "required_reviews": [
+    "verify_actual_reference_site_action_and_visible_state",
+    "confirm_semantics_of_each_source_ui_to_owner_field",
+    "authenticate_evidence_contents_and_human_review",
+    "authorize_any_owned_DB_or_API_connection_separately",
+    "authorize_any_code_generation_or_deployment_separately"
+  ]
+}

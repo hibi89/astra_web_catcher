@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "scope": "offline_synthetic_readonly_traceability",
+  "observation_sha256": "3b089cf8b17fb9c2a1da7e73d9345dc218581e996e60b10508785fa042a19aec",
+  "declaration_sha256": "7bacd81947d6091492d76dbbb71a8e969d49925520ba586d2791d9ee4a17074d",
+  "synthetic_table_sha256": "a0148864623ada22af823363e357f13de6186a2394247c8c231e535342a33269",
+  "evidence_sha256_by_id": {
+    "fictional_manual_tickets": "c377f385203578233b6488ac2fb6a5e36e1c2fc2d94afae4f9e384592b07fdef"
+  },
+  "links": [
+    {
+      "id": "tickets_selected",
+      "observation_id": "reported_tickets_filter",
+      "ui_field": "selected_lane",
+      "resource_id": "fictional_filter_summary",
+      "resource_field": "selector_value",
+      "synthetic_preview_field": "lane",
+      "requested_widget": "exact_match_filter"
+    }
+  ],
+  "original_site_verified": false,
+  "owner_database_access_authorized": false,
+  "production_generation_authorized": false,
+  "review_approved": false
+}

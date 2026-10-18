@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "scope": "offline_synthetic_readonly_traceability",
+  "observation_sha256": "4a16bd3e730500ce8b737936c9f4bd349164ea291560b482b1b720cc227d7f95",
+  "declaration_sha256": "eb5bf6d6e1056793567d75c0b6cc01285614b1a8b58c1068ea84c7cf60625a25",
+  "synthetic_table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "evidence_sha256_by_id": {
+    "fictional_manual_products": "1192b013ce635dc59174c21d7e7decee45c7c3e29da104011b413d13ddd08613"
+  },
+  "links": [
+    {
+      "id": "products_selected",
+      "observation_id": "reported_products_filter",
+      "ui_field": "selected_category",
+      "resource_id": "fictional_filter_summary",
+      "resource_field": "selector_value",
+      "synthetic_preview_field": "family",
+      "requested_widget": "exact_match_filter"
+    }
+  ],
+  "original_site_verified": false,
+  "owner_database_access_authorized": false,
+  "production_generation_authorized": false,
+  "review_approved": false
+}

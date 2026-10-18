@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1",
+  "synthetic_only": true,
+  "source_site_visited": false,
+  "reference_behavior_verified": false,
+  "event": "operator-invented-manual-selection",
+  "before": {
+    "selected_lane": "ALL",
+    "visible_count": 4
+  },
+  "after": {
+    "selected_lane": "Open",
+    "visible_count": 3
+  },
+  "note": "Invented for ASTRA acceptance contract only. No screenshots, browser trace or original-site access."
+}

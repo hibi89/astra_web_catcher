@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "scope": "offline_synthetic_readonly_traceability",
+  "observation_sha256": "7fcb73929654ea072d224b779bfe3705ccbab9309eded1bd5204d6fae6fbb46a",
+  "declaration_sha256": "7c27c0f797c2eec9a7d384288168395d9ec29ea85605bf58394bcf922eb16da1",
+  "synthetic_table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "evidence_sha256_by_id": {
+    "historic_brand_report": "a87ce2e4f20782d96de44fd93184fb5452ab17816427fad56d23960325d9a6fc"
+  },
+  "links": [
+    {
+      "id": "archived_brand_filter",
+      "observation_id": "brand_all_vs_ohora",
+      "ui_field": "selected_brand",
+      "resource_id": "dashboard_summary",
+      "resource_field": "brand_key",
+      "synthetic_preview_field": "family",
+      "requested_widget": "exact_match_filter"
+    }
+  ],
+  "original_site_verified": false,
+  "owner_database_access_authorized": false,
+  "production_generation_authorized": false,
+  "review_approved": false
+}

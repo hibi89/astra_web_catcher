@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://example.org/fictional-never-visited",
+  "scope": "Made-up operator report; absolutely not a visited site, verified source, or customer dataset",
+  "recorded_at": "2026-10-19T00:00:00+09:00",
+  "evidence": [
+    {
+      "id": "fictional_manual_products",
+      "kind": "manual_test",
+      "source_ref": "evidence/synthetic_ui_mapping_products_20261019_trace.json",
+      "captured_at": "2026-10-19T00:00:00+09:00",
+      "notes": "Fictional self-reported UI action, not an external original-site trace"
+    }
+  ],
+  "observations": [
+    {
+      "id": "reported_products_filter",
+      "feature": "filter",
+      "title": "Fictional products category selection",
+      "claim": "Made-up option selection changes selected value and visible count; no original website observed",
+      "certainty": "observed",
+      "evidence_ids": [
+        "fictional_manual_products"
+      ],
+      "action": "Fictional user selects colors",
+      "before": {
+        "selected_category": "ALL",
+        "visible_count": 3
+      },
+      "after": {
+        "selected_category": "colors",
+        "visible_count": 2
+      }
+    }
+  ]
+}

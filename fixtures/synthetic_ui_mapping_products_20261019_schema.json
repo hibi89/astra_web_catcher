@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "source_label": "Fictional products explicit data bindings, not any owner schema",
+  "resources": [
+    {
+      "id": "fictional_filter_summary",
+      "kind": "api_response",
+      "fields": [
+        {
+          "name": "selector_value",
+          "data_type": "string"
+        },
+        {
+          "name": "count",
+          "data_type": "integer"
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "observation_id": "reported_products_filter",
+      "ui_field": "selected_category",
+      "resource_id": "fictional_filter_summary",
+      "resource_field": "selector_value"
+    },
+    {
+      "observation_id": "reported_products_filter",
+      "ui_field": "visible_count",
+      "resource_id": "fictional_filter_summary",
+      "resource_field": "count"
+    }
+  ]
+}

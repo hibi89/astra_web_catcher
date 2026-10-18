@@ -1,0 +1,51 @@
+{
+  "version": "0.1",
+  "status": "review_only_never_authorized",
+  "observation_sha256": "4a16bd3e730500ce8b737936c9f4bd349164ea291560b482b1b720cc227d7f95",
+  "declaration_sha256": "eb5bf6d6e1056793567d75c0b6cc01285614b1a8b58c1068ea84c7cf60625a25",
+  "synthetic_table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "plan_sha256": "6e9c233794b5e0e2d4327776abb8246d511017bfa477700d7c26808df05e8490",
+  "evidence_integrity_verified": true,
+  "evidence_content_authenticated": false,
+  "original_site_behavior_verified": false,
+  "owner_db_accessed": false,
+  "generation_authorized": false,
+  "production_ready": false,
+  "unresolved_observation_ids": [],
+  "findings": [
+    {
+      "link_id": "products_selected",
+      "observation_id": "reported_products_filter",
+      "ui_field": "selected_category",
+      "status": "synthetic_preview_candidate_unapproved",
+      "explanation": "Exact fictional match only. Human semantic review is still required."
+    }
+  ],
+  "synthetic_preview_candidates": [
+    {
+      "link_id": "products_selected",
+      "observation_id": "reported_products_filter",
+      "ui_field": "selected_category",
+      "declared_resource": "fictional_filter_summary",
+      "declared_field": "selector_value",
+      "widget": "exact_match_filter",
+      "read_only_route": "/api/rows",
+      "query_filter_by": "family",
+      "query_filter_value": "colors",
+      "demo_match_count": 2,
+      "evidence_ids": [
+        "fictional_manual_products"
+      ],
+      "evidence_quality": "operator_reported_not_independently_verified",
+      "synthetic_illustration_only": true,
+      "semantics_approved": false
+    }
+  ],
+  "required_reviews": [
+    "verify_actual_reference_site_action_and_visible_state",
+    "confirm_semantics_of_each_source_ui_to_owner_field",
+    "authenticate_evidence_contents_and_human_review",
+    "authorize_any_owned_DB_or_API_connection_separately",
+    "authorize_any_code_generation_or_deployment_separately"
+  ]
+}
