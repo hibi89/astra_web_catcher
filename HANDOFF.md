@@ -45,3 +45,15 @@
 8. **Protected data/backups:** original main and DB left intact; do not request cookies, tokens, passwords, HAR. Screenshot/tab excerpts are only observational evidence.
 9. **Next unit and acceptance:** user clicks OHORA, says done; retrieve tab DOM and compare selected-brand KPI, charts and panel to screenshot. Continue one menu at a time. Close unknowns before first MVP implementation.
 10. **Recorded (KST)/verification:** 2026-10-18 16:57:50; document commit and read-back must be verified; prior tests historical, no new E2E assertions.
+
+## 2026-10-18 17:00 KST — 태그 분석 진입 실측 및 릴스 분모 후보
+1. **Goal/scope:** Existing `/shop` and `/jobs` unchanged; dashboard reconnaissance only, isolated branch `research/jp-nail-dashboard-20261018`.
+2. **Confirmed display/decision:** `#v-tags` visible and top tag filter `전체`, `1–14/37` tag rows, NAILTOWN brand panel retained (1.26). Tag row `릴스 · 디자인 소개`=66 vs NAILTOWN analyzed posts 49 suggests tag table is not scoped to currently selected brand. Do not claim confirmed API implementation.
+3. **Validation:** user screenshot + read-only connected browser DOM compared. Reels denominator candidate: 101/194→52%, 78/94→83%, 9/61→15%. This is a validated arithmetic fit but **unconfirmed original calculation rule**. No pytest, browser click, network or production test performed in this step.
+4. **Progress/stop:** tag-analysis first page and brand carry-over observed. Interactive category selection, pagination, brand compare and top posts pending. Stop point before clicking `컬러`.
+5. **Unknown/failure/alternatives:** original JS/API/DB/n8n links and all weighting/rounding exceptions unknown; use user-operated UI snapshot rather than blocked direct scraping. No repeat of failed DNS approach.
+6. **Repo/paths:** `hibi89/astra_web_catcher`, research branch, `research/jp-nail-dashboard/TAG_ANALYSIS_INITIAL_STATE_2026-10-18.md` (verified commit `f4f8b147a2ad1b344605d1229df9702a601bff95`), prior main baseline `dd87ffc847c7b435c7eed7b4543b7db7d184e08c`.
+7. **Production/execution:** none in this research; existing local app execution unaffected.
+8. **Original/backups/secrets:** keep main source and test DB intact; no cookies, tokens, HAR or passwords collected.
+9. **Next step/acceptance:** tell user to click `컬러` exactly once and say clicked; fetch tab context and compare selected category, row count, table entries, URL and right brand panel. Then proceed one interaction at a time.
+10. **Timestamp/evidence:** 2026-10-18 ~17:00 KST, screenshot `image(20261018-075954).png` and live user-connected page text. GitHub SHA/readback verified on this update; no claim of code tests.
