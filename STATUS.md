@@ -54,3 +54,11 @@
 - Still unknown: exact formulae, source API vs static JSON, click event trace, tag analysis/brand comparison/top posts interactive details.
 - Next: user announces each tab/filter click; read browser again, compare with baseline, append observation, then produce gap list before any dashboard implementation.
 - Existing `/shop` and `/jobs` and previous integrity test results preserved. No new tests run in this documentation update.
+
+## 2026-10-18 17:00 KST — 태그 분석 진입 실측 및 릴스 분모 후보
+- 연결된 사용자 브라우저에서 `#v-tags` 태그 분석 진입을 확인; 사용자 스크린샷과 DOM 텍스트 일치. 오른쪽 NAILTOWN 상세(지수 1.26) 표시가 유지됨.
+- 상단 태그 분류 `전체` 선택; 페이지 표기 `1–14 / 37개`, 5개 분류 버튼, 열(태그/분류/게시물/수요지수/4주÷8주/판정) 확인.
+- NAILTOWN 분석 49건이나 태그 테이블의 `릴스 · 디자인 소개` 66건. 우측 브랜드 선택이 태그 표를 49건 기준으로 필터링하지 않는 현상 관찰. 내부 상태/API 분리 방식 미확인.
+- 릴스 비중 분모 후보: 전체 101/194=52%, OHORA 78/94=83%, NAILTOWN 9/61=15% (정수 반올림). 원본 계산 코드·다른 경우 미검증.
+- 증거 파일: `research/jp-nail-dashboard/TAG_ANALYSIS_INITIAL_STATE_2026-10-18.md` 커밋 `f4f8b147a2ad1b344605d1229df9702a601bff95`.
+- **다음 요청 1개:** 사용자 `태그 분석`의 `컬러` 버튼 클릭 후 완료 통지 → 동일 탭 새 스냅샷 비교. 새 앱 미구현; main 두 MVP와 테스트 보존.
