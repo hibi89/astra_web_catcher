@@ -131,3 +131,12 @@
 - **Tests:** all 11 focused suites **237/237 PASS** (prior 213 + new 24); compileall and JS check PASS, real localhost Uvicorn save/export/import/readback HTTP 200. Six new/changed source, tests, doc Git blob SHAs match tested local bytes.
 - **Security:** stale packet and corrupt/forged record rejection, 64 KiB cap, local ephemeral token, host/origin safeguards, exclusive temporary JSON storage. SHA is NOT authenticated identity or consent; approval/codegen/database/deploy flags remain false. No original site, customer DB/API, original app or production activity; browser GUI click E2E still unverified due earlier administrator block.
 - **Next `ㄱ`:** human browser acceptance if eligible or authorized original evidence reconfirmation; no repeat of blocked Playwright in this environment. `main` still `dc23ee604d02513c890615a3a98440c1ea8a5270`.
+
+## 2026-10-18 KST — p4 local evidence-file inventory and hash verification
+
+- **New one-unit feature:** `astra_contracts/evidence_integrity.py`, tests, docs, archived-case snapshot JSON. Source commit `206b2eafb2b51679651819a05e0356dc71ba26d9` on `feature/observation-contract-20261018`.
+- Produces untrusted local evidence manifest and offline file-size/SHA-256 check tied to a strict observation-bundle digest; flags absent, modified or unsafe files, rejects symlinks/unsafe paths, caps 10MiB, checks evidence kind/extension, basic signature/credential patterns. Does not fetch URLs, generate code, change observed claims or authorize source use.
+- **Evidence:** all focused local suites `python -m pytest -q tests/test_*.py` **270/270 PASS** (237 prior plus 33 new), `compileall` PASS, CLI snapshot/verify PASS, four remote Git blobs exactly match locally tested source/test/doc/fixture hashes. One preexisting httpx warning.
+- **Historical example:** only the **secondary archived report** file passes byte-level verification. Not a real browser screenshot or captured click trace; site behavior, formulas, actual capture authenticity, reviewer consent all remain unverified and approval flags false.
+- **Preserved:** user data and DB/API, shop/jobs, independent research branches, main `dc23ee604d02513c890615a3a98440c1ea8a5270`, deployments. Admin-blocked browser test not retried; no GitHub Actions run.
+- **Next `ㄱ`:** authorized new screenshot/sanitized DOM intake and behavior claim validation, or evidence intake guard improvements if user capture unavailable. Existing `GenerationContract` remains `blocked_pending_review`.
