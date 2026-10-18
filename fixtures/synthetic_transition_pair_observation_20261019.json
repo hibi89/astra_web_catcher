@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://example.org/synthetic-pair-only",
+  "scope": "Totally fabricated UI observations; no website visited",
+  "recorded_at": "2026-10-19T03:20:00+09:00",
+  "evidence": [
+    {
+      "id": "example_operator_note",
+      "kind": "manual_test",
+      "source_ref": "notes/synthetic-only.txt",
+      "captured_at": "2026-10-19T03:20:00+09:00",
+      "notes": "fictional operator statement; not independent validation"
+    }
+  ],
+  "observations": [
+    {
+      "id": "example_category_transition",
+      "feature": "filter",
+      "title": "Fake category change",
+      "claim": "Synthetic operator claims category changed on imaginary page",
+      "certainty": "observed",
+      "evidence_ids": [
+        "example_operator_note"
+      ],
+      "action": "choose fictional category colors",
+      "before": {
+        "category": "all"
+      },
+      "after": {
+        "category": "colors"
+      }
+    }
+  ]
+}

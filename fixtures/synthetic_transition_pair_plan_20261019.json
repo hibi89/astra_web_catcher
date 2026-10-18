@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "source_kind": "untrusted_local_operator_capture_pair",
+  "original_bundle_sha256": "f60e4b17545eea076f36139e29558a7391c4d25a70a8a07150598b940cf9e949",
+  "intake_manifest_sha256": "48c8995553377fbe466ecdebe4ba917be5b727ce83e5a40932a0217fadf887e1",
+  "proposals": [
+    {
+      "id": "fictional_pair",
+      "observation_id": "example_category_transition",
+      "before_capture_id": "before_dom_fictional",
+      "after_capture_id": "after_dom_fictional",
+      "changed_field": "category",
+      "operator_action": "choose fictional category colors"
+    }
+  ]
+}

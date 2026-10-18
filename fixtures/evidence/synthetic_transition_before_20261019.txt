@@ -1,0 +1,2 @@
+FICTIONAL before DOM: category = all
+NOT captured from any website.
