@@ -23,3 +23,13 @@
 8. **원본·백업·인증:** 테스트별 자체 temp DB 사용·종료 후 삭제, `data/app.db` 기존 개발 DB는 변경하지 않음. 데모 세션/암호 및 실제 개인정보·비밀은 GitHub 미업로드. 초기화 전 백업 필수.
 9. **다음 순서·완료 기준·승인:** 현 브라우저에 오류가 있으면 Console/Network의 비밀 제외 증거 확보→최소 수정→API 회귀검증→사용자 브라우저 확인. 기술 스택 재구현은 사용자 결정 전 하지 않음.
 10. **갱신 시간·확인 범위·기준 커밋:** 2026-10-18 16:35:59 KST; 테스트 로그 + 임시 DB와 실제 Uvicorn HTTP, 원격 GitHub 테스트 파일 재조회로 확인. 근거 검증 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`; 문서 갱신 SHA는 후속 커밋.
+
+## Isolated dashboard reconnaissance addendum — 2026-10-18 16:44 KST
+
+- Goal: observe Japan nail dashboard and prepare independent reproduction spec only, NOT implement.
+- Branch: research/jp-nail-dashboard-20261018; baseline main dd87ffc847c7b435c7eed7b4543b7db7d184e08c.
+- Evidence: read-only connected browser tab of daily-dashboard-ldh-1013.clevertide128.chatgpt.site displayed a KPI dashboard, 4 brands, 37 tag rows, brand comparison table, Top 20 posts, report #3728 and an n8n live-data label.
+- Accessibility failures: general web DisabledError; separate Linux DNS NameResolutionError; do not assert website permissions issue.
+- Unknown: action effects, metric calculations, live API versus static JSON, original schema/auth. All inferred models and endpoints in report are PROPOSALS only.
+- Document: research/jp-nail-dashboard/OBSERVATION_SPEC_2026-10-18.md. Next evidence: user-operated brand toggles, tag filters, brand comparison, top posts, refresh; optional sanitized Fetch/XHR field names and statuses with no secrets.
+- Preserve original /shop and /jobs, datasets, historical tests. Prior 13-pass report is historical, not a new test execution.
