@@ -184,3 +184,16 @@
 9. Priority next task / success criteria: If Windows QA is requested, run existing browser_e2e.py with Playwright installed; verify actual charts match API on browser, filter category page reset, error/console events. Fix only reproducible issues, preserve old tests; user must approve customer DB/API or deployment changes separately.
 10. Last update and confidence: 2026-10-18 ~18:18 KST, verified in sandbox with actual SQLite, Python unit tests and actual HTTP restart; source files committed and fetched through GitHub. Browser layout, client device and production still unverified.
 
+## Windows 실사용자 로컬 검증 보고 — 2026-10-18
+
+1. **목표/확정 요구/기술:** B안 독립 FastAPI/SQLite 네일 대시보드의 Windows 로컬 테스트 확인; 기존 /shop·/jobs 보존.
+2. **완료/검증된 동작:** 사용자 PC에서 DB 집계/필터/결측/분모0를 포함한 33개 pytest 전체 통과. 실제 Uvicorn HTTP startup, 200/422, stop/restart, SQLite 영속·불변 및 mellow 2페이지 5건 스모크 통과.
+3. **실행 방법·결과:** `python -m pytest -q nail_dashboard/tests/test_dashboard.py` => 사용자 콘솔 `33 passed in 4.57s`; `python -m nail_dashboard.tests.live_http_smoke` => 사용자 콘솔 PASS 2줄. 실행 위치 Windows PowerShell 연구 브랜치 clone. 위 로그는 사용자가 직접 제공, ChatGPT가 Windows 실행을 원격 재현한 것이 아님.
+4. **상태/중단 지점:** Windows API/DB 검증 완료. 렌더링된 네 메뉴의 차트·테이블·필터·페이지 초기화 Browser E2E 및 Console/Network 확인은 대기.
+5. **오류/원인/시도/대안:** 이번 Windows 테스트에서 실패 0건; 신규 코드 수정 불필요. 앞선 ChatGPT 컨테이너 Chromium `ERR_BLOCKED_BY_ADMINISTRATOR`는 별도 환경 제약이며 Windows에 일반화하지 않음.
+6. **저장소/브랜치/경로:** `hibi89/astra_web_catcher` / `research/jp-nail-dashboard-20261018`, `nail_dashboard/tests/test_dashboard.py`, `nail_dashboard/tests/live_http_smoke.py`, `nail_dashboard/TEST-REPORT.md`. GitHub 실 코드는 변경하지 않음.
+7. **Production/환경/실행:** 배포 미적용, 로컬 `http://127.0.0.1:8010/nails` 사용. 사용자 PC에서 서버 재시작/HTTP 스모크 통과. 원본 서비스/API/n8n 미연동.
+8. **원본·백업·보안:** main 및 두 기존 MVP, 기존 SQLite 데이터 미수정. 테스트는 독립 데이터 사용; 새 코드·개인정보·비밀 업로드 없음.
+9. **다음 우선 작업/완료 기준:** 실제 Windows Chrome에서 4메뉴 렌더링, 브랜드 변경·태그 컬러, Top20 2페이지→브랜드 변경 1페이지 초기화, 데이터·API 일치 및 Console/Network 확인. 오류 증거가 있는 기능만 최소 수정.
+10. **기록 기준:** 2026-10-18 KST, 사용자 제출 콘솔 원문 확인; Windows UI/Console/Network는 확인 부족으로 미검증. 본 HANDOFF 최신 문서 커밋은 GitHub 읽기 재검증 필요.
+
