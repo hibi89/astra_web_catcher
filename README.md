@@ -83,3 +83,15 @@ python -m app.db seed
 - [`TEST-REPORT.md`](TEST-REPORT.md): 실제 테스트 로그·미검증 항목
 - [`REVIEW-PACK.md`](REVIEW-PACK.md): 독립 리뷰어 전달 자료
 - [`HANDOFF.md`](HANDOFF.md), [`STATUS.md`](STATUS.md): 다음 채팅 인수인계
+
+## 추가 HTTP 무결성 회귀 테스트 (2026-10-18)
+
+개발 DB(`data/app.db`)를 변경하지 않고, 임시 DB와 실제 Uvicorn 서버 프로세스를 사용하여 다음 검증을 실행할 수 있습니다.
+
+```bash
+python -m pytest -q tests/test_mvp.py
+python tests/live_http_smoke.py
+python tests/live_integrity_check.py
+```
+
+`live_integrity_check.py`는 서버 종료·재시작 시 세션·장바구니·관심·지원 데이터 유지, A/B 소유권, 금액/재고/기존 주문 가격, 재고 1개 병렬 주문, 병렬 중복 지원을 검증합니다. 2026-10-18 재검증: pytest **13/13 PASS**, HTTP 재시작 **PASS**, HTTP 무결성 **6/6 PASS**. 브라우저 자동 E2E는 환경 차단으로 미검증이며, 사용자는 별도 로컬 브라우저로 기본 UI 흐름 성공을 보고했습니다.
