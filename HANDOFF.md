@@ -44,3 +44,16 @@
 8. **Data/backups/security:** existing shop/jobs, nail_dashboard, nail_practice and all databases unchanged. Fixture is synthetic and contains no real PII/API secrets; validator rejects common secret fields but not all possible sensitive prose.
 9. **Next single work unit:** convert ONE existing Japanese nail observation to the standardized evidence record using only grounded evidence pointers and explicit unknown claims; only then begin automatic Step 4-B specification. No original-site scraping, database/schema changes or deployments without permission.
 10. **Record time / verification:** 2026-10-18 20:54 KST; local independent unit tests; GitHub blob equality and feature branch commit readback required. Baseline main SHA dc23ee604d02513c890615a3a98440c1ea8a5270; documentation base blob HANDOFF 46ac526c4bc90c8f43fb61565186ba09230be0de.
+
+## 2026-10-18 21:07 KST — Step 2 archived brand-filter observation conversion
+
+1. **Goal/stack:** Convert one historical Japanese nail dashboard brand-filter comparison to the reusable Pydantic 2 observation JSON contract.
+2. **Completed:** Added `archived_report` evidence type; `fixtures/jp_nail_brand_filter_observation_20261018.json` contains ALL/OHORA screen state and two unknown claims. `evidence/jp_nail_brand_filter_source_20261018.md` identifies the original report SHA and records missing original screenshots.
+3. **Tests:** `python -m pytest -q tests/test_observation_contract.py tests/test_jp_nail_archive_conversion.py` = 27/27 PASS; CLI validate 3 observations and 1 evidence item PASS; compileall PASS. Prior original-app suites and live browser not rerun.
+4. **Stop point:** One archived record standardized. Automated observation capture and Step 4-B/4-C/4-D pipeline are not complete.
+5. **Failure:** pytest invoked from outside the repo root gave import errors; corrected by running at repo root. No repeated blocked-browser attempt.
+6. **Source/version:** `hibi89/astra_web_catcher` / `feature/observation-contract-20261018`; code change commit `88d65e1d4056efe50d429e524f673a44a380cb01`. Original source report blob `b9d676e0e7ba8af2124a0785e8c57b9ab6195f1b`; main unchanged.
+7. **Deployment:** Not applicable; read-only local CLI, Python 3.13 / Pydantic 2.
+8. **Protection:** No source-site API/cookie acquisition or live DB writes. Research source, user data, original apps preserved. The archival document is secondary evidence, not retrieved screenshot files.
+9. **Next ㄱ:** Step 4-B small functional specification JSON derivation from evidence, with unknowns and approval gates preserved; do not infer original backend or alter DB/API.
+10. **Recorded/verified:** 2026-10-18 21:07 KST, local 27 PASS, GitHub source/fixture/test/doc blob hashes compared with locally tested files; branch/BOOK readback pending.

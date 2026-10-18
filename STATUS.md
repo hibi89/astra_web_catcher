@@ -53,3 +53,11 @@
 - Local verification: 19/19 pytest PASS, sample CLI 2 observations PASS, JSON Schema export PASS, compileall PASS, new source blob hash matches the tested file. Entire baseline app test suite and physical browser tests not rerun.
 - **Outstanding:** real observation records, Step 4-B function specification / DB mapping, code generation, live browser/API verification. JSON Schema export does not enforce Pydantic cross-record rules; use CLI validate.
 - **Next ㄱ (one unit):** safely transform one existing documented brand-filter observation into a versioned JSON record with original evidence distinctions, then test readback. The research docs remain the historical source of truth.
+
+## 2026-10-18 21:07 KST — p4 archived brand-filter case completed
+
+- On feature branch, converted **one** historical ALL→OHORA state comparison into `fixtures/jp_nail_brand_filter_observation_20261018.json` with a provenance manifest and new `archived_report` evidence type.
+- Source: research branch `research/jp-nail-dashboard-20261018`, blob `b9d676e0e7ba8af2124a0785e8c57b9ab6195f1b`. Original screenshots were not obtained in this run; no click trace, live API/n8n source or original formulas verified.
+- **Local:** 27/27 contract and conversion tests PASS, CLI 3 observations/1 evidence PASS, compileall PASS. An initial invocation from wrong CWD failed imports; corrected repo-root run passed. Previous app suites/live browser not rerun.
+- **Preserved:** main, shop/jobs, research/experimental apps and databases untouched. Not deployed.
+- **Next ㄱ:** Step 4-B reusable evidence-to-functional-spec JSON transformation, keeping unknown claims and approval boundaries explicit. This step was **not** implemented here.
