@@ -78,3 +78,11 @@ Important boundary: Node VM executes a real JS state function but is not Chrome.
 - Windows 환경에서 테스트/실서버 스모크가 성공함을 확인하는 **사용자 실행 근거**. 앞선 격리 컨테이너의 33 PASS 및 스모크 결과와 구분해서 기록.
 - 여전히 미검증: 네 메뉴 전체의 Windows 브라우저 자동 E2E, 렌더링 차트 숫자와 API 응답 일치, Console/Network 에러. 사용자가 브랜드 전환 시 UI 연동을 수동 확인한 결과는 별개.
 
+## 2026-10-18 — Windows Playwright 색상 필터 대기 실패 대응
+
+- 사용자 Windows에서 Playwright Chromium 다운로드/설치 성공(Chromium v1248). `python -m nail_dashboard.tests.browser_e2e` 최초 실행 시 태그 전체(14개) 검사를 통과한 뒤 `[data-category="color"]` 클릭 직후 `assert page.locator('tbody tr').count()==8`에서 AssertionError 발생. 실제 행 수/JS 오류 상세는 기록되지 않았으므로 색상 필터 기능 결함으로 단정하지 않음.
+- 원인 후보 및 근거: `static/app.js`는 클릭시 비동기 API `/api/nails/tags?category=color`와 재렌더를 수행하지만 기존 브라우저 테스트는 후속 `count()==8`을 즉시 검사해 DOM 갱신을 기다리지 않음. 기존 SQL/API pytest에서는 컬러 8행을 별도 확인.
+- 개선: `nail_dashboard/tests/browser_e2e.py`의 즉시 `assert count`를 Playwright `expect(locator).to_have_count(..., timeout=15000)`로 변경. 다른 화면 이동과 15→5→15행까지 전환 후 조건 대기. 페이지 URL 해시/쿼리, 컬러 활성, 브랜드 aria-pressed, JS pageerror 및 API HTTP 400+ 수집. 실패 시 URL/행수/화면 일부/오류 출력. 실 서버/앱 기능 로직은 변경하지 않음.
+- 코드 커밋: `8f50fb9b01460d9f2e98b526978237c19f5ebffc`; GitHub 파일 재조회 내용 검증 완료.
+- 수정 작업 환경에서 `python -m py_compile nail_dashboard/tests/browser_e2e.py` PASS; `python -m pytest -q nail_dashboard/tests/test_dashboard.py` **33/33 PASS**; `python -m nail_dashboard.tests.live_http_smoke` PASS; Node JS 구문 이전 검사 PASS.
+- **미검증:** 수정 버전의 실제 Windows Playwright 브라우저 E2E 완료 여부. 동일 환경에서 재실행을 받아 PASS/FAIL 판단할 것. 비동기 대기 보강으로 고쳤다고 확정적으로 말하지 말 것.
