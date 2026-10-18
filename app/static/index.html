@@ -1,0 +1,7 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Astra Local | 두 개의 실사용 MVP</title><link rel="stylesheet" href="/static/style.css"></head><body>
+<header><div class="header-inner"><a class="brand" href="/">ASTRA <span>LOCAL LAB</span></a><nav><a href="/shop">북하버 · 도서</a><a href="/jobs">커리어웨이 · 채용</a><span id="user-badge">게스트</span><button id="login-action" type="button">로그인</button></nav></div></header>
+<main id="app" aria-live="polite"><div class="loading">데이터를 불러오는 중…</div></main>
+<footer>독립 학습용 데모 · 가상 도서/공고 · 실결제 및 실제 지원 없음 · SQLite 영속 저장</footer>
+<div id="toast" class="toast" role="status"></div>
+<dialog id="auth-modal"><h2>테스트 계정 로그인</h2><p class="muted">두 계정 모두 로컬 데모 전용입니다.</p><form id="auth-form"><label>아이디<input id="auth-user" value="demo_a" required autocomplete="username"></label><label>비밀번호<input type="password" id="auth-password" value="DemoPass!2026" required autocomplete="current-password"></label><button class="primary" type="submit">로그인</button><button type="button" id="auth-cancel" class="secondary">닫기</button></form><p id="auth-error" class="error"></p></dialog>
+<script src="/static/app.js" defer></script></body></html>
