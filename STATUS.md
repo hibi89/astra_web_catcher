@@ -177,3 +177,13 @@
 - Windows 이전 `pytest` 33/33 (4.57s), 실제 Uvicorn HTTP 재시작·SQLite 영속/무변형 PASS 결과와 결합해 **로컬 B안 MVP 핵심 자동 검증 완료**.
 - 첫 Windows E2E 즉시 카운트 AssertionError 후 테스트에 비동기 UI 대기 추가한 변경본이 실제 Windows에서 통과함. 차트 렌더 DOM 값의 API 수치 대조, 모든 console.error/외부 Network, 프로덕션 보안/운영, 실제 고객 DB/API/n8n 연동은 별도 범위.
 - 기존 main 쇼핑몰/채용 MVP, 기존 DB와 해당 소스·테스트 변경 없음. 이번 갱신은 검증 문서만 업데이트.
+
+## 2026-10-18 — Real CSV practice dashboard experiment
+
+- User requested the first-day OHORA CSV practice dashboard, beyond basic archive validation. Built an entirely separate nail_practice/ FastAPI + SQLite + JS demo based on analysis-ready ZIP read-only. Preserved original /shop, /jobs, nail_dashboard, source archives and frozen verified B snapshot.
+- Source code: experiment/ohora-practice-20261018, commit 25571150b2fc8bd0afbc6b2c42343b94da8c7753. All 15 of 15 uploaded source/document files re-fetched and checked against local implementation.
+- Local separate practice SQLite: 294 account rows (286 collected, 8 failed), 1845 posts, 5953 media, FK errors 0, observed reactions 1224 and missing likes 621. Account is not a brand. JP 910, KR 485, US 450 captured posts; account capture depth is unbalanced (1/5/10) so not comparable as market shares.
+- Four redesigned views: real-data dashboard and country filters/charts, country comparison, account status, Top20 posts observed reactions with 15+5 pages and country change resetting page=1.
+- Views, design tags, demand/performance index and purchase probability deliberately not calculated. No source data, existing app DB, original validated code, or frozen snapshot changed. All private usernames, captions, URLs and CSV/ZIP excluded from GitHub.
+- Tests: 16/16 pytest PASS including opt-in real ZIP test; Python compile and JS syntax PASS; 6/6 actual Uvicorn HTTP endpoints status 200. Test environment browser E2E not executed; user Windows browser script supplied.
+- Windows next: clone experiment branch separately, put OHORA_Analysis_Ready_20261016_084112.zip in Downloads, run python -m nail_practice.import_data, python -m uvicorn nail_practice.app:app --port 8011, view http://127.0.0.1:8011/practice. See nail_practice/README.md.
