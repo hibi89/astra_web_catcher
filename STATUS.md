@@ -185,3 +185,12 @@
 - Read existing `nail_dashboard/{schema.sql,db.py,repository.py,metrics.py,app.py,README.md}`; published **preliminary**, not user-confirmed field mapping and formula inventory in `research/jp-nail-dashboard/DATA_INTEGRATION_MAPPING_PREP_2026-10-18.md` (commit `451a9eef1f9b241b592b46cedbb458dc903b9279`).
 - Pending user input: sanitized original column names plus 5–10 representative rows from one posts dataset (IDs pseudonymized but consistently joinable; retain types/timezone and distinguish NULL vs 0). No passwords, signed URLs, individual identities, full dataset or customer DB credentials. Mapping will then classify matched/missing/derived fields and calculation feasibility; do not guess original scoring.
 - Snapshot branch not used for ongoing work; no current `main` changes, no `nail_dashboard/` runtime source modifications, no production connection, no source DB modifications/import.
+
+## 2026-10-18 — account master CSV read-only audit (294 rows)
+
+- User supplied only `account_list(2).csv` as the **account master**, with columns account_key, username, country, image_url. File scanned read-only; 294 account records, four columns; duplicate keys/usernames/full rows 0, blanks 0.
+- Country distribution: US 101 (34.35%), KR 100 (34.01%), JP 93 (31.63%). All key country prefixes match and sequential numeric suffixes within each country have zero internal gaps. No assertion about coverage of all real accounts.
+- Original file remains byte-identical, sha256 `fb539da915034df23fd6faccd598cc4caf7feaba631f9f8351c1afa2b88c2e8c`; usernames, profile URLs, raw CSV not committed. Analysis report `research/jp-nail-dashboard/ACCOUNT_MASTER_AUDIT_2026-10-18.md` commit `42827af124c52fe3a44415af663387c79a63912c` was read back and verified.
+- **Do not reinterpret account rows as posts or brands**; no reactions, analyzed posts, views, demand, trend or brand performance metrics computable from account list alone. A separate post dataset has not been provided in this user message; whether one exists is unconfirmed.
+- Protected `snapshot/nail-atlas-b-e2e-verified-2026-10-18` remains at SHA `343790e34967f0b20862d4ec7f5de8f084414234`; no `nail_dashboard/` code, seed/customer database, existing main or raw data changes. No build/test rerun (analysis only).
+- Next single question: does a separate **posts CSV** exist? If yes, provide only its anonymized field list and 5–10 example rows. Do not restructure dashboard until availability/schema confirmed.
