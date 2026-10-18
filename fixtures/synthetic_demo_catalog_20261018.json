@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "run_mode": "temporary_demo_only",
+  "title": "가상 상품 미리보기",
+  "items": [
+    {"id": "sample-blue", "title": "블루 젤 데모", "category": "색상", "score": 73},
+    {"id": "sample-pink", "title": "핑크 젤 데모", "category": "색상", "score": 68},
+    {"id": "sample-glitter", "title": "글리터 데모", "category": "기법", "score": 92},
+    {"id": "sample-jelly", "title": "젤리 데모", "category": "질감", "score": 55}
+  ]
+}
