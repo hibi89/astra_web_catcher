@@ -163,3 +163,9 @@
 - 기존 샌드박스의 33/33·HTTP 검증과 독립된 Windows 재현 성공. 브라우저 CSS/Canvas/Console/Network 자동 점검은 아직 미검증.
 - 기존 main 도서 쇼핑몰/채용 MVP와 데이터 및 테스트 수정 없음. 추가 코드 수정 불필요; 다음 단계는 Windows 브라우저 UI/Console/Network 점검.
 
+## 2026-10-18 — Windows Playwright 색상 필터 대기 실패 대응
+
+- 사용자 Windows 실제 브라우저 테스트 첫 실행: Chromium 설치 성공; `browser_e2e.py` 태그 컬러 클릭 직후 즉시 `count()==8` assertion 실패. 화면 결과가 잘못된 것인지 아직 확인되지 않음.
+- 기존 Playwright 테스트는 API 비동기 재렌더를 기다리지 않았으므로 타이밍 경합 가능. 테스트만 수정해 `expect(...).to_have_count(8)` 및 다른 뷰/페이지 전환도 최대 15초 대기·조건 진단 출력. GitHub 코드 SHA `8f50fb9b01460d9f2e98b526978237c19f5ebffc` 재조회 검증.
+- 변경 소스의 Python 구문 검사 PASS, 별도 컨테이너에서 기존 pytest **33/33 PASS** 및 실제 Uvicorn 재시작 HTTP 스모크 PASS. 이 결과는 Windows Playwright 전체 성공을 의미하지 않음.
+- 다음: 사용자 연구 브랜치 Git pull, 실행 중인 로컬 서버 유지, `python -m nail_dashboard.tests.browser_e2e` 재실행. 실패 시 새 진단 출력/Traceback 확인. 실제 FastAPI·SQLite·두 기존 MVP 소스는 변경 없음.
