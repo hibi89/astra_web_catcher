@@ -77,3 +77,11 @@
 - **Tests:** 71/71 PASS (previous 46 + new 25); Python compileall PASS, CLI JSON output PASS; hashes of 5 new Git blobs match locally tested files. First 1 failing test was stale mapping in empty-candidate test, corrected fixture and all passed. No existing application/browser/live API suite rerun.
 - **Security/preservation:** never connect/modify actual API, DB, credentials, code or schema; fictional test manifest explicitly synthetic; `main`, shop/jobs, independent nail dashboard/experiment, data unchanged. No Vercel deployment.
 - **Next `ㄱ`:** isolated independent code-generation contract with explicit safety/approval boundaries (not actual generation or live deployment). Need user authorization and owned schema before connecting to real client DB.
+
+## 2026-10-18 21:45 KST — Step 4-C safety preflight contract
+
+- **Implemented** `astra_contracts/generation_contract.py`, `tests/test_generation_contract.py`, `fixtures/synthetic_generation_request_20261018.json`, `fixtures/synthetic_generation_contract_20261018.json`, `docs/GENERATION_CONTRACT_V01.md`; source commit `3e585b8f709d638f03942bbde1424aa2b15af6fb`.
+- Verifies observation spec, synthetic owned-schema manifest, recomputed mapping report and restricted output request; blocks mismatched hashes/report edits, path escape, forged approval, incompatible or unknown fields. JSON only; **code_generated/files_written/approval/deploy/mutation all false**.
+- **Tests:** 111/111 local pytest PASS, CLI golden match, compileall PASS, five Git blobs match local tested files. Sample: eight blockers, seven prior gates, four future review requirements.
+- No original DB/API, external services, /shop, /jobs, research/practice apps, main or production modified. **No executable code generator or deployment completed.**
+- **Next ㄱ:** separate isolated synthetic artifact-generation prototype or human review workflow, with safety separation maintained.
