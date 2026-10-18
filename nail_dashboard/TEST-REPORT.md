@@ -39,3 +39,30 @@
 - UI 클릭을 **자동 브라우저에서 통과했다고 주장하지 않음**. `browser_e2e.py`는 사용자의 일반 PC에서 검증할 수 있도록 포함한 미실행 테스트임.
 - 프로덕션/Vercel 미적용, n8n·Instagram·사용자 DB/API 미연동.
 - 원본 사이트 수요/성과지수의 계산식 미확인; 명시된 demo ratio만 구현, 게시물별 성과지수 미구현.
+\n## Regression verification 2026-10-18 18:17 KST
+
+- Scope: 15 existing and 18 extended SQL/API/state cases. Every pytest case uses its own SQLite DB under pytest tmp_path, not the development database.
+- Executed: python -m pytest -q nail_dashboard/tests/test_dashboard.py
+- Actual result: 33 passed in 1.33s; 0 failures.
+- Executed: python -m nail_dashboard.tests.live_http_smoke
+- Actual result: PASS HTTP startup, page/API 200, invalid request 422, two complete Uvicorn stop/start cycles, stable results, unchanged SQLite database bytes; brand=mellow page2 returned 5 items.
+- Executed: python -m compileall -q nail_dashboard and node --check nail_dashboard/static/app.js; both exit 0.
+
+| Test case / execution | Expected | Actual | Status |
+|---|---|---|---|
+| KPI and weekly chart (all + four brands, 5 test cases) | SQLite post/brand counts, reels, response averages and 13 weekly series equal API | Equal per stored SQL rows | PASS |
+| Time/content/type charts (three scopes, 3 cases) | Recompute hourly median, format mean/count, direct vs sheet totals | All returned chart points equal independent Python calculations | PASS |
+| Brand comparison | Four brand medians, analyzed/collected counts and view coverage equal stored SQL | Equal; comparison remains global | PASS |
+| Tag categories and filter scope | 5 categories equal SQL post_tags joins, 8 color tags, global demo table | Equal | PASS |
+| Top posts and pagination | Reaction DESC Top20 for all/four brands with 15+5 pages | All five scopes matched IDs/order/count | PASS |
+| Data modification | Raise one test-record likes by 90000, rebuild aggregates | Mean KPI, format chart and Top1 changed appropriately | PASS |
+| Empty post table | Empty/zero chart results, nullable undefined ratios | No crash, undefined ratio null, list empty | PASS |
+| Zero reaction baseline and zero prior 8 weeks | No division error or false ratio | Brand/tag indices and 4v8 null | PASS |
+| Missing values | views=0 distinct from SQL NULL, unimplemented performance index null | Correct | PASS |
+| Report not seeded | Structured error | HTTP 503 with seed guidance | PASS |
+| UI page reset function | Executed actual JS chooseBrand in Node VM on page 2 | URL brand=mellow and page=1, null formatting dash | PASS |
+
+Initial additional-test failure: test_empty_posts_yields_null_ratios_and_zero_charts found positive_ratio(0,0) returned numeric 0. Corrected metrics.positive_ratio to return None for denominator 0, and JS percent helper to display '—' rather than 0% or —%. Retested 33/33 PASS. Valid denominators retain previous behavior.
+
+Important boundary: Node VM executes a real JS state function but is not Chrome. Playwright visual E2E/CSS/Console/network was NOT run. User directly verified browser brand changes separately. Source demand/performance formulas remain unverified and demo-only; external user data/Instagram/n8n integration NOT completed.
+
