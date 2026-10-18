@@ -1,3 +1,11 @@
+> [!IMPORTANT]
+> ## ASTRA 사용자 확정 설계 — 반드시 먼저 읽기 (2026-10-18)
+> **최우선 원본:** [사용자 첨부 설계 3장 문자 전사](docs/ASTRA_CANONICAL_DESIGN_2026-10-18.md) → [원본 인수인계 TXT](docs/source/ASTRA_USER_HANDOFF_ORIGINAL_2026-10-18.txt) → [7단계 로드맵·68~118h 추정](docs/ASTRA_ROADMAP_AND_ESTIMATE_2026-10-18.md) → [다음 채팅 실행 가이드](docs/ASTRA_NEXT_CHAT_HANDOFF_2026-10-18.md).
+>
+> **목표:** 웹사이트 자동 복제가 아니라, 참고 URL+사용자 시연에서 기능/사용 흐름을 관찰하고 사용자 DB/API 구조에 매핑해 독립 웹앱을 생성·검증하는 반자동 개발 보조도구. OHORA CSV/Nail Atlas는 테스트 사례일 뿐. 원본 DB 무단 변경 금지. v1 지원: 목록·검색·필터·상세·CRUD·기본 집계. 원본 서버 비공개 코드 취득·접근 제한 우회 목적 아님.
+>
+> **현재 차이:** main은 최초 도서·채용 앱 코드이며, `nail_dashboard/`는 `research/jp-nail-dashboard-20261018`, `nail_practice/`는 `experiment/ohora-practice-20261018`에 있음. 실험 브랜치의 최신 실행 상태를 확인하고 검증된 작업만 이어갈 것. **범용 URL/시연→명세→코드→테스트 파이프라인은 아직 미구현.** 다음 우선순위는 원본 로드맵 Step 2~3 통합 정리와 Step 4-A/B.
+
 # HANDOFF — Astra Web Catcher (ten-point operational handoff)
 
 1. **Goal / confirmed constraints / stack:** two independently branded local functional demos from publicly visible YES24/Wanted flow patterns, no source extraction. BookHarbor `/shop`, CareerWay `/jobs`. Backend FastAPI Python 3.13, SQLite WAL; frontend vanilla HTML/CSS/JS. Next.js/Prisma original default unavailable due offline npm registry.
