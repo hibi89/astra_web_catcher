@@ -222,3 +222,16 @@
 8. **원본/데이터/보안:** main 기존 두 앱/SQLite/테스트 미수정, nail_dashboard 별도 가상 샘플 208게시물, no customer DB/API; 비밀값 없음.
 9. **향후 작업:** 추가 요구 시 차트 DOM 숫자와 API 1:1 검증·UI 스크린샷/CSS 반응형·일반 console.error/외부 Network/접근성 확장 가능. 사용자의 실제 DB 연결 전 스키마·권한·API 계약 수집 필요.
 10. **확인 시점/근거:** 2026-10-18, 사용자 제공 Windows PowerShell stdout. GitHub 문서 read-back은 본 반영 후 수행. 직접 사용자 PC 원격 실행이나 실제 브라우저 세션 관찰은 하지 않음.
+
+## 2026-10-18 — verified snapshot and customer-data mapping preparation
+
+1. Goal/confirmed constraints: Preserve Windows-verified B MVP; plan customer data integration **read-only**. No new code, existing/customer DB edits or new API connection before schema mapping approval.
+2. Completed: Created snapshot `snapshot/nail-atlas-b-e2e-verified-2026-10-18` -> `343790e34967f0b20862d4ec7f5de8f084414234`, confirmed by GitHub ref read. User-tested code commit `457cb9369699a74ee9706dfe922a2bcd58632919`; comparison to snapshot is exactly three documentation-only files. Previous Windows pytest 33/33, HTTP+SQLite persistence, Playwright Chromium E2E PASS (user-provided logs), not rerun this turn.
+3. Actual execution/validation: Read schema.sql, db.py, repository.py, metrics.py, app.py from remote; generated `research/jp-nail-dashboard/DATA_INTEGRATION_MAPPING_PREP_2026-10-18.md` with current field/table mapping targets, missing-value risks and DEMO vs original formula distinction; GitHub read-back passed. No runnable code tests run this turn because no code changed.
+4. State: Planning/documentation only. Existing `main`, `nail_dashboard` source and sample SQLite untouched. No customer rows/columns have been received.
+5. Risk/uncertainty: Need stable post identifier, brand mapping, date/time timezone, media, likes/comments NULL semantics, view-count NULL, analyzed eligibility, classification columns. Do not invent absent values or turn unknown into 0. Original demand/performance scoring not recovered. Sample 5–10 records proves schema, not population quality.
+6. Repository/branch/paths/commit: `hibi89/astra_web_catcher` work branch `research/jp-nail-dashboard-20261018`, snapshot branch as above. Mapping doc `research/jp-nail-dashboard/DATA_INTEGRATION_MAPPING_PREP_2026-10-18.md`, creation commit `451a9eef1f9b241b592b46cedbb458dc903b9279`. Original main `dd87ffc847c7b435c7eed7b4543b7db7d184e08c`.
+7. Production/runtime: unchanged local `http://127.0.0.1:8010/nails`. No deployment, external collector, customer API keys, or DB connection.
+8. Preservation/security: snapshot branch reserved as restore reference. Original raw files/DB do not leave user's PC. Request only de-identified headers+5–10 example rows; mask accounts/posts consistently; remove access tokens, profile names, phone/emails, signed media URLs.
+9. Next action/acceptance: User supplies 1 post-data schema and 5–10 sanitized rows. Return real source-column -> target-field mapping, missing and ambiguous field table, usable/unusable demo metrics and explicit calculation/data-quality rules. No implementation before a separate user instruction.
+10. Evidence limits: GitHub code/schema and comparison verified; no customer data examined; source metric formulas are user-agreed demo math only. Current mapping document is provisional.
