@@ -40,3 +40,27 @@
 3. 개발자도구 Console 및 Network에서 JS 오류/4xx 확인. UI 스크린샷 수집.
 4. `python tests/browser_smoke.py`를 실행하려면 시스템 Chromium 경로(`CHROME_EXECUTABLE`/PATH/Playwright 설치 브라우저)를 각 PC 실행 경로로 변경하거나 Playwright 설치 브라우저로 대체. 현재는 시스템 특화된 실행 파일 경로입니다.
 5. 서비스 재시작 후 카트·주문·관심·지원 데이터 보존 확인.
+
+## 2026-10-18 16:35 KST — 독립 재검증
+
+사용자 보고: /shop 및 /jobs에서 주문·지원 흐름과 새로고침 후 유지 확인(사용자 수동 검증; ChatGPT 브라우저 직접 실행 결과가 아님).
+
+**새로 실제 실행한 명령:**
+- `python -m pytest -q tests/test_mvp.py` → **13 passed in 2.88s** (별도 temp SQLite DB; 동일 세션에서 앞서 13 passed in 3.14s).
+- `python tests/live_http_smoke.py` → **LIVE HTTP PASS**: Uvicorn 실제 프로세스 종료·재시작 후 카트·관심 저장, 주문 생성·세션 유지. 별도 임시 SQLite DB.
+- `python tests/live_integrity_check.py` → **6/6 PASS**: 실제 Uvicorn HTTP, 두 세션, 독립 임시 SQLite DB. 테스트 종료 시 임시 DB 삭제.
+
+| 추가 실제 테스트 | 기대 결과 | 실제 결과 | 판정 |
+| --- | --- | --- | --- |
+| A/B 본인 데이터 격리 | A의 장바구니·지원·관심이 B에게 노출되지 않음 | 사용자별 각자 항목 확인, 타인 지원 상세 HTTP 404 | 통과 |
+| 프로세스 재시작 | 세션·장바구니·관심·지원 내역 유지 | Uvicorn terminate 후 새 PID 서버 기동, 전 항목 다시 조회 성공 | 통과 |
+| 주문 금액·재고 | 9,000원×2=18,000원, 재고 -2 | 18,000원 응답·재고 -2, 카트 비움 | 통과 |
+| 금액 조작·가격 스냅샷 | 조작 거절, 가격 수정 후 기존 주문 불변 | 클라이언트 total=1 요청 422, DB 가격 +7,777원 수정 후 총액 18,000원 유지 | 통과 |
+| 주문 키 재전송·소유권 | 재전송 신규 주문 금지, 타인 주문 접근 차단 | 재전송 200/replayed=true, 기존 주문 1건·재고 추가 차감 0, B 상세 404 | 통과 |
+| 재고 1개 병렬 HTTP | 201 1건·409 1건, 재고 0 | 별개 세션 동시 POST, 201/409, order_items 1행 | 통과 |
+| 동일 공고 동시 HTTP 지원 | 201 1건·409 1건, DB 1건 | 동시 POST 201/409, 후속 반복 409, DB 1행 | 통과 |
+| 최종 A/B 주문·지원 조회 | 서로의 주문·지원 상세 접근 불가 | A 소유 내역에만 표시; B 상세 404 | 통과 |
+
+**미검증:** 이 실행 환경에서는 Chromium 실제 조작/Console/Network 시연이 여전히 정책 차단됨. 사용자 수동 조작 성공 보고와 독립 테스트 통과를 혼동하지 않음. 실사용 부하·운영 보안 검증은 범위 밖.
+
+**재현용 코드:** `tests/live_integrity_check.py` (GitHub 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`). 로컬 실행 로그 `logs/pytest-2026-10-18-recheck.log`, `logs/live-http-2026-10-18-recheck.log`, `logs/live-integrity-2026-10-18.log` (로그 파일 자체는 Git 추적 대상 아님).
