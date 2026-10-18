@@ -11,6 +11,7 @@ import json
 import sys
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urlencode
 
 from pydantic import BaseModel, ConfigDict, ValidationError
 
@@ -25,12 +26,19 @@ from astra_contracts.synthetic_generator import SyntheticDemo, generate_syntheti
 
 # The generated demo already implements these routes using *fictional rows*.
 # An observed feature is only mapped to a smoke-test illustration, not reproduced.
-SYNTHETIC_ROUTES = {
-    Feature.LIST: "/api/items",
-    Feature.SEARCH: "/api/items?q=sample",
-    Feature.FILTER: "/api/items?category=sample",
-    Feature.DETAIL: "/api/items/sample-id",
-}
+def synthetic_route(feature: Feature, demo: SyntheticDemo) -> str | None:
+    """One concrete smoke route from FICTIONAL sample rows; never from observed UI."""
+    item = demo.items[0]
+    if feature is Feature.LIST:
+        return "/api/items"
+    if feature is Feature.SEARCH:
+        return "/api/items?" + urlencode({"q": item.title})
+    if feature is Feature.FILTER:
+        return "/api/items?" + urlencode({"category": item.category})
+    if feature is Feature.DETAIL:
+        return "/api/items/" + item.id
+    return None
+
 
 
 class ClosedModel(BaseModel):
@@ -94,8 +102,8 @@ def bridge_trace(
         TraceEntry(
             observation_id=c.observation_id,
             feature=c.feature,
-            result="synthetic_smoke_only" if c.feature in SYNTHETIC_ROUTES else "not_simulated",
-            example_route=SYNTHETIC_ROUTES.get(c.feature),
+            result="synthetic_smoke_only" if synthetic_route(c.feature, demo) is not None else "not_simulated",
+            example_route=synthetic_route(c.feature, demo),
         ) for c in spec.candidate_features
     ]
     return SyntheticBridgeTrace(

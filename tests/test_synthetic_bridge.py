@@ -61,7 +61,7 @@ def test_observed_filter_only_simulated_and_no_original_metrics():
     assert entry.observation_id == 'brand_all_vs_ohora'
     assert entry.feature.value == 'filter'
     assert entry.result == 'synthetic_smoke_only'
-    assert entry.example_route == '/api/items?category=sample'
+    assert entry.example_route == '/api/items?category=%EC%83%89%EC%83%81'
     assert entry.original_behavior_verified is False
     assert result.unresolved_observation_ids == ['filter_execution_unknown', 'ratio_formula_unknown']
     assert result.mapping_discrepancy_count == 7
