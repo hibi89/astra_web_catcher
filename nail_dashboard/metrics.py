@@ -17,7 +17,7 @@ def avg(xs):
 
 
 def positive_ratio(n,d):
-    return round(100*n/d) if d else 0
+    return round(100*n/d) if d else None
 
 
 def after(p,cutoff):
