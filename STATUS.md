@@ -157,3 +157,11 @@
 - **Local:** 325/325 pytest PASS (302+23), compileall PASS, synthetic DOM CLI register→packet→record successful; all new Git blob hashes match tested code/doc. Historical screenshots/real user captures unavailable.
 - Original URL semantics, formulas, reviewer identity, GUI browser E2E, customer DB/API and production remain unverified/untouched. GitHub Actions and previously blocked Chromium not run. `GenerationContract` continues `blocked_pending_review`; `main` unchanged.
 - **Next `ㄱ`:** visible-state facts versus interaction/formula assertions classifier/review gate, or check newly supplied authorized real captures. Total progress remains about 37–38%.
+
+## 2026-10-19 KST — p4 evidence assertion levels / manual review gates
+
+- Implemented `evidence_claim_levels.py`, 24 new tests and `docs/EVIDENCE_CLAIM_LEVELS_V01.md` (code commit `a9c000ce107733e8b9cad788a012b4d4e1476f57`). Distinct `visible_state`, `interaction_transition`, `calculation_formula` gates after rechecking registered capture byte integrity and observation IDs.
+- Screenshots/DOM are **only candidates for human displayed-state inspection**. A reported sequence additionally needs manual demonstration/test evidence + action + changed shared before/after state and non-unknown claim. Formula always requires independent audit, never approved through captured text/numbers alone.
+- **Local:** full regression **349/349 PASS** (325+24); compileall PASS; synthetic fixture produced 6 review lanes. One unrelated existing httpx deprecation warning. No real captured source, human authenticated review or GUI browser E2E.
+- **Safety:** no original ObservationBundle changes, source URL access, real data/DB/API integration, deployment or GitHub Actions. Current `GenerationContract` still `blocked_pending_review`; authority flags all false. `main` `dc23ee604d02513c890615a3a98440c1ea8a5270` preserved.
+- **Next `ㄱ`:** tiny end-to-end user-permitted manual action trace → functional spec → independent synthetic acceptance path; progress **~38%** (not a meaningful increase).
