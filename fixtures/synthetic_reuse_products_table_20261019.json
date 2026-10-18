@@ -1,0 +1,48 @@
+{
+  "version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "run_mode": "temporary_demo_only",
+  "table_name": "fictional_product_catalog",
+  "preview_title": "Demo Product Catalog",
+  "bindings": [
+    {
+      "logical_field": "id",
+      "source_field": "sku"
+    },
+    {
+      "logical_field": "title",
+      "source_field": "display_name"
+    },
+    {
+      "logical_field": "category",
+      "source_field": "family"
+    },
+    {
+      "logical_field": "score",
+      "source_field": "popularity"
+    }
+  ],
+  "rows": [
+    {
+      "sku": "prod-cobalt",
+      "display_name": "Blue Gel %",
+      "family": "colors",
+      "popularity": 90
+    },
+    {
+      "sku": "prod-rose",
+      "display_name": "Rose Gel",
+      "family": "colors",
+      "popularity": 70
+    },
+    {
+      "sku": "prod-shimmer",
+      "display_name": "Shimmer Kit",
+      "family": "effects",
+      "popularity": 95
+    }
+  ],
+  "original_site_behavior_verified": false,
+  "customer_database_connected": false,
+  "schema_mapping_approved": false
+}

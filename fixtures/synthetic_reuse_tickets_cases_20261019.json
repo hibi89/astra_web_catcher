@@ -1,0 +1,110 @@
+{
+  "version": "0.1",
+  "scope": "synthetic_fixture_only",
+  "table_sha256": "a0148864623ada22af823363e357f13de6186a2394247c8c231e535342a33269",
+  "cases": [
+    {
+      "id": "source_filter_open",
+      "feature": "filter",
+      "relationship": "source_feature_illustration",
+      "source_observation_id": "demo_category_filter",
+      "category": "Open",
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-payment",
+        "ticket-login",
+        "ticket-other"
+      ]
+    },
+    {
+      "id": "list_full",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-payment",
+        "ticket-login",
+        "ticket-other",
+        "ticket-closed"
+      ]
+    },
+    {
+      "id": "limit_one",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": 1,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-payment"
+      ]
+    },
+    {
+      "id": "search_literal_underscore",
+      "feature": "search",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": "_",
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-login"
+      ]
+    },
+    {
+      "id": "search_case_insensitive",
+      "feature": "search",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": "payment",
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-payment"
+      ]
+    },
+    {
+      "id": "detail_closed",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "ticket-closed",
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "ticket-closed"
+      ]
+    },
+    {
+      "id": "missing",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "absent-ticket",
+      "limit": null,
+      "expected_status": 404,
+      "expected_ids": []
+    }
+  ],
+  "original_site_verified": false,
+  "production_authorized": false
+}

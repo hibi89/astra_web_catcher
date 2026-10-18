@@ -1,0 +1,95 @@
+{
+  "version": "0.1",
+  "scope": "synthetic_fixture_only",
+  "table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "cases": [
+    {
+      "id": "source_filter_colors",
+      "feature": "filter",
+      "relationship": "source_feature_illustration",
+      "source_observation_id": "demo_category_filter",
+      "category": "colors",
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "prod-cobalt",
+        "prod-rose"
+      ]
+    },
+    {
+      "id": "list_full",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "prod-shimmer",
+        "prod-cobalt",
+        "prod-rose"
+      ]
+    },
+    {
+      "id": "limited",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": 2,
+      "expected_status": 200,
+      "expected_ids": [
+        "prod-shimmer",
+        "prod-cobalt"
+      ]
+    },
+    {
+      "id": "search_literal_percent",
+      "feature": "search",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": "%",
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "prod-cobalt"
+      ]
+    },
+    {
+      "id": "detail_shimmer",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "prod-shimmer",
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "prod-shimmer"
+      ]
+    },
+    {
+      "id": "missing",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "absent-sku",
+      "limit": null,
+      "expected_status": 404,
+      "expected_ids": []
+    }
+  ],
+  "original_site_verified": false,
+  "production_authorized": false
+}

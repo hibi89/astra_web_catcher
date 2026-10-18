@@ -1,0 +1,54 @@
+{
+  "version": "0.1",
+  "source_kind": "synthetic_fixture",
+  "run_mode": "temporary_demo_only",
+  "table_name": "fictional_support_tickets",
+  "preview_title": "Demo Support Tickets",
+  "bindings": [
+    {
+      "logical_field": "id",
+      "source_field": "ticket_key"
+    },
+    {
+      "logical_field": "title",
+      "source_field": "summary"
+    },
+    {
+      "logical_field": "category",
+      "source_field": "lane"
+    },
+    {
+      "logical_field": "score",
+      "source_field": "priority"
+    }
+  ],
+  "rows": [
+    {
+      "ticket_key": "ticket-login",
+      "summary": "Login help_1",
+      "lane": "Open",
+      "priority": 45
+    },
+    {
+      "ticket_key": "ticket-payment",
+      "summary": "Payment issue",
+      "lane": "Open",
+      "priority": 95
+    },
+    {
+      "ticket_key": "ticket-closed",
+      "summary": "Resolved access",
+      "lane": "Closed",
+      "priority": 20
+    },
+    {
+      "ticket_key": "ticket-other",
+      "summary": "Other question",
+      "lane": "Open",
+      "priority": 45
+    }
+  ],
+  "original_site_behavior_verified": false,
+  "customer_database_connected": false,
+  "schema_mapping_approved": false
+}
