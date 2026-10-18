@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **2026-10-18 p4 목표 확정 — 사용자 이미지/원설계가 기존 실험보다 우선한다.**
+> **GitHub main 필독:** `docs/ASTRA_CANONICAL_DESIGN_2026-10-18.md` (사용자 설계 이미지 3장 문자 전사), `docs/source/ASTRA_USER_HANDOFF_ORIGINAL_2026-10-18.txt` (원문 TXT), `docs/ASTRA_ROADMAP_AND_ESTIMATE_2026-10-18.md` (7단계 및 공수), `docs/ASTRA_NEXT_CHAT_HANDOFF_2026-10-18.md` (작업 재개). 이 브랜치에는 `ASTRA_DESIGN_READ_FIRST.md`도 있다.
+> **Astra = 참고 URL+사용자 시연에서 기능/사용 흐름을 배우고 사용자 DB·API에 매핑하여 독립 앱을 생성·테스트하는 반자동 개발 보조도구.** OHORA CSV/Nail Atlas는 테스트뿐. **범용 URL/시연→명세→코드→테스트는 미구현**, 다음 실제 작업은 Step 2~3 표준화+Step 4-A/B 시작. 기존 인증·DB 임의 변경 불가. 처음 지원 범위: 목록·검색·필터·상세·CRUD·기본 집계.
+
 # HANDOFF — Astra Web Catcher (ten-point operational handoff)
 
 1. **Goal / confirmed constraints / stack:** two independently branded local functional demos from publicly visible YES24/Wanted flow patterns, no source extraction. BookHarbor `/shop`, CareerWay `/jobs`. Backend FastAPI Python 3.13, SQLite WAL; frontend vanilla HTML/CSS/JS. Next.js/Prisma original default unavailable due offline npm registry.
