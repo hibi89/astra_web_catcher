@@ -187,3 +187,10 @@
 - Views, design tags, demand/performance index and purchase probability deliberately not calculated. No source data, existing app DB, original validated code, or frozen snapshot changed. All private usernames, captions, URLs and CSV/ZIP excluded from GitHub.
 - Tests: 16/16 pytest PASS including opt-in real ZIP test; Python compile and JS syntax PASS; 6/6 actual Uvicorn HTTP endpoints status 200. Test environment browser E2E not executed; user Windows browser script supplied.
 - Windows next: clone experiment branch separately, put OHORA_Analysis_Ready_20261016_084112.zip in Downloads, run python -m nail_practice.import_data, python -m uvicorn nail_practice.app:app --port 8011, view http://127.0.0.1:8011/practice. See nail_practice/README.md.
+
+## 2026-10-18 — 사용자 원설계 재확정 / 다음 채팅방 연결
+
+- 원문 기준은 GitHub `main`의 `docs/ASTRA_CANONICAL_DESIGN_2026-10-18.md`(첨부 설계 이미지 3장 전사), `docs/source/ASTRA_USER_HANDOFF_ORIGINAL_2026-10-18.txt`(원본 TXT), `docs/ASTRA_ROADMAP_AND_ESTIMATE_2026-10-18.md`(세부 로드맵·공수 추정), `docs/ASTRA_NEXT_CHAT_HANDOFF_2026-10-18.md`. 이 브랜치 `ASTRA_DESIGN_READ_FIRST.md`에서 연결.
+- Astra 최종 산출물은 오호라 대시보드 자체가 아니라 **URL+사용자 시연 관찰 → 실제 사용자 DB/API와 매핑 → 독립 웹앱 생성·테스트 → 안전한 현업 재사용**을 수행하는 범용 반자동 개발 보조도구. OHORA CSV 및 `nail_practice/`는 검증용 실험에 한함.
+- 이 브랜치 `nail_practice/` Windows 첫 화면 실데이터 연동 성공(사용자 스크린샷), 별도 전체 브라우저 E2E는 아직 미확인. GitHub main 및 기존 shop/jobs, 연구 브랜치 nail_dashboard와 동결 스냅샷은 보존.
+- 범용 파이프라인 Step 4 미구현. **다음 작업은 Step 2·3 공통 규격 정리 후 Step 4-A/B 시작.** 이번 변경은 문서만이며 기능/데이터 수정 없음.
