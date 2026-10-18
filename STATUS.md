@@ -124,3 +124,10 @@
 - **Verified:** all 10 suites **213/213 PASS** (193 prior + 20 new), Python compileall PASS, Node JS syntax PASS; real localhost Uvicorn GET HTML/JS/CSS/packet and POST+GET temporary opinion HTTP 200. No actual user opinion attributed.
 - **Limit:** Playwright Chromium localhost navigation refused with `net::ERR_BLOCKED_BY_ADMINISTRATOR`; GUI browser E2E **not verified**. No original URL/DB/API access, migration, real codegen, deployment. Existing `main` and /shop, /jobs, nail research/practice untouched.
 - **Next `ㄱ`:** manual/eligible-browser UI acceptance or reviewed opinion import/export with provenance and no authorizations. Current `GenerationContract` still blocks implementation.
+
+## 2026-10-18 KST — p4 review opinion JSON transfer
+
+- **One-unit feature:** `review_transfer.py` with an explicit no-authorization ReviewTransferBundle, deterministic packet/record fingerprints and reconstruction of the current `record_opinions()` against exact review items; localhost GET `/api/export/{id}`, POST `/api/import`, download/import buttons. Source commit `293d8f661642ab3e3cfc4d20546b9bd5013947b2`; feature branch only.
+- **Tests:** all 11 focused suites **237/237 PASS** (prior 213 + new 24); compileall and JS check PASS, real localhost Uvicorn save/export/import/readback HTTP 200. Six new/changed source, tests, doc Git blob SHAs match tested local bytes.
+- **Security:** stale packet and corrupt/forged record rejection, 64 KiB cap, local ephemeral token, host/origin safeguards, exclusive temporary JSON storage. SHA is NOT authenticated identity or consent; approval/codegen/database/deploy flags remain false. No original site, customer DB/API, original app or production activity; browser GUI click E2E still unverified due earlier administrator block.
+- **Next `ㄱ`:** human browser acceptance if eligible or authorized original evidence reconfirmation; no repeat of blocked Playwright in this environment. `main` still `dc23ee604d02513c890615a3a98440c1ea8a5270`.
