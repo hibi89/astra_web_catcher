@@ -41,3 +41,13 @@
 - **프론트 브라우저 클릭 / Production:** 미검증/미적용.
 - **GitHub 실제 코드 18파일:** 미반영, 후속 체크인 필요.
 - **현재 고객 DB/API 연동:** 미연동.
+
+## 후속 정정: GitHub 소스 반영 완료 (이 절이 앞선 '미반영' 기록보다 최신)
+
+- 2026-10-18 18:03:24 KST, 코드 18개를 기존 main이 아닌 `research/jp-nail-dashboard-20261018` 브랜치의 `nail_dashboard/`에 한 번의 트리 커밋으로 추가.
+- 실제 코드 커밋 SHA: `93c15d0977bdff14788667de6a527f6d89426bd3`; GitHub branch HEAD 갱신·재조회 확인. **18/18 파일 전체 소스 읽기 후 매니페스트와 내용 일치**.
+- 이전 문서의 'GitHub 미반영'은 당시 상황을 기술한 이력으로 남지만, 현재 상태는 **소스 반영 완료**다.
+- 기존 main의 /shop, /jobs, 데이터, 테스트는 불변; 신규 SQLite .db 파일은 GitHub 커밋에 포함하지 않았다.
+- 설치: GitHub 브랜치 직접 clone 후 `python -m pip install -r requirements.txt`, `python -m nail_dashboard.db seed`, `python -m uvicorn nail_dashboard.app:app --port 8010`.
+- 자동 pytest 15/15, 실제 Uvicorn/DB 재시작, JS 구문 등은 **이전에 검증한 동일 소스 결과**이며, 이번 GitHub 업로드 과정에서 재실행하지 않았다. 사용자 Windows 브라우저 클릭 E2E는 계속 미검증.
+- 본 문서 및 HANDOFF/STATUS 후속 문서 커밋으로 브랜치 HEAD는 위 코드 커밋보다 진전할 수 있으나 코드 18파일은 동일하다.
