@@ -11,3 +11,7 @@ Top 20 order = `reactions DESC, id DESC`, then page 15. Brand changes in the cli
 All endpoints read only. No identity/authentication in this standalone **public fictional demonstration** because there are no user accounts or private records. SQLite file lives outside Git versioning; local file must remain private to operator. FastAPI Query/Pydantic validation rejects invalid page or tag category, and brand lookup rejects unknown selection. HTML is escaped and no raw site assets or Instagram URLs are seeded. The recent-run refresh button calls the local report read endpoint only, with no n8n calls.
 
 User DB/API future integration: replace `repository` read adapter while keeping typed response shape & `metrics` pure functions; add validated ingestion and report-run snapshots; enforce per-tenant access and rate limits before exposing real customer data. The original data model, Instagram private API, and indexing criteria are unknown.
+\n## Regression verification 2026-10-18 18:17 KST
+
+Undefined percentages: positive_ratio(n,d) returns None when d=0; the frontend percent(n) prints '—' for null and 0% only for an actual zero over a positive denominator. The SQL regression cases in tests/test_dashboard.py cross-check stored raw rows against KPI, chart series, brand compare, tag join counts and Top20 records. The JS state contract runs chooseBrand and verifies a page 2 to page 1 reset in Node VM, not actual browser automation. The global tag table is an explicit demo implementation contract, NOT a recovered source backend rule.
+
