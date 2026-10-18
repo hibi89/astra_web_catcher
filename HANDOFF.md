@@ -57,3 +57,16 @@
 8. **Original/backups/secrets:** keep main source and test DB intact; no cookies, tokens, HAR or passwords collected.
 9. **Next step/acceptance:** tell user to click `컬러` exactly once and say clicked; fetch tab context and compare selected category, row count, table entries, URL and right brand panel. Then proceed one interaction at a time.
 10. **Timestamp/evidence:** 2026-10-18 ~17:00 KST, screenshot `image(20261018-075954).png` and live user-connected page text. GitHub SHA/readback verified on this update; no claim of code tests.
+
+## 2026-10-18 — 태그 컬러 필터 전후 관찰
+
+1. **목표/범위/기술:** 2026-10-18 17:07:08 KST 읽기 전용 원본 태그 분석 확인, 별도 조사 브랜치; 기존 FastAPI/SQLite 두 MVP 변경 없음.
+2. **확정 동작:** 태그 '전체' 37개 중 '컬러' 선택 후 해당 8개 컬러 행만 표시, 수요지수 내림차순 유지. NAILTOWN 우측 패널·KPI 및 `#v-tags` 유지. 서로 다른 제어 상태가 독립 동작.
+3. **검증:** 사용자가 직접 '컬러' 클릭 후 동일 연결 탭 DOM 재조회; 브라우저 직접 클릭/Network 추적과 pytest는 이번 단계 미실행. 태그별 8행 값은 별도 관찰 파일에 기록.
+4. **상태/중단 지점:** 태그 필터 동작 관찰 완료; 다음 메뉴 `브랜드 비교` 조작을 기다리는 중. 새 MVP 구현 전.
+5. **확인 안 된 사항/실패/대안:** 실제 API/정적 자료 여부, 수요지수/판정 임계치/n8n 연동 미확인; 사용자 조작 후 브라우저 재조회로 검증. DNS/브라우저 차단 방법 무의미한 반복 금지.
+6. **저장소/브랜치/경로:** `hibi89/astra_web_catcher`, `research/jp-nail-dashboard-20261018`; `research/jp-nail-dashboard/TAG_CATEGORY_COLOR_CLICK_2026-10-18.md` commit `451193e3b31259d7f19376f94c8f5b06624e1958`. main baseline `dd87ffc847c7b435c7eed7b4543b7db7d184e08c`.
+7. **배포/실행:** 조사 전용 단계이므로 Production/Vercel 미적용; 기존 앱 README 실행법 유지.
+8. **원본/인증/백업:** 기존 DB와 소스 보존; 인증 쿠키·토큰·개인정보 미수집.
+9. **다음 작업:** 사용자에게 왼쪽 `브랜드 비교`를 한 번만 누르고 완료를 알리도록 요청. 새 DOM 스냅샷에서 URL, 브랜드 선택/패널, 비교 테이블·차트를 확인해 전후 차이를 기록.
+10. **검증 시점/범위:** 2026-10-18 17:07:08 KST, UI 텍스트 스냅샷 및 연구 파일 GitHub read-back. 앱 코드/테스트 실행 없음.
