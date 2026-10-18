@@ -283,3 +283,12 @@
 6. **Safety:** Existing production `GenerationContract.status=blocked_pending_review` unchanged. No real website visit, actual captured source behavior, customer DB/API, unknown column inference, CRUD, private source copying, credentials, deployment, GitHub Actions or admin-blocked browser retest. New generated project stays in `astra-synth-*` system-temp directory, original `main` remains `dc23ee604d02513c890615a3a98440c1ea8a5270`.
 7. **Next exact `ㄱ`:** Implement one safe, disposable **synthetic CRUD** proof with explicit schema and isolated SQLite transaction assertions, or add read-only typed query UI controls to the new optional frontend. Do not connect owner DB without separate consent; no generalized URL→production app claim.
 8. **Overall estimate:** conservatively about **45%** (previous ~44%; less than meaningful +5 percentage points); independent generated app now actually serves its own optional typed query route, but real site mapping, owned DB integration, production-ready generation remain incomplete.
+
+## 2026-10-19 KST — p4 synthetic CRUD proof (one bounded unit)
+
+- Added `astra_contracts/synthetic_crud.py`, `tests/test_synthetic_crud.py` and `docs/SYNTHETIC_CRUD_V01.md` to the isolated feature branch, commit `513ceb1b4ab8af17b4ddf0a6e69745d7507251d7`.
+- Exactly three blobs byte-identical to local code/test/doc via git object SHA: `93c8182117e6192603f93af69407ff4f23a99289`, `3a658bce7fbe3a2175d87c3d42442c91541c8aa7`, `32c5c6c1955f0e90da2ee9443fb4c0b2c47c44d6`.
+- Direct synthetic CRUD tests: **14/14 PASS** (fresh rerun). Full-suite rerun progressed to ~97% but hit tool time limit; **full-suite PASS NOT asserted**. Previous baseline 501/501 PASS predates this new unit.
+- Safety constraints: SQLite file must be fresh, nonexistent, not symlinked, directly inside an `astra-synth-crud-*` system-temp directory; strict field/type validation; read/create/update/delete only fictional records; invalid patch/extra fields/duplicate IDs rejected.
+- Not embedded in generated app; no original-site or owner DB reads/writes; auth/preflight remains `blocked_pending_review`; original `main` `dc23ee604d02513c890615a3a98440c1ea8a5270` unchanged. Github Actions and blocked browser were not run.
+- **Next `ㄱ`**: complete segmented regression and integrate guarded CRUD only into an isolated synthetic generated preview; no real customer DB without explicit authority. Estimated overall progress remains **~45%** until integrated end-to-end validation.
