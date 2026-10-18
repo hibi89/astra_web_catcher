@@ -10,3 +10,16 @@
 8. **Source, backup, auth, protected data:** Source = local generated files until pushed; SQLite `data/app.db` is in `.gitignore`, don't publish. Test fixtures create isolated DB. Login seeded accounts `demo_a`/`demo_b`, `DemoPass!2026` DEMO ONLY. No real user data, external secrets, or tokens. Before reset back up DB; `ASTRA_ALLOW_RESET=YES` is explicit deletion guard.
 9. **Next work & acceptance & approvals:** recheck latest GitHub HEAD, then run browser E2E on accessible localhost and correct UI issues if observed. For requested production/external hosting or exposing demo users, obtain user approval. Completion means both browser user flows, access checks, builds applicable to stack, docs and SHA verified.
 10. **Timestamp / evidence / document revision SHA:** 2026-10-18 16:17 KST. Evidence: local 13 pytest passes, Uvicorn live HTTP smoke, code and syntax checks; source baseline commit `62eaab17b6ee11b4a27cd7caec2fce752b8815ab`. The current documentation-update commit will be newer than that baseline. No browser pass asserted.
+
+## 검증 인수인계 추가 — 2026-10-18 16:35 KST
+
+1. **목표·요구·기술:** 북하버(/shop) + 커리어웨이(/jobs) 기존 FastAPI/SQLite MVP 유지; 원래 Next.js/TS/Prisma 요구와 다름.
+2. **완료·결정:** 사용자 수동으로 주문·지원·새로고침 후 유지 확인 보고. 별도 실제 HTTP 무결성 검사 스크립트 추가, 앱 기능 코드 변경 없음.
+3. **명령·성공 수·미검증:** `python -m pytest -q tests/test_mvp.py` → 13/13 PASS (2.88s); `python tests/live_http_smoke.py` → PASS; `python tests/live_integrity_check.py` → 6/6 PASS. 서버 재시작, 두 사용자 ACL, 18,000원 주문·재고-2, 동시 재고 경쟁 201/409, 동시 지원 201/409·DB 1행. 실제 Chromium 자동 UI E2E는 환경 차단으로 미검증.
+4. **진행·대기·중단:** 검증 요청의 API/DB 범위 완료. 브라우저 네트워크·콘솔 및 운영 수준은 미검증. 사용자 판단에 따라 기존 MVP 유지 또는 요구 스택 재구현 선택.
+5. **오류·대안:** 기존 Chromium localhost ERR_BLOCKED_BY_ADMINISTRATOR 재시도 금지. 사용자의 실제 Chrome/Edge 검사로 전환, 이상 발견 시 증거에 근거한 최소 수정.
+6. **저장소·브랜치·SHA·경로:** `hibi89/astra_web_catcher` / main; 검증 스크립트 추가 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`; `tests/live_integrity_check.py`, `tests/test_mvp.py`, `tests/live_http_smoke.py`, `app/main.py`, `app/db.py`, `migrations/001_initial.sql`. 이 문서 갱신 커밋은 별도로 뒤따름.
+7. **배포·URL·실행 환경:** Production/Vercel 미적용. `python -m app.db seed`, `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`; `http://127.0.0.1:8000/shop`, `/jobs`; Python 3.13 FastAPI SQLite.
+8. **원본·백업·인증:** 테스트별 자체 temp DB 사용·종료 후 삭제, `data/app.db` 기존 개발 DB는 변경하지 않음. 데모 세션/암호 및 실제 개인정보·비밀은 GitHub 미업로드. 초기화 전 백업 필수.
+9. **다음 순서·완료 기준·승인:** 현 브라우저에 오류가 있으면 Console/Network의 비밀 제외 증거 확보→최소 수정→API 회귀검증→사용자 브라우저 확인. 기술 스택 재구현은 사용자 결정 전 하지 않음.
+10. **갱신 시간·확인 범위·기준 커밋:** 2026-10-18 16:35:59 KST; 테스트 로그 + 임시 DB와 실제 Uvicorn HTTP, 원격 GitHub 테스트 파일 재조회로 확인. 근거 검증 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`; 문서 갱신 SHA는 후속 커밋.
