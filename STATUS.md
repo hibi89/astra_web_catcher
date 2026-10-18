@@ -93,3 +93,11 @@
 - **Local evidence:** 134/134 regression tests PASS (prior 111 plus 23), generated app self-test PASS, independent fictional jobs sample PASS, compileall PASS. Uvicorn local HTTP 200 on /, /health, /api/items, category/search/detail, 404 on missing id; SQLite persistence checked. No manual GUI/Playwright browser validation or production deployment. Fixed first generated-template quote syntax error before final tests.
 - **Preservation:** No writes to customer DB, external API, main, /shop, /jobs or nail research/practice. Only existing empty `astra-synth-*` folders directly under system temp allowed. No Vercel production.
 - **Next ㄱ:** One isolated evidence/spec-to-synthetic-test bridge or stronger generator runtime validation, preserving explicit human approvals; generic automatic reference URL→app production system remains incomplete.
+
+## 2026-10-18 KST — p4 Step 4-C spec-to-synthetic preview bridge complete
+
+- Implemented `astra_contracts/synthetic_bridge.py` and 18 tests, docs. Source commit `381475b99d8246aff66cce9e6884c7b365c352c0` on `feature/observation-contract-20261018`.
+- Validates the spec, synthetic declared schema, recomputed mapping report and matching **blocked** GenerationContract, generates 7-file independent fictional demo + `data/astra_preview_trace.json`. Candidate feature category tests only; original claims, raw data and formulas are not code. Current sample: 1 synthetic filter route, 2 unknown issues, 7 mapping mismatches, not approved.
+- **Local evidence:** full focused regression **152/152 PASS** (134 prior+18 new), compileall PASS, generated demo self-test PASS; Uvicorn localhost HTTP 200 for root/health/list/filter/search/detail and 404 unknown item. One overly broad source-code grep test was corrected before final pass. Original app or browser Playwright suite not rerun.
+- No original website connection, customer DB access, changes to main/shop/jobs/nail research/practice, permissions/credential alterations, or deployment. Earlier fail-closed production-code preflight retained.
+- User-facing preview ZIP `astra_bridge_preview_20261018.zip`; next `ㄱ` should implement one reviewed synthetic acceptance assertion / actual browser smoke step rather than claim production readiness.
