@@ -1,0 +1,7 @@
+{
+  "version": "0.1",
+  "mode": "contract_only",
+  "scope": "new_isolated_project",
+  "stack": "fastapi_sqlite",
+  "destination": "sandbox/astra-preview"
+}

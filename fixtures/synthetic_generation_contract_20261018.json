@@ -1,0 +1,48 @@
+{
+  "version": "0.1",
+  "mode": "contract_only",
+  "status": "blocked_pending_review",
+  "code_generated": false,
+  "files_written": false,
+  "deployment_permitted": false,
+  "data_mutation_permitted": false,
+  "approval_verified": false,
+  "request_sha256": "3409ed35e2ad3289b647c9a0c1b75d9cf054d62481f0f6fd5f1dc96c7e9930d3",
+  "spec_sha256": "6d3c7b3a25c7a5cf3a3d3a209a2a6f185fea43007595669cf73303ae17cc1b0a",
+  "schema_sha256": "7c27c0f797c2eec9a7d384288168395d9ec29ea85605bf58394bcf922eb16da1",
+  "report_sha256": "24f7174efa0a5b9fa328a4fb1ec22a689290d0bf5aa66e9bfb5df19e600387db",
+  "observed_candidate_ids": [
+    "brand_all_vs_ohora"
+  ],
+  "planned_file_paths": [
+    "sandbox/astra-preview/app/main.py",
+    "sandbox/astra-preview/app/db.py",
+    "sandbox/astra-preview/tests/test_app.py",
+    "sandbox/astra-preview/README.md"
+  ],
+  "block_reasons": [
+    "archived_evidence_requires_reverification",
+    "functional_spec_unapproved",
+    "independent_generation_not_authorized",
+    "mapping_discrepancies",
+    "mapping_unapproved",
+    "schema_is_synthetic",
+    "schema_not_verified_live",
+    "unresolved_observations"
+  ],
+  "existing_approval_gates": [
+    "approve_any_source_changes",
+    "approve_db_api_mapping",
+    "authorize_external_or_write_actions",
+    "confirm_behavior",
+    "confirm_mapping_semantics",
+    "confirm_metric_formulas",
+    "verify_declared_schema_against_owned_system"
+  ],
+  "required_future_reviews": [
+    "verify_reference_behaviors_and_formulas",
+    "verify_owned_schema_and_semantic_field_bindings",
+    "approve_independent_code_generation_and_isolated_workspace",
+    "authorize_any_external_access_write_or_deployment_separately"
+  ]
+}
