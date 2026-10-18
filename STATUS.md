@@ -165,3 +165,11 @@
 - **Local:** full regression **349/349 PASS** (325+24); compileall PASS; synthetic fixture produced 6 review lanes. One unrelated existing httpx deprecation warning. No real captured source, human authenticated review or GUI browser E2E.
 - **Safety:** no original ObservationBundle changes, source URL access, real data/DB/API integration, deployment or GitHub Actions. Current `GenerationContract` still `blocked_pending_review`; authority flags all false. `main` `dc23ee604d02513c890615a3a98440c1ea8a5270` preserved.
 - **Next `ㄱ`:** tiny end-to-end user-permitted manual action trace → functional spec → independent synthetic acceptance path; progress **~38%** (not a meaningful increase).
+
+## 2026-10-19 KST — p4 first single-command fictional manual action pipeline
+
+- Implemented `manual_trace_pipeline.py` + 24 new tests, complete safety/CLI doc, and 3 **fabricated** fixtures. Code source commit `acf2eaa11f8c7ce5aa9ef996e126e4d6dcd0f5e7` on isolated feature branch.
+- One local operator-claimed manual-test trace is compared byte-safely and field/type-exactly to its referenced observation, then `derive_spec` → `compare_mappings` → `preflight_contract` (**blocked**) → `generate_bridge_preview` (8 fictional files) → `check_generated_preview` (12 synthetic checks) → 9th non-executable JSON result. No source behaviors/formulas converted into real executable business logic.
+- **Local 373/373 pytest PASS**, compileall PASS, real CLI run and self-contained generated SQLite checks PASS. Negative tests cover tampered/mismatched traces, fake approvals, wrong stack/schema, path guards and source immutability. New six Git blobs match locally tested file SHA. One unrelated old httpx deprecation warning.
+- No real website capture, actual user demonstration, owner DB/API, application merge, deployment, Actions, GUI browser or permission. `GenerationContract.status=blocked_pending_review`, all authorization/production flags false. `main` and existing apps unchanged.
+- **Next `ㄱ`:** one bounded feature-acceptance adapter or first approved real source trace with proper independent evidence, not a generic production app. Estimated overall ~40%, prior ~38% (not a material +5 percentage point increase).
