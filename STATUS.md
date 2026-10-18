@@ -149,3 +149,11 @@
 - **Local validation:** 302/302 pytest PASS (previous 270+32), compileall PASS. Synthetic DOM fixture register+verify: 1/1 local byte match, original bundle unchanged. In final suite one preexisting httpx deprecation warning; missing-manifest test expectation corrected to ValueError.
 - **No real capture** acquired in this run. Screenshot origin/actual UI behavior/formula, human identity, customer DB/API and browser E2E unverified. Production preflight remains `blocked_pending_review`; no GitHub Actions or Vercel. Main remains `dc23ee604d02513c890615a3a98440c1ea8a5270`.
 - **Next ㄱ:** separate human capture review/visual claim triage after authorized real evidence, or safe claim-review mechanism without semantic promotions. Overall ~37–38%; no material change to the original 7-step completion estimate.
+
+## 2026-10-19 KST — p4 capture-to-claim manual triage
+
+- One bounded unit implemented: `capture_claim_review.py` plus 23 new tests and `docs/CAPTURE_CLAIM_REVIEW_V01.md`; source commit `24d9b073c498b940df761a0c2716d029ed67e2b4`.
+- A **registered** temporary capture folder and immutable source observation JSON produce a provenance-linked review packet after file/hash/association checks. Missing, stale or tampered evidence blocks. Reviewer decisions are unverified, not origin or behavioral proof, and do not change source certainty or grant approval.
+- **Local:** 325/325 pytest PASS (302+23), compileall PASS, synthetic DOM CLI register→packet→record successful; all new Git blob hashes match tested code/doc. Historical screenshots/real user captures unavailable.
+- Original URL semantics, formulas, reviewer identity, GUI browser E2E, customer DB/API and production remain unverified/untouched. GitHub Actions and previously blocked Chromium not run. `GenerationContract` continues `blocked_pending_review`; `main` unchanged.
+- **Next `ㄱ`:** visible-state facts versus interaction/formula assertions classifier/review gate, or check newly supplied authorized real captures. Total progress remains about 37–38%.
