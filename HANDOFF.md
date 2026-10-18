@@ -33,3 +33,15 @@
 - Unknown: action effects, metric calculations, live API versus static JSON, original schema/auth. All inferred models and endpoints in report are PROPOSALS only.
 - Document: research/jp-nail-dashboard/OBSERVATION_SPEC_2026-10-18.md. Next evidence: user-operated brand toggles, tag filters, brand comparison, top posts, refresh; optional sanitized Fetch/XHR field names and statuses with no secrets.
 - Preserve original /shop and /jobs, datasets, historical tests. Prior 13-pass report is historical, not a new test execution.
+
+## Follow-up brand filter observation: ALL / OHORA / NAILTOWN
+1. **Goal, scope, stack:** isolated observation (no implementation) of Japan nail dashboard; prior FastAPI/SQLite local MVPs unchanged. Recorded 2026-10-18 16:57:50 KST.
+2. **Observed and rationale:** ALL/OHORA user screenshots and NAILTOWN live-tab snapshot show coherent brand-specific KPI and chart states. Use explicit evidence, avoid inferred event handlers or API assertions.
+3. **Validation method/outcomes:** read-only browser tab and user screenshots; no automated browser action, network or pytest run in this step. Confirmed visual values ALL 153/526/101 Reels, OHORA 79/629/78 Reels, NAILTOWN 49/217/9 Reels.
+4. **Current status:** baseline and brand-filter visual differences recorded; awaiting user-driven clicks of OHORA, tag analysis, brand compare, top posts, refresh. No development started.
+5. **Failures and unknowns:** no new errors. Direct HTTP DNS failure remains previous environment constraint. Unknown client/server filtering, live n8n API, formulas, chart tooltips, report-refresh side effects. Do not repeat blocked HTTP attempts without changed conditions.
+6. **Repo/branch/evidence:** `hibi89/astra_web_catcher`, `research/jp-nail-dashboard-20261018`; evidence `research/jp-nail-dashboard/BRAND_FILTER_OBSERVATIONS_2026-10-18.md` (`dc11aa32099c746adb296fad03b58e85c6e1a7b3`); initial baseline `dd87ffc847c7b435c7eed7b4543b7db7d184e08c`.
+7. **Production and commands:** none for this observation; original `/shop` and `/jobs` local run instructions in main README unchanged.
+8. **Protected data/backups:** original main and DB left intact; do not request cookies, tokens, passwords, HAR. Screenshot/tab excerpts are only observational evidence.
+9. **Next unit and acceptance:** user clicks OHORA, says done; retrieve tab DOM and compare selected-brand KPI, charts and panel to screenshot. Continue one menu at a time. Close unknowns before first MVP implementation.
+10. **Recorded (KST)/verification:** 2026-10-18 16:57:50; document commit and read-back must be verified; prior tests historical, no new E2E assertions.
