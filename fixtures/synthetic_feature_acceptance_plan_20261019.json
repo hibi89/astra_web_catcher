@@ -1,0 +1,125 @@
+{
+  "version": "0.1",
+  "scope": "synthetic_fixture_only",
+  "source_observation_sha256": "51fe0373f6ee4e306a4a4de1d95c59d6c41bf572c7622049c08d341ef489556e",
+  "prior_pipeline_report_sha256": "2f06c47ef83fab1ac9e9bb102bd0cdd2d30f667dafb034c2c96643f7bb88d7b9",
+  "synthetic_fixture_sha256": "a0b221ddf45c058f448ab29d6861dc270bae543695a1ae3b2a300ccd90062d5f",
+  "original_site_verified": false,
+  "customer_database_permitted": false,
+  "code_generation_authorized": false,
+  "cases": [
+    {
+      "id": "observed_filter_illustration",
+      "feature": "filter",
+      "relationship": "source_feature_illustration",
+      "source_observation_id": "demo_category_filter",
+      "category": "색상",
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "sample-blue",
+        "sample-pink"
+      ]
+    },
+    {
+      "id": "fixture_full_list",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "sample-glitter",
+        "sample-blue",
+        "sample-pink",
+        "sample-jelly"
+      ]
+    },
+    {
+      "id": "fixture_list_limit",
+      "feature": "list",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": null,
+      "limit": 2,
+      "expected_status": 200,
+      "expected_ids": [
+        "sample-glitter",
+        "sample-blue"
+      ]
+    },
+    {
+      "id": "fixture_search_korean",
+      "feature": "search",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": "젤",
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "sample-blue",
+        "sample-pink",
+        "sample-jelly"
+      ]
+    },
+    {
+      "id": "fixture_search_literal_percent",
+      "feature": "search",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": "%",
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": []
+    },
+    {
+      "id": "fixture_filter_missing",
+      "feature": "filter",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": "없는 카테고리",
+      "q": null,
+      "item_id": null,
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": []
+    },
+    {
+      "id": "fixture_detail_existing",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "sample-glitter",
+      "limit": null,
+      "expected_status": 200,
+      "expected_ids": [
+        "sample-glitter"
+      ]
+    },
+    {
+      "id": "fixture_detail_missing",
+      "feature": "detail",
+      "relationship": "independent_synthetic_fixture",
+      "source_observation_id": null,
+      "category": null,
+      "q": null,
+      "item_id": "absent-item",
+      "limit": null,
+      "expected_status": 404,
+      "expected_ids": []
+    }
+  ]
+}

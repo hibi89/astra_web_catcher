@@ -173,3 +173,11 @@
 - **Local 373/373 pytest PASS**, compileall PASS, real CLI run and self-contained generated SQLite checks PASS. Negative tests cover tampered/mismatched traces, fake approvals, wrong stack/schema, path guards and source immutability. New six Git blobs match locally tested file SHA. One unrelated old httpx deprecation warning.
 - No real website capture, actual user demonstration, owner DB/API, application merge, deployment, Actions, GUI browser or permission. `GenerationContract.status=blocked_pending_review`, all authorization/production flags false. `main` and existing apps unchanged.
 - **Next `ㄱ`:** one bounded feature-acceptance adapter or first approved real source trace with proper independent evidence, not a generic production app. Estimated overall ~40%, prior ~38% (not a material +5 percentage point increase).
+
+## 2026-10-19 KST — p4 fixture-only feature acceptance adapter
+
+- Added `feature_acceptance_adapter.py`, 34 tests, operator-authored eight-case synthetic plan fixture, and `FEATURE_ACCEPTANCE_ADAPTER_V01.md`.
+- Connects exactly matched, SHA-pinned fictional manual action/observation and prior generated preview to independently declared list/search/filter/detail expectations. Each case is explicitly either a **single illustrated source feature** or an **unrelated synthetic fixture test**. No falsely inferred original feature coverage.
+- Runs prior generated-preview integrity and 12+ synthetic checks, then tests eight specifically expected API responses (ordering, limit, Korean text, literal wildcard, category match/no-match, detail 200/404) on a separate disposable SQLite DB. **407/407 full local pytest PASS**, compileall PASS; one preexisting unrelated httpx warning.
+- Rejected forged approvals, wrong observation/feature IDs, stale hashes, tampered generated templates/seed, malformed cases and false expectations. Real source UI, production schema/DB/API, browser graphical UI, business formulas, CRUD and deploy are **unverified/not implemented**. `GenerationContract=blocked_pending_review`.
+- Branch `feature/observation-contract-20261018`; `main` unchanged; no GitHub Actions or blocked Chromium reattempt. Progress ~41–42% (not material +5%p). Next: independent synthetic schema-shape adapter or authorized real trace validation.
