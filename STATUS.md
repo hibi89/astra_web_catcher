@@ -188,3 +188,11 @@
 - **447/447 regression tests PASS** (407 old +40 new), compileall PASS; products 6/6 and tickets 7/7 direct functional cases PASS. Actual local Uvicorn for both generated apps returned 200 filter/detail, 404 for missing ID. New seven Git blobs exact-match local tested sources.
 - Rejects stale physical schema SHA, bad columns/types, mismatched expected ID ordering, fake original-feature attribution, real/owner schema, invented consent, nonempty/outside destination. No arbitrary DB query/codegen, original URL capture, customer data or permissions. `GenerationContract` remains `blocked_pending_review`; `main`, /shop, /jobs and other projects unchanged. GitHub Actions and blocked browser not retried.
 - Overall ~43% (prior ~42%; no +5%p change). **Next `ㄱ`:** extend logical operation coverage on deliberately fictional fields, or another grounded reproducibility test; only report production gain when actually shown.
+
+## 2026-10-19 KST — p4 synthetic sort and physical-field typed filter
+
+- New read-only schema_query_extension.py FastAPI /api/rows supports two explicit fictional physical schemas (products/support tickets) without guessing names. Whitelisted sort fields, asc/desc, exact typed string/int equality filters, limit 1–100, stable tie-break. Does not query a customer database or change generated app/main.py template.
+- Full regression 477/477 pytest PASS (447+30), compileall PASS; products 9/9 + tickets 9/9 query contracts PASS; actual localhost Uvicorn 200 valid sorted/filtered responses, 422 invalid field, both schemas.
+- Five new Git blobs match tested local content. No GitHub Actions, blocked browser retry, real URL, owned DB/API, production or site semantics. Authorization flags false and GenerationContract remains blocked_pending_review.
+- main dc23ee604d02513c890615a3a98440c1ea8a5270 preserved. Overall ~44% vs prior 43% (not +5%p).
+- Next ㄱ: mount optional read-only query router into verified generated synthetic app and test actual artifact; no real DB access.

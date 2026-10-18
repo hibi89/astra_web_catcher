@@ -1,0 +1,121 @@
+{
+  "version": "0.1",
+  "scope": "synthetic_fixture_only",
+  "source_table_sha256": "a0148864623ada22af823363e357f13de6186a2394247c8c231e535342a33269",
+  "cases": [
+    {
+      "id": "priority-desc",
+      "sort_by": "priority",
+      "direction": "desc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 100,
+      "expected_ids": [
+        "ticket-payment",
+        "ticket-login",
+        "ticket-other",
+        "ticket-closed"
+      ]
+    },
+    {
+      "id": "priority-asc",
+      "sort_by": "priority",
+      "direction": "asc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 100,
+      "expected_ids": [
+        "ticket-closed",
+        "ticket-login",
+        "ticket-other",
+        "ticket-payment"
+      ]
+    },
+    {
+      "id": "lane-open",
+      "sort_by": "priority",
+      "direction": "desc",
+      "filter_by": "lane",
+      "filter_value": "Open",
+      "limit": 100,
+      "expected_ids": [
+        "ticket-payment",
+        "ticket-login",
+        "ticket-other"
+      ]
+    },
+    {
+      "id": "score-45",
+      "sort_by": "ticket_key",
+      "direction": "desc",
+      "filter_by": "priority",
+      "filter_value": "45",
+      "limit": 100,
+      "expected_ids": [
+        "ticket-other",
+        "ticket-login"
+      ]
+    },
+    {
+      "id": "lane-closed",
+      "sort_by": "summary",
+      "direction": "desc",
+      "filter_by": "lane",
+      "filter_value": "Closed",
+      "limit": 100,
+      "expected_ids": [
+        "ticket-closed"
+      ]
+    },
+    {
+      "id": "underscore-text",
+      "sort_by": "ticket_key",
+      "direction": "asc",
+      "filter_by": "summary",
+      "filter_value": "Login help_1",
+      "limit": 100,
+      "expected_ids": [
+        "ticket-login"
+      ]
+    },
+    {
+      "id": "limit-three",
+      "sort_by": "priority",
+      "direction": "desc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 3,
+      "expected_ids": [
+        "ticket-payment",
+        "ticket-login",
+        "ticket-other"
+      ]
+    },
+    {
+      "id": "mixed-case",
+      "sort_by": "ticket_key",
+      "direction": "asc",
+      "filter_by": "lane",
+      "filter_value": "open",
+      "limit": 100,
+      "expected_ids": []
+    },
+    {
+      "id": "title-sort",
+      "sort_by": "summary",
+      "direction": "asc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 100,
+      "expected_ids": [
+        "ticket-login",
+        "ticket-other",
+        "ticket-payment",
+        "ticket-closed"
+      ]
+    }
+  ],
+  "original_site_behavior_verified": false,
+  "user_database_access_authorized": false,
+  "deployment_authorized": false
+}

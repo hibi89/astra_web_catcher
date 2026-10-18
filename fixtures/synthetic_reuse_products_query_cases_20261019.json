@@ -1,0 +1,113 @@
+{
+  "version": "0.1",
+  "scope": "synthetic_fixture_only",
+  "source_table_sha256": "0351b9a02ea30d6fdce9183aacf87e65818431b91dc9f771498e4f4cc2c499c0",
+  "cases": [
+    {
+      "id": "score-desc",
+      "sort_by": "popularity",
+      "direction": "desc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 100,
+      "expected_ids": [
+        "prod-shimmer",
+        "prod-cobalt",
+        "prod-rose"
+      ]
+    },
+    {
+      "id": "score-asc",
+      "sort_by": "popularity",
+      "direction": "asc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 100,
+      "expected_ids": [
+        "prod-rose",
+        "prod-cobalt",
+        "prod-shimmer"
+      ]
+    },
+    {
+      "id": "family-colors",
+      "sort_by": "popularity",
+      "direction": "desc",
+      "filter_by": "family",
+      "filter_value": "colors",
+      "limit": 100,
+      "expected_ids": [
+        "prod-cobalt",
+        "prod-rose"
+      ]
+    },
+    {
+      "id": "numeric-score",
+      "sort_by": "display_name",
+      "direction": "asc",
+      "filter_by": "popularity",
+      "filter_value": "90",
+      "limit": 100,
+      "expected_ids": [
+        "prod-cobalt"
+      ]
+    },
+    {
+      "id": "family-effects",
+      "sort_by": "sku",
+      "direction": "asc",
+      "filter_by": "family",
+      "filter_value": "effects",
+      "limit": 100,
+      "expected_ids": [
+        "prod-shimmer"
+      ]
+    },
+    {
+      "id": "name-percent",
+      "sort_by": "sku",
+      "direction": "desc",
+      "filter_by": "display_name",
+      "filter_value": "Blue Gel %",
+      "limit": 100,
+      "expected_ids": [
+        "prod-cobalt"
+      ]
+    },
+    {
+      "id": "limit-two",
+      "sort_by": "popularity",
+      "direction": "desc",
+      "filter_by": null,
+      "filter_value": null,
+      "limit": 2,
+      "expected_ids": [
+        "prod-shimmer",
+        "prod-cobalt"
+      ]
+    },
+    {
+      "id": "case-sensitive",
+      "sort_by": "sku",
+      "direction": "asc",
+      "filter_by": "family",
+      "filter_value": "Colors",
+      "limit": 100,
+      "expected_ids": []
+    },
+    {
+      "id": "id-exact",
+      "sort_by": "sku",
+      "direction": "asc",
+      "filter_by": "sku",
+      "filter_value": "prod-rose",
+      "limit": 100,
+      "expected_ids": [
+        "prod-rose"
+      ]
+    }
+  ],
+  "original_site_behavior_verified": false,
+  "user_database_access_authorized": false,
+  "deployment_authorized": false
+}
