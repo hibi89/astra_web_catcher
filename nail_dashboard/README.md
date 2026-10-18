@@ -68,3 +68,11 @@ python -m nail_dashboard.tests.browser_e2e
 - 샘플은 **가상 브랜드 4곳 및 가상 게시물 208건**으로 구성되며 정확한 숫자는 seed 이후 DB 데이터에 따라 바뀐다.
 - 현재 DB는 데모 전용이며 로그인, 사용자별 비밀 데이터, 관리자 수정, n8n, Instagram API, 외부 호스팅, 실시간 수집, 실행 예약, 고성능 대규모 분석을 제공하지 않는다.
 - 사용자 데이터 연동 상태는 **미연동**이다. `repository.py`를 사용자 DB/API 어댑터로 바꾸고 `metrics.py`의 집계 계약을 유지할 수 있다. 보고서 생성·데이터 검증·권한과 운영 보안 정책은 실제 연결 전에 별도 설계가 필요하다.
+\n## Regression verification 2026-10-18 18:17 KST
+
+Reproducible verification from repository root:
+    python -m pytest -q nail_dashboard/tests/test_dashboard.py
+    python -m nail_dashboard.tests.live_http_smoke
+
+33/33 pytest PASS in the validation environment with Node.js installed. 15 original + 18 new parameterized cases cover SQLite-to-KPI/chart/brand/tag/posts correctness, 15/5 paging, JS brand change page reset, no data, zero denominators and NULL vs 0. The tests use isolated temporary SQLite files. Undefined ratios return API null and display '—' (not 0%). Chrome automated E2E remains unverified; see TEST-REPORT.md.
+
