@@ -1,0 +1,17 @@
+{
+  "version": "0.1",
+  "source_kind": "untrusted_local_snapshot",
+  "observation_sha256": "7fcb73929654ea072d224b779bfe3705ccbab9309eded1bd5204d6fae6fbb46a",
+  "capture_authenticity_verified": false,
+  "original_site_behavior_verified": false,
+  "user_approval_granted": false,
+  "files": [
+    {
+      "evidence_id": "historic_brand_report",
+      "source_ref": "evidence/jp_nail_brand_filter_source_20261018.md",
+      "kind": "archived_report",
+      "sha256": "a87ce2e4f20782d96de44fd93184fb5452ab17816427fad56d23960325d9a6fc",
+      "size_bytes": 2535
+    }
+  ]
+}
