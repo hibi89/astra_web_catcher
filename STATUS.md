@@ -140,3 +140,12 @@
 - **Historical example:** only the **secondary archived report** file passes byte-level verification. Not a real browser screenshot or captured click trace; site behavior, formulas, actual capture authenticity, reviewer consent all remain unverified and approval flags false.
 - **Preserved:** user data and DB/API, shop/jobs, independent research branches, main `dc23ee604d02513c890615a3a98440c1ea8a5270`, deployments. Admin-blocked browser test not retried; no GitHub Actions run.
 - **Next `ㄱ`:** authorized new screenshot/sanitized DOM intake and behavior claim validation, or evidence intake guard improvements if user capture unavailable. Existing `GenerationContract` remains `blocked_pending_review`.
+
+
+## 2026-10-18/19 KST — p4 local capture intake and claim linkage
+
+- Added `astra_contracts/capture_intake.py`, 32 new tests, `docs/CAPTURE_INTAKE_V01.md` and three **fictional** fixtures. Source commit `bb366f39bfd470dd445d718f64e5602795c0317a` on feature branch `feature/observation-contract-20261018`.
+- New operator-file request binds known observation IDs to a SHA-pinned original bundle, records each local file's SHA, size and metadata in a separate pending-review manifest. Reads only explicit local files; copies to an **empty guarded temp folder** with exclusive file creation. `verify` checks registered files but not origin/semantics. No bundle certainty upgrade or actual code generation.
+- **Local validation:** 302/302 pytest PASS (previous 270+32), compileall PASS. Synthetic DOM fixture register+verify: 1/1 local byte match, original bundle unchanged. In final suite one preexisting httpx deprecation warning; missing-manifest test expectation corrected to ValueError.
+- **No real capture** acquired in this run. Screenshot origin/actual UI behavior/formula, human identity, customer DB/API and browser E2E unverified. Production preflight remains `blocked_pending_review`; no GitHub Actions or Vercel. Main remains `dc23ee604d02513c890615a3a98440c1ea8a5270`.
+- **Next ㄱ:** separate human capture review/visual claim triage after authorized real evidence, or safe claim-review mechanism without semantic promotions. Overall ~37–38%; no material change to the original 7-step completion estimate.
