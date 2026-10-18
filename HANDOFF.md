@@ -209,3 +209,16 @@
 8. **기존 데이터/보안:** 배포/외부 API·사용자 DB 연결 없음. 기존 SQLite 데이터 및 기존 두 MVP 보존. GitHub에는 E2E 테스트 파일만 수정.
 9. **다음 작업/완료 기준:** 사용자 PC에서 개선된 E2E 재실행, 메뉴/컬러/브랜드 비교/Top20 페이지/브랜드 변경/JS 오류가 PASS일 때 브라우저 검증 완료로 판정. 실패 시 새 로그 기준 app.js나 테스트를 선택적으로 수정하고 33/33과 HTTP 회귀 재검증.
 10. **시각/검증범위:** 2026-10-18 KST 사용자가 보내준 최초 Windows Traceback으로 근거 확보. 수정된 테스트 파일 GitHub 재조회, 단위/HTTP 재검증; 실제 Windows 개선본 실행 대기.
+
+## Windows Playwright E2E 재실행 PASS — 2026-10-18 (사용자 제공 로그)
+
+1. **목표/기술:** FastAPI+SQLite+JS 별도 `nail_dashboard/` B안 MVP, 기존 `/shop`·`/jobs` 완전 보존. 실제 Windows Chromium UI E2E 마감 검증.
+2. **완료:** 사용자 Windows에서 Playwright 테스트 전 단계 PASS. 대시보드 KPI 카드 3, 태그 14행→컬러 8행, 4브랜드 비교 4행, 게시물 15→5행, 브랜드 변경 시 1페이지 15행 초기화 확인. 비동기 UI 대기 수정본 유효.
+3. **명령/실제 결과:** `git pull --ff-only` fast-forward `ccdd567..457cb93`. `python -m nail_dashboard.tests.browser_e2e`의 일곱 단계 PASS + 최종 `PASS browser E2E: four views, filters, pagination, brand reset and errors`. 사용자 제공 콘솔 결과. 기존 Windows `pytest` 33 passed/4.57s 및 `live_http_smoke` PASS도 기록.
+4. **상태:** 독립 로컬 MVP 핵심 UI/DB/API 자동 검증 완료. 신규 코드 수정·배포 필요 없음. 실제 사용자 데이터 연동은 차후 별도 요구.
+5. **이전 실패/원인/대안:** 원본 browser_e2e가 color 클릭 직후 행수를 즉시 검사해 실패. async 대기(Playwright expect)를 추가한 같은 환경 재실행 PASS. 정확한 실패 원인에 대해 레이스 추정 외 확증 없음; 차후 필요 시 재현 로그로 판단.
+6. **저장소/브랜치/SHA:** `hibi89/astra_web_catcher` / `research/jp-nail-dashboard-20261018`, 성공적으로 풀된 상태 `457cb9369699a74ee9706dfe922a2bcd58632919`; 코드 test fix `8f50fb9b01460d9f2e98b526978237c19f5ebffc`, 이 문서 갱신 커밋이 최신 HEAD가 됨. main 기준 `dd87ffc847c7b435c7eed7b4543b7db7d184e08c` 유지.
+7. **실행/URL:** 저장소 루트 `python -m nail_dashboard.db seed` → `python -m uvicorn nail_dashboard.app:app --port 8010` → `http://127.0.0.1:8010/nails`; 테스트 `python -m pytest -q nail_dashboard/tests/test_dashboard.py`, `python -m nail_dashboard.tests.live_http_smoke`, `python -m nail_dashboard.tests.browser_e2e`. 프로덕션 배포 없음.
+8. **원본/데이터/보안:** main 기존 두 앱/SQLite/테스트 미수정, nail_dashboard 별도 가상 샘플 208게시물, no customer DB/API; 비밀값 없음.
+9. **향후 작업:** 추가 요구 시 차트 DOM 숫자와 API 1:1 검증·UI 스크린샷/CSS 반응형·일반 console.error/외부 Network/접근성 확장 가능. 사용자의 실제 DB 연결 전 스키마·권한·API 계약 수집 필요.
+10. **확인 시점/근거:** 2026-10-18, 사용자 제공 Windows PowerShell stdout. GitHub 문서 read-back은 본 반영 후 수행. 직접 사용자 PC 원격 실행이나 실제 브라우저 세션 관찰은 하지 않음.
