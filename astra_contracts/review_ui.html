@@ -1,0 +1,13 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASTRA 검토 기록 · 로컬</title><link rel="stylesheet" href="/review.css"><script src="/review.js" defer></script></head>
+<body><main class="frame"><header><div class="brand">ASTRA / REVIEW</div><h1>근거와 필드 의미 검토</h1>
+<p class="lead">확인된 사실과 미확인 사항을 구분하여 의견을 기록합니다. <strong>의견은 승인·실사용 권한이 아닙니다.</strong></p></header>
+<div id="notice" role="status">검토 패킷을 불러오는 중입니다.</div>
+<section class="bar"><div><span id="total">—</span><small>총 검토 대상</small></div><div><span id="decided">0</span><small>입력한 의견</small></div><div><span>미승인</span><small>운영 상태</small></div></section>
+<div class="control"><label for="reviewer">검토자 표기 (신원 미확인)</label><input id="reviewer" autocomplete="off" placeholder="예: 로컬 검토자" maxlength="100" value="로컬 검토자 (미인증)"></div>
+<div class="control"><label for="kind">검토 항목 보기</label><select id="kind"><option value="all">모든 항목</option><option value="observed_behavior">관찰된 기능</option><option value="unresolved_behavior">미확인 사항</option><option value="field_semantics">필드 매핑</option></select></div>
+<div id="items"></div>
+<section class="footer"><button id="save" type="button">검토 의견 저장</button><p id="result" role="status">저장 버튼을 누르기 전까지 아무 의견도 기록되지 않습니다.</p>
+<div class="retrieve"><label for="recordId">이전 기록 ID</label><input id="recordId" placeholder="24자리 기록 ID" autocomplete="off"><button id="load" type="button">기록 다시 보기</button></div><pre id="readback" aria-live="polite"></pre></section>
+<p class="footnote">임시 로컬 파일에만 저장됩니다. 실사이트·고객 DB/API와 연결되지 않으며 신원 검증·권한 부여·배포를 수행하지 않습니다.</p>
+</main></body></html>

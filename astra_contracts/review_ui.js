@@ -1,0 +1,29 @@
+'use strict';
+let packet=null, token='', fingerprint='', lookup=new Map(), drafts=new Map();
+const $=id=>document.getElementById(id);
+const labels={observed_behavior:'관찰 기능',unresolved_behavior:'미확인 사항',field_semantics:'필드 의미'};
+const choiceLabels={needs_more_evidence:'추가 근거 필요',supported_as_proposal:'설계 후보로 지지',rejected_for_target:'대상 기능에서 제외'};
+const blockedSupport=i=>i.kind==='unresolved_behavior'||i.archived_evidence_only||(i.kind==='field_semantics'&&i.mapping_status!=='structurally_compatible_unapproved');
+function el(tag,className,text){const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;}
+function render(){for(const [id,x] of lookup){drafts.set(id,{decision:x.sel.value,rationale:x.ta.value,checked:x.evidence.filter(c=>c.checked).map(c=>c.value)})}const root=$('items');root.replaceChildren();lookup.clear();const groups=['observed_behavior','unresolved_behavior','field_semantics'];
+for(const group of groups){if($('kind').value!=='all'&&$('kind').value!==group)continue;
+const collection=packet.items.filter(x=>x.kind===group);if(!collection.length)continue;
+const section=el('section','group');section.appendChild(el('h2','',labels[group]+' · '+collection.length+'건'));
+for(const item of collection){const card=el('article','item');card.dataset.itemId=item.item_id;
+const chips=el('div','chips');chips.appendChild(el('span','chip',labels[item.kind]));if(item.archived_evidence_only)chips.appendChild(el('span','chip warn','원문 이미지 미확보'));if(item.mapping_status)chips.appendChild(el('span','chip'+(item.mapping_status==='structurally_compatible_unapproved'?'':' warn'),item.mapping_status));card.appendChild(chips);
+card.appendChild(el('h3','',item.field_name||item.observation_id));card.appendChild(el('p','',item.description));
+const inputs=el('div','fields');const d=el('div'),reason=el('div');const sl=el('label','', '의견 선택'),sel=el('select');sel.setAttribute('aria-label',item.item_id+' 의견');sel.appendChild(new Option('미입력 (보류)',''));
+for(const [k,v] of Object.entries(choiceLabels)){const op=new Option(v,k);if(k==='supported_as_proposal'&&blockedSupport(item))op.disabled=true;sel.appendChild(op);}d.append(sl,sel);
+const rl=el('label','','판단 이유 (8자 이상)'),ta=el('textarea');ta.maxLength=1200;ta.placeholder='근거와 추후 확인할 사항을 적어주세요';reason.append(rl,ta);inputs.append(d,reason);card.appendChild(inputs);
+const evidence=[];if(item.evidence_refs.length){const box=el('div','evidence');box.appendChild(el('p','','확인했다고 주장하는 출처 (현재 신원·열람 여부 미검증)'));
+for(const ref of item.evidence_refs){const label=el('label');const cb=document.createElement('input');cb.type='checkbox';cb.value=ref;label.append(cb,document.createTextNode(' '+ref));box.appendChild(label);evidence.push(cb)}card.appendChild(box)}
+const draft=drafts.get(item.item_id);if(draft){sel.value=draft.decision;ta.value=draft.rationale;for(const cb of evidence){cb.checked=draft.checked.includes(cb.value)}}lookup.set(item.item_id,{sel,ta,evidence});sel.addEventListener('change',progress);section.appendChild(card)}root.appendChild(section)}progress()}
+function captureDrafts(){for(const [id,x] of lookup){drafts.set(id,{decision:x.sel.value,rationale:x.ta.value,checked:x.evidence.filter(c=>c.checked).map(c=>c.value)})}}
+function progress(){captureDrafts();$('decided').textContent=[...drafts.values()].filter(x=>x.decision).length}
+async function start(){try{const r=await fetch('/api/packet',{cache:'no-store'});if(!r.ok)throw Error('검토 패킷 오류 '+r.status);const d=await r.json();packet=d.packet;token=d.review_token;fingerprint=d.packet_sha256;$('total').textContent=packet.items.length+'건';$('notice').textContent='미승인 검토 의견 · 원본 데이터에 접근하지 않습니다.';render()}catch(e){$('notice').textContent='불러오기 실패: '+e.message}}
+async function save(){if(!packet)return;captureDrafts();const responses=[];for(const [item_id,x] of drafts){if(!x.decision)continue;responses.push({item_id,decision:x.decision,rationale:x.rationale.trim(),evidence_refs_checked:x.checked})}
+if(!responses.length){$('result').textContent='입력한 의견이 없습니다.';return}const body={version:'0.1',packet_sha256:fingerprint,reviewer_claimed_label:$('reviewer').value.trim(),responses};
+try{const r=await fetch('/api/opinions',{method:'POST',headers:{'Content-Type':'application/json','X-Astra-Review-Token':token},body:JSON.stringify(body)});if(!r.ok)throw Error('검증 거부: HTTP '+r.status);const x=await r.json();$('recordId').value=x.record_id;$('result').textContent='임시 파일에 저장됨 · '+x.record_id+' (승인 아님)';show(x.record)}catch(e){$('result').textContent=e.message}}
+function show(record){$('readback').textContent='기록된 의견 '+record.recorded_opinion_count+'건 / 대기 '+record.pending_count+'건\n검토자 신원 확인: 아니요\nDB·배포 승인: 아니요\n'+record.items.filter(x=>x.review_state==='recorded_opinion').map(x=>x.item_id+' → '+choiceLabels[x.reviewer_opinion]+'\n'+x.rationale).join('\n\n')}
+async function load(){try{const id=$('recordId').value.trim();const r=await fetch('/api/opinions/'+encodeURIComponent(id),{headers:{'X-Astra-Review-Token':token}});if(!r.ok)throw Error('기록 조회 거부: HTTP '+r.status);const data=await r.json();show(data.record);$('result').textContent='저장된 의견 기록을 재조회했습니다. 승인 상태는 변경되지 않습니다.'}catch(e){$('result').textContent=e.message}}
+$('save').addEventListener('click',save);$('load').addEventListener('click',load);$('kind').addEventListener('change',render);start();
