@@ -157,3 +157,16 @@
 8. **원본·백업·인증:** 기존 `/shop`, `/jobs` 및 data/app.db 테스트/소스 불변, 기존 테스트 이력 보존. 샘플 SQLite은 zip에 포함하고 GitHub에서 `.gitignore`로 제외. `seed`는 멱등, `--reset` 명시된 파괴적 옵션. 원본 사이트 코드/인증/비밀 미복제. 자체 공개 가상데이터만 쓰므로 이 신규 데모에는 회원 계정 없음. 외부 API 호출 없음.
 9. **다음 작업·승인·완료 기준:** (우선) 이 채팅에서 제공한 ZIP sha256 `2bae267fbd8fd49b48db4597e898b699c4651c2d22ba13e7bc8b5650f92a1c11`를 보존해 별도 연구 브랜치의 `nail_dashboard/` 18파일로 GitHub 반영, DB 파일 제외; 코드 파일 재조회 및 커밋 SHA 확인 → 실제 로컬 브라우저 메뉴/필터/페이지 초기화 테스트 → 수정시 재회귀. 사용자 DB/API 연동은 데이터 구조가 제공되기 전 작업 금지.
 10. **갱신(KST)·검증 범위:** 2026-10-18 17:56:19. 독립 ZIP 새 temp 폴더 추출 후 pytest 15/15+HTTP restart PASS+Node syntax PASS, 원본 main SHA 확인. Browser UI 차단 및 GitHub 코드 미반영 명확히 구분. 본 문서 커밋 SHA는 작성 후 별도 재조회로 확인.
+
+## 2026-10-18 18:03 KST — nail_dashboard source verified in GitHub
+
+1. Goal/stack: separate nail_dashboard FastAPI, SQLite, JS; existing shop/jobs preserved.
+2. Implemented: four menus, DB-backed charts/KPI, brand/tag filters, 15+5 pagination and page reset, demo formula labels, saved report requery.
+3. Tests: prior local pytest 15/15, Uvicorn HTTP restart PASS; remote source diff 18/18 PASS after GitHub push. Browser click E2E not verified.
+4. State: code is now on remote research branch; user Windows runtime validation pending.
+5. Former upload blocker: container DNS failure, resolved via GitHub Git Tree connector. No retry needed.
+6. Repo/branch/source commit: hibi89/astra_web_catcher, research/jp-nail-dashboard-20261018, 93c15d0977bdff14788667de6a527f6d89426bd3. Paths: nail_dashboard/app.py, db.py, metrics.py, repository.py, static/, tests/.
+7. Runtime: no production deployment; pip install -r requirements.txt, python -m nail_dashboard.db seed, python -m uvicorn nail_dashboard.app:app --port 8010; localhost:8010/nails.
+8. Preservation: original main SHA dd87ffc847c7b435c7eed7b4543bdb7d184e08c unchanged; local SQLite data ignored by Git. No secrets uploaded.
+9. Next: clone research branch into separate Downloads directory and test filters/page reset in a real browser; only fix issues with evidence.
+10. Evidence timestamp: 2026-10-18 18:03 KST; remote branch verified and all 18 files read back. New code tests were not rerun after upload.
