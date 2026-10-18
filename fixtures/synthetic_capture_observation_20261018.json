@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://example.org/this-is-not-a-live-capture",
+  "scope": "Entirely synthetic demonstration of evidence intake; no website was visited",
+  "recorded_at": "2026-10-18T23:30:00+09:00",
+  "evidence": [],
+  "observations": [
+    {
+      "id": "example_filter",
+      "feature": "filter",
+      "title": "Fictional filter under review",
+      "claim": "Hypothetical filter: pending independent human evidence review",
+      "certainty": "inferred",
+      "evidence_ids": [],
+      "action": null,
+      "before": {},
+      "after": {}
+    },
+    {
+      "id": "example_formula_unknown",
+      "feature": "basic_aggregate",
+      "title": "Fictional formula unknown",
+      "claim": "No calculation formula established",
+      "certainty": "unknown",
+      "evidence_ids": [],
+      "action": null,
+      "before": {},
+      "after": {}
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "source_kind": "manually_supplied_local_files",
+  "observation_sha256": "858208e4644f9b5ffe97982073647902ea2e37774b0ae98b65ef545ec3c2fe97",
+  "captures": [
+    {
+      "evidence": {
+        "id": "sample_dom_capture",
+        "kind": "dom_text",
+        "source_ref": "evidence/synthetic_dom_capture_20261018.txt",
+        "captured_at": "2026-10-18T23:31:00+09:00",
+        "notes": "Explicitly fabricated text for intake tests, not observed original DOM"
+      },
+      "observation_ids": [
+        "example_filter"
+      ]
+    }
+  ]
+}
