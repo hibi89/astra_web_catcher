@@ -1,0 +1,4 @@
+Reference: https://www.selenium.dev/selenium/web/web-form.html
+Extraction method: web.run open extracted visible text, manually abbreviated; NOT raw page HTML, screenshot, or browser click.
+Observed read-only visible text tokens: Web form | Text input | Password | Textarea | Dropdown (select) | Submit | Date picker
+Source reference: turn461840view0 (web.open, 2026-10-19 KST)

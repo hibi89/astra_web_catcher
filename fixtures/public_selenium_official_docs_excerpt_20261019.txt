@@ -1,0 +1,5 @@
+Reference: https://www.selenium.dev/documentation/webdriver/getting_started/first_script/
+Extraction method: web.run open official publisher tutorial, manually summarized; NOT a click run by this project.
+Publisher documented procedure: open its Web form example, locate field by name=my-text, send example text, click button, then locate #message; expected result Received!.
+Publisher example includes a Selenium script checking that result. This project has not executed that script against the live website.
+Source reference: turn461840view2 (web.open, 2026-10-19 KST)

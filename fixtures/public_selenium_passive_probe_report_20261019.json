@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "status": "public_page_readonly_and_publisher_documented_only",
+  "source_reference_url": "https://www.selenium.dev/selenium/web/web-form.html",
+  "documentation_url": "https://www.selenium.dev/documentation/webdriver/getting_started/first_script/",
+  "page_excerpt_sha256": "1bee345696adb474fb811365f993ee0327ef9f9e6fecfb1b3f94370c4f87a763",
+  "docs_excerpt_sha256": "4a1cdf8a12978454e6321a4275bf51c0954611e9e2c09f8659ccb96648e55979",
+  "page_evidence_id": "turn461840view0",
+  "docs_evidence_id": "turn461840view2",
+  "visible_control_labels_found": [
+    "Text input",
+    "Submit"
+  ],
+  "documented_input_selector": "my-text",
+  "documented_result_token": "Received!",
+  "public_page_readonly_text_consistent": true,
+  "publisher_recipe_consistent": true,
+  "live_browser_click_verified": false,
+  "original_site_behavior_verified": false,
+  "external_content_authenticated": false,
+  "user_permission_for_owner_db": false,
+  "generation_authorized": false,
+  "ui_mapping_enabled": false,
+  "next_step": "independent_allowlisted_live_browser_before_after_capture_required"
+}
