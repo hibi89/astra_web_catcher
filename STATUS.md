@@ -85,3 +85,11 @@
 - **Tests:** 111/111 local pytest PASS, CLI golden match, compileall PASS, five Git blobs match local tested files. Sample: eight blockers, seven prior gates, four future review requirements.
 - No original DB/API, external services, /shop, /jobs, research/practice apps, main or production modified. **No executable code generator or deployment completed.**
 - **Next ㄱ:** separate isolated synthetic artifact-generation prototype or human review workflow, with safety separation maintained.
+
+## 2026-10-18 KST — p4 Step 4-C runnable synthetic app generator
+
+- Added `astra_contracts/synthetic_generator.py`, `tests/test_synthetic_generator.py`, `fixtures/synthetic_demo_catalog_20261018.json`, `docs/SYNTHETIC_GENERATOR_V01.md`; source commit `6151b15c4392400ce45d9113accc576bdd5ef109`, branch `feature/observation-contract-20261018`.
+- **Actual files generated:** 7-file FastAPI/SQLite/HTML demo in a new empty temporary directory. GET list/category filter/search/detail/health and local SQLite persistence implemented only for fictional explicit data, not the original site. Downloadable ZIP built separately. Existing fail-closed GenerationContract is not bypassed.
+- **Local evidence:** 134/134 regression tests PASS (prior 111 plus 23), generated app self-test PASS, independent fictional jobs sample PASS, compileall PASS. Uvicorn local HTTP 200 on /, /health, /api/items, category/search/detail, 404 on missing id; SQLite persistence checked. No manual GUI/Playwright browser validation or production deployment. Fixed first generated-template quote syntax error before final tests.
+- **Preservation:** No writes to customer DB, external API, main, /shop, /jobs or nail research/practice. Only existing empty `astra-synth-*` folders directly under system temp allowed. No Vercel production.
+- **Next ㄱ:** One isolated evidence/spec-to-synthetic-test bridge or stronger generator runtime validation, preserving explicit human approvals; generic automatic reference URL→app production system remains incomplete.
