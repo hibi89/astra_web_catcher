@@ -116,3 +116,11 @@
 - **Validation:** full focused pytest **193/193 PASS** (170 existing + 23 new); Python compileall PASS; CLI JSON generated and validated, 13 items. Four Git source/test/fixture/document blob SHA checks matched local test files.
 - **Critical:** Record claims remain unverified; `reviewer_identity_verified`, `field_meanings_verified`, `user_approval_verified`, `database_access_authorized`, `code_generation_authorized`, `deployment_authorized` and all other permission flags stay **false**. Existing `GenerationContract` keeps `blocked_pending_review`. No real source, client DB/API or actual browser E2E, no deployment.
 - **Preserved:** existing main/shop/jobs, nail research/experiment and databases untouched. **Next `ㄱ`:** isolated manual-review UX or reviewed packet import/export safety; user real consent separate.
+
+## 2026-10-18 KST — p4 isolated local review UI complete
+
+- Added `astra_contracts/review_ui.py`, `review_ui.html`, `review_ui.css`, `review_ui.js`, `tests/test_review_ui.py`, `docs/REVIEW_UI_V01.md`; source commit `57c29202e617cf1308af3a9feb0d9676c53203dc` on `feature/observation-contract-20261018`.
+- Capability: display 13 archived/synthetic review items with grouping and per-item opinion/rationale; filter preserves drafts; validate and save **unauthenticated, unapproved opinion** in an isolated temporary JSON file, then reload. Existing `record_opinions` validation rejects unsupported proposals on unknown/archived/incompatible items. All authorization flags false.
+- **Verified:** all 10 suites **213/213 PASS** (193 prior + 20 new), Python compileall PASS, Node JS syntax PASS; real localhost Uvicorn GET HTML/JS/CSS/packet and POST+GET temporary opinion HTTP 200. No actual user opinion attributed.
+- **Limit:** Playwright Chromium localhost navigation refused with `net::ERR_BLOCKED_BY_ADMINISTRATOR`; GUI browser E2E **not verified**. No original URL/DB/API access, migration, real codegen, deployment. Existing `main` and /shop, /jobs, nail research/practice untouched.
+- **Next `ㄱ`:** manual/eligible-browser UI acceptance or reviewed opinion import/export with provenance and no authorizations. Current `GenerationContract` still blocks implementation.
