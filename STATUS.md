@@ -134,3 +134,11 @@
 - **중요:** GitHub에 직접 신규 소스 파일 18개 업로드는 현재 컨테이너 DNS 실패 및 connector 파일 바이트 전송 부재로 **미반영**. ZIP 다운로드/체크인 또는 지원 가능한 GitHub 업로드 경로 필요. 본 문서 작성과 실제 코드 체크인을 혼동 금지.
 - 연구 브랜치에 `research/jp-nail-dashboard/IMPLEMENTATION_AND_QA_2026-10-18.md` 검사 보고서 커밋 `97436a163fb4357ee1eaf862a1c2fb3bd425e093`. main `dd87ffc847c7b435c7eed7b4543b7db7d184e08c` 및 기존 /shop, /jobs 보존.
 - **다음 확정 작업:** 신규 소스 GitHub 체크인 → 재조회하여 18파일의 정확한 내용 검증 → 현재 PC 브라우저에서 주요 버튼 클릭·API Network·콘솔 점검 → 발견되는 오류만 수정. 추가 기능·실제 사용자 DB 연동은 미진행.
+
+## Nail dashboard GitHub source check-in — 2026-10-18 18:03 KST
+
+- 18 source files in nail_dashboard/ committed on research branch: 93c15d0977bdff14788667de6a527f6d89426bd3.
+- Verified remote branch head and 18/18 file contents against the local source manifest.
+- Earlier statement "source not committed" is now superseded. Original main /shop and /jobs are unchanged.
+- Previous pytest 15/15 and live HTTP restart tests are historical results; not rerun after GitHub commit. Real Windows browser UI remains unverified.
+- Next: clone research branch into new Downloads folder, pip install, seed, uvicorn 8010; test UI.
