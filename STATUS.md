@@ -142,3 +142,16 @@
 - Earlier statement "source not committed" is now superseded. Original main /shop and /jobs are unchanged.
 - Previous pytest 15/15 and live HTTP restart tests are historical results; not rerun after GitHub commit. Real Windows browser UI remains unverified.
 - Next: clone research branch into new Downloads folder, pip install, seed, uvicorn 8010; test UI.
+
+## 2026-10-18 18:18 KST — DB/API/JS regression verified 33/33
+
+- Scope: the isolated nail_dashboard FastAPI+SQLite MVP, not original /shop or /jobs.
+- Actual local command python -m pytest -q nail_dashboard/tests/test_dashboard.py => 33 passed in 1.33s, 0 failures. Previous 15 baseline plus 18 parametrized SQL/edge/JS contract cases.
+- SQL rows independently checked versus brand/all KPIs, 13-week counts, hourly response median, content format average, direct/sheet type totals, brand comparison, tag SQL joins, Top20 15+5 pagination, and live DB modification.
+- Empty post table, undefined denominator 0, all-zero reactions, zero posts in prior 8-week window, NULL views vs numeric 0, and absent report all verified. One discovered defect corrected: 0/0 percentage falsely displayed 0%; now API null and UI dash, with 33/33 retest PASS.
+- JS state test executes chooseBrand and validates page=2 to page=1 URL reset with Node VM. This is NOT a browser click E2E; user's earlier manual browser filter verification is separate.
+- Actual second command python -m nail_dashboard.tests.live_http_smoke => PASS: HTTP 200, invalid 422, two full Uvicorn starts/stops, unchanged API responses and DB bytes; Python compile and JS syntax check PASS.
+- New code commit 4bc522c1f9110ad44f83d1e4b47ae0b5ce5ff87b; new regression-test commit 08ffe2f70f3d9bc2fd1e79edebe1aa3e0cd48e18. TEST-REPORT.md README.md ARCHITECTURE.md REVIEW-PACK.md updated. Work only on research/jp-nail-dashboard-20261018. main remains dd87ffc847c7b435c7eed7b4543b7db7d184e08c.
+- No tests were performed against user Windows, actual Chrome E2E, n8n, customer API/DB, or production. All remain unverified/not applicable. No external app deployment.
+- Next confirmed unit: user Windows browser E2E at localhost:8010/nails if requested, then review console/network if errors. Do not edit existing shop/jobs or assume original formula.
+
