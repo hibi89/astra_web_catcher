@@ -86,3 +86,12 @@ Important boundary: Node VM executes a real JS state function but is not Chrome.
 - 코드 커밋: `8f50fb9b01460d9f2e98b526978237c19f5ebffc`; GitHub 파일 재조회 내용 검증 완료.
 - 수정 작업 환경에서 `python -m py_compile nail_dashboard/tests/browser_e2e.py` PASS; `python -m pytest -q nail_dashboard/tests/test_dashboard.py` **33/33 PASS**; `python -m nail_dashboard.tests.live_http_smoke` PASS; Node JS 구문 이전 검사 PASS.
 - **미검증:** 수정 버전의 실제 Windows Playwright 브라우저 E2E 완료 여부. 동일 환경에서 재실행을 받아 PASS/FAIL 판단할 것. 비동기 대기 보강으로 고쳤다고 확정적으로 말하지 말 것.
+
+## Windows Playwright E2E 재실행 PASS — 2026-10-18 (사용자 제공 로그)
+
+- 환경: 사용자 Windows PowerShell, 최신 `research/jp-nail-dashboard-20261018` fast-forward pull `ccdd567..457cb93` 후 `python -m nail_dashboard.tests.browser_e2e` 실행.
+- 실제 사용자 콘솔: `PASS dashboard: 3 KPI cards`; `PASS tags: 14 rows`; `PASS color: 8 rows`; `PASS brands: global 4 rows`; `PASS top posts: page 1 has 15 rows`; `PASS top posts: page 2 has 5 rows`; `PASS brand switch: page 1 has 15 rows`; `PASS browser E2E: four views, filters, pagination, brand reset and errors`.
+- **판정: Windows Chromium Playwright 테스트 전체 PASS** (전송받은 로컬 실행 결과). 앞서 색상 필터에서 실패했던 즉시 검사 이후, 변경된 async UI 대기 버전에서는 정상 통과. 정확한 원인이 오직 레이스였다고 단정하지는 않음.
+- 테스트는 4개 메뉴, 색상 카테고리 8행, 브랜드 전체 4행, Top20 15+5행, 브랜드 전환 페이지 1 초기화, Playwright pageerror 및 대상 네일 API 400+ 상태 수집을 검증. 차트 DOM 수치의 API 1:1 비교, 모든 CSS/스크린샷, 일반 `console.error`와 외부 Network 요청 전수는 검사하지 않음.
+- 앞선 동일 PC `python -m pytest -q nail_dashboard/tests/test_dashboard.py`: **33 passed in 4.57s**; `python -m nail_dashboard.tests.live_http_smoke`: HTTP startup/200/422/restart/SQLite 불변 및 mellow 2페이지 5건 PASS. 기존 서버·DB 회귀와 이번 브라우저 결과를 각각 독립 근거로 기록.
+- 사용자 PC의 개발 데이터/배포·실제 사용자 DB/API/n8n 연동 없음. 이 단계의 소스 코드 변경은 불필요.
