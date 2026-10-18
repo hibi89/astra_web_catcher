@@ -222,3 +222,16 @@
 8. **원본/데이터/보안:** main 기존 두 앱/SQLite/테스트 미수정, nail_dashboard 별도 가상 샘플 208게시물, no customer DB/API; 비밀값 없음.
 9. **향후 작업:** 추가 요구 시 차트 DOM 숫자와 API 1:1 검증·UI 스크린샷/CSS 반응형·일반 console.error/외부 Network/접근성 확장 가능. 사용자의 실제 DB 연결 전 스키마·권한·API 계약 수집 필요.
 10. **확인 시점/근거:** 2026-10-18, 사용자 제공 Windows PowerShell stdout. GitHub 문서 read-back은 본 반영 후 수행. 직접 사용자 PC 원격 실행이나 실제 브라우저 세션 관찰은 하지 않음.
+
+## 2026-10-18 — Real CSV practice dashboard experiment
+
+1. Goal/stack: separate CSV practice version of Nail Atlas. FastAPI, SQLite, vanilla JS. Keep original B verified local MVP and user source data intact.
+2. Done: separate nail_practice/ 4-view real capture demonstration, country metrics and account status, Top 20 15+5, country filter page reset; no invented brands/design/purchase metrics.
+3. Real checks: OHORA_Analysis_Ready ZIP imported into separate DB, 294 accounts/1845 posts/5953 media, 1224 calculable reactions and 621 missing; no broken FK. 16 pytest tests PASS, 6 real Uvicorn endpoints 200, compile and JS check PASS. Windows Playwright E2E not run for this experiment.
+4. Progress: code pushed to GitHub experiment branch and 15/15 file readback verified, awaiting Windows browser visual inspection.
+5. Data limitations: 1/5/10 post collection depth mixed across countries; do not interpret count/mean differences as market trends. No views, true AI tags, design demand or customer conversion rate. Preserve missing likes as null.
+6. Source branch: hibi89/astra_web_catcher experiment/ohora-practice-20261018. Source commit 25571150b2fc8bd0afbc6b2c42343b94da8c7753. Frozen snapshot branch snapshot/nail-atlas-b-e2e-verified-2026-10-18 at 343790e34967f0b20862d4ec7f5de8f084414234; main dd87ffc847c7b435c7eed7b4543b7db7d184e08c untouched.
+7. How to run: clone separate experiment branch. Put analysis ZIP in Windows Downloads, run python -m nail_practice.import_data (refuses DB overwrite), python -m uvicorn nail_practice.app:app --port 8011. Open localhost:8011/practice. E2E user script python -m nail_practice.tests.browser_e2e.
+8. Preservation: both original ZIP hashes unchanged; no usernames, captions, Instagram URLs, media URLs or raw uploads committed; DB locally staged only, excluded via nail_practice/.gitignore.
+9. Next task: user Windows opens practice dashboard and runs browser E2E. If any failures, fix only experiment branch. Tomorrow fresh full data must be checked before promotion or production connection.
+10. Date and scope: 2026-10-18, actual Linux sandbox SQL/test/HTTP and remote GitHub source readback; Windows practice UI not yet seen.
