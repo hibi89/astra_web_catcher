@@ -197,3 +197,15 @@
 9. **다음 우선 작업/완료 기준:** 실제 Windows Chrome에서 4메뉴 렌더링, 브랜드 변경·태그 컬러, Top20 2페이지→브랜드 변경 1페이지 초기화, 데이터·API 일치 및 Console/Network 확인. 오류 증거가 있는 기능만 최소 수정.
 10. **기록 기준:** 2026-10-18 KST, 사용자 제출 콘솔 원문 확인; Windows UI/Console/Network는 확인 부족으로 미검증. 본 HANDOFF 최신 문서 커밋은 GitHub 읽기 재검증 필요.
 
+## 2026-10-18 — Windows Playwright 색상 필터 대기 실패 대응
+
+1. **목표/요구/스택:** Windows 실제 Playwright E2E 8행 AssertionError 재현 보고 대응, 독립 `nail_dashboard` FastAPI/SQLite/JS. 기존 두 MVP 미수정.
+2. **변경/근거:** 기존 `browser_e2e.py`는 `[data-category=color]` 클릭 직후 데이터 재로딩 대기 없이 동기 `count()==8`. `static/app.js`의 비동기 fetch 후 DOM 렌더로 인한 race 가능성이 높아 Playwright `expect(...).to_have_count(..., timeout=15s)`로 수정. 모든 메뉴/페이지 click 뒤 같은 대기를 적용. 앱 자체 변경하지 않음.
+3. **테스트 결과:** 사용자 원본 Windows Playwright는 색상 필터 검증 assertion에서 FAIL; 설치 성공. 변경 코드의 별도 컨테이너 Python compile PASS, `python -m pytest -q nail_dashboard/tests/test_dashboard.py` 33/33 PASS, `python -m nail_dashboard.tests.live_http_smoke` PASS. **수정된 Windows Chrome 실제 E2E는 아직 미검증**.
+4. **진행 상태:** 원본 UI 동작 오작동 vs 타이밍 문제를 새 테스트 실행으로 구분할 단계; 기존 사용자 Windows pytest/HTTP PASS 이력 유지.
+5. **실패/원인/재시도 제한:** 첫 예외에서 실제 행수 미출력이라 기능 버그 확정 불가; 테스트 불충분. 수정본은 실패시 URL, 행수, 일부 내용, JS/API 오류 출력. 환경 차단된 동일 샌드박스 Chromium 방식 무의미한 재시도 금지.
+6. **저장소/브랜치/코드 SHA:** `hibi89/astra_web_catcher`, `research/jp-nail-dashboard-20261018`; `nail_dashboard/tests/browser_e2e.py` 수정 커밋 `8f50fb9b01460d9f2e98b526978237c19f5ebffc`. main 도서/채용 MVP 보존.
+7. **실행/URL/환경:** 프로젝트 루트에서 `python -m uvicorn nail_dashboard.app:app --port 8010` 서버 유지, 다른 터미널에서 `git pull --ff-only`, `python -m nail_dashboard.tests.browser_e2e`; 로컬 `http://127.0.0.1:8010/nails`.
+8. **기존 데이터/보안:** 배포/외부 API·사용자 DB 연결 없음. 기존 SQLite 데이터 및 기존 두 MVP 보존. GitHub에는 E2E 테스트 파일만 수정.
+9. **다음 작업/완료 기준:** 사용자 PC에서 개선된 E2E 재실행, 메뉴/컬러/브랜드 비교/Top20 페이지/브랜드 변경/JS 오류가 PASS일 때 브라우저 검증 완료로 판정. 실패 시 새 로그 기준 app.js나 테스트를 선택적으로 수정하고 33/33과 HTTP 회귀 재검증.
+10. **시각/검증범위:** 2026-10-18 KST 사용자가 보내준 최초 Windows Traceback으로 근거 확보. 수정된 테스트 파일 GitHub 재조회, 단위/HTTP 재검증; 실제 Windows 개선본 실행 대기.
