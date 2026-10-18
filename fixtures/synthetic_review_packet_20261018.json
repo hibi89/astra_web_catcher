@@ -1,0 +1,145 @@
+{
+  "version": "0.1",
+  "status": "pending_human_review",
+  "spec_sha256": "6d3c7b3a25c7a5cf3a3d3a209a2a6f185fea43007595669cf73303ae17cc1b0a",
+  "schema_sha256": "7c27c0f797c2eec9a7d384288168395d9ec29ea85605bf58394bcf922eb16da1",
+  "mapping_report_sha256": "24f7174efa0a5b9fa328a4fb1ec22a689290d0bf5aa66e9bfb5df19e600387db",
+  "source_schema_verified_live": false,
+  "reviewer_identity_verified": false,
+  "approval_verified": false,
+  "implementation_ready": false,
+  "items": [
+    {
+      "item_id": "behavior:brand_all_vs_ohora",
+      "kind": "observed_behavior",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": null,
+      "description": "Historical screenshot comparison reports changed counts, chart series, and panel after the selected brand differs. No click-event trace was captured or independently replayed here.",
+      "archived_evidence_only": true,
+      "evidence_refs": [
+        "evidence/jp_nail_brand_filter_source_20261018.md"
+      ],
+      "mapping_status": null
+    },
+    {
+      "item_id": "unresolved:filter_execution_unknown",
+      "kind": "unresolved_behavior",
+      "observation_id": "filter_execution_unknown",
+      "field_name": null,
+      "description": "The historical observations cannot establish whether client code, a backend API, static JSON, or n8n caused the displayed changes.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": null
+    },
+    {
+      "item_id": "unresolved:ratio_formula_unknown",
+      "kind": "unresolved_behavior",
+      "observation_id": "ratio_formula_unknown",
+      "field_name": null,
+      "description": "The displayed percentages and average reaction values were copied from screenshots as reported, not validated against original raw data or calculation code.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": null
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:ccbcf2862f09bee9b9ba2c656f4d49936bfe78c9cf6ac5a72a401622b6303a77",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "analyzed_posts",
+      "description": "Declared mapping analyzed_posts -> dashboard_summary.analyzed_total: Structural match only; no semantic or live-data verification or authorization.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "structurally_compatible_unapproved"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:71434e673eb4e87de801d839025f671c613a3ca46cfb09e08695e5cd47d75b56",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "average_reactions_displayed",
+      "description": "Declared mapping average_reactions_displayed -> dashboard_summary.avg_reactions: Observed UI scalar type disagrees with declared field type; no conversion assumed.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "type_conflict"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:09564b485b50ff38cd27de774be94590b39581f6b66e77d20f5d5b0e4449d300",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "collected_posts",
+      "description": "Declared mapping collected_posts -> dashboard_summary.collected_total: Structural match only; no semantic or live-data verification or authorization.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "structurally_compatible_unapproved"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:c985807e0fd204390c998a9eff9df2d41a3908006ee30539d7f982f1b4da6551",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "direct_application_posts",
+      "description": "Declared mapping direct_application_posts -> NOT MAPPED: No explicit binding was supplied; ASTRA must not guess column names.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "unmapped"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:e142a232dd6e7623d4c430a767f033672895855a7e28d9e6ada2b7e3df50ea28",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "reels_posts",
+      "description": "Declared mapping reels_posts -> missing_resource.reel_count: Explicit resource identifier was not declared.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "missing_resource"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:e644810eb36a0dc2c99573093083b05e47ef1765dbee595802c292a41e6bb34b",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "reported_analyzed_percent",
+      "description": "Declared mapping reported_analyzed_percent -> NOT MAPPED: No explicit binding was supplied; ASTRA must not guess column names.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "unmapped"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:8f9d21a7fb65ab1ed13b080b8cf57d1f7fda0d22348b138c2a39f0367cdfff51",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "reported_reels_percent",
+      "description": "Declared mapping reported_reels_percent -> NOT MAPPED: No explicit binding was supplied; ASTRA must not guess column names.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "unmapped"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:3033fd6f19d9bac02c5b4b1ce5b14326995106ed62f01ecbb31ad7623667aab3",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "selected_brand",
+      "description": "Declared mapping selected_brand -> dashboard_summary.brand_key: Structural match only; no semantic or live-data verification or authorization.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "structurally_compatible_unapproved"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:aae750650180d85c560999647ea52b144f5074f79862582b02a865d90d5b33d8",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "sheet_posts",
+      "description": "Declared mapping sheet_posts -> dashboard_summary.no_such_field: Explicit field does not exist in the declared resource.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "missing_resource_field"
+    },
+    {
+      "item_id": "field:brand_all_vs_ohora:321aa56ad91971d26550ab94e681e1af0ea99f170ef186fea3be6265ba3ab6c9",
+      "kind": "field_semantics",
+      "observation_id": "brand_all_vs_ohora",
+      "field_name": "weekly_chart_brand_series",
+      "description": "Declared mapping weekly_chart_brand_series -> NOT MAPPED: No explicit binding was supplied; ASTRA must not guess column names.",
+      "archived_evidence_only": false,
+      "evidence_refs": [],
+      "mapping_status": "unmapped"
+    }
+  ]
+}
