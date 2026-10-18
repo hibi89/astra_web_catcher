@@ -61,3 +61,11 @@
 - **Local:** 27/27 contract and conversion tests PASS, CLI 3 observations/1 evidence PASS, compileall PASS. An initial invocation from wrong CWD failed imports; corrected repo-root run passed. Previous app suites/live browser not rerun.
 - **Preserved:** main, shop/jobs, research/experimental apps and databases untouched. Not deployed.
 - **Next ㄱ:** Step 4-B reusable evidence-to-functional-spec JSON transformation, keeping unknown claims and approval boundaries explicit. This step was **not** implemented here.
+
+## 2026-10-18 21:18 KST — p4 Step 4-B draft functional spec generator
+
+- New `astra_contracts/functional_spec.py` transforms validated observation bundles into deterministic, **unapproved** functional-spec JSON to stdout. Source SHA-256 fingerprint, observed-only candidate features, evidence quality, actual changed fields, inferred/unknown list, and pending approval gates. Generic search scenario tested; no UI-specific nails hardcoding.
+- **Verified locally:** 46/46 pytest PASS (27 prior + 19 new), CLI JSON parse PASS, golden output identical, compileall PASS, new GitHub source/test/fixture/doc blob SHA matches locally tested files. `fixtures/jp_nail_functional_spec_draft_20261018.json`: candidate 1, unresolved 2, pending gates 4.
+- **Preserved:** main `dc23ee604d02513c890615a3a98440c1ea8a5270`, app, research, experiment branches, data unchanged. Production/Vercel not applicable. Browser tests/API tests not rerun; no backend or DB inferred.
+- New code commit `bcfd140597e5ba750bd8586cf898a317bd7eb0d4`, branch `feature/observation-contract-20261018`; documentation commit and branch readback follow.
+- **Next ㄱ:** separate owned DB/API mapping contract & mismatch report, no mutations or approval bypass.
