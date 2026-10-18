@@ -65,6 +65,7 @@ class EvidenceKind(str, Enum):
     USER_DEMONSTRATION = "user_demonstration"
     SANITIZED_NETWORK = "sanitized_network"
     MANUAL_TEST = "manual_test"
+    ARCHIVED_REPORT = "archived_report"  # secondary written account, not raw screenshot evidence
 
 
 class Certainty(str, Enum):

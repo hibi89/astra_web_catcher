@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://daily-dashboard-ldh-1013.clevertide128.chatgpt.site/",
+  "scope": "Archived brand-filter ALL versus OHORA screen-state comparison from 2026-10-18 research; not a new live observation",
+  "recorded_at": "2026-10-18T16:57:50+09:00",
+  "evidence": [
+    {
+      "id": "historic_brand_report",
+      "kind": "archived_report",
+      "source_ref": "evidence/jp_nail_brand_filter_source_20261018.md",
+      "captured_at": "2026-10-18T16:57:50+09:00",
+      "notes": "Archived research note summarizes reported user screenshots; originals are not stored with this JSON. Timestamp refers to recorded research entry, not PNG capture time."
+    }
+  ],
+  "observations": [
+    {
+      "id": "brand_all_vs_ohora",
+      "feature": "filter",
+      "title": "Brand ALL and OHORA have different visible dashboard states",
+      "claim": "Historical screenshot comparison reports changed counts, chart series, and panel after the selected brand differs. No click-event trace was captured or independently replayed here.",
+      "certainty": "observed",
+      "evidence_ids": ["historic_brand_report"],
+      "action": null,
+      "before": {
+        "selected_brand": "ALL",
+        "analyzed_posts": 153,
+        "collected_posts": 194,
+        "reported_analyzed_percent": 79,
+        "average_reactions_displayed": 526,
+        "reels_posts": 101,
+        "reported_reels_percent": 52,
+        "direct_application_posts": 71,
+        "sheet_posts": 82,
+        "weekly_chart_brand_series": 4,
+        "report_run_number": 3728
+      },
+      "after": {
+        "selected_brand": "OHORA",
+        "analyzed_posts": 79,
+        "collected_posts": 94,
+        "reported_analyzed_percent": 84,
+        "average_reactions_displayed": 629,
+        "reels_posts": 78,
+        "reported_reels_percent": 83,
+        "direct_application_posts": 0,
+        "sheet_posts": 79,
+        "weekly_chart_brand_series": 1,
+        "report_run_number": 3728
+      }
+    },
+    {
+      "id": "filter_execution_unknown",
+      "feature": "filter",
+      "title": "Client-versus-server filtering mechanism not established",
+      "claim": "The historical observations cannot establish whether client code, a backend API, static JSON, or n8n caused the displayed changes.",
+      "certainty": "unknown",
+      "evidence_ids": [],
+      "action": null,
+      "before": {},
+      "after": {
+        "filter_execution_implementation": null,
+        "n8n_live_connection_verified": null,
+        "click_event_trace_verified": null
+      }
+    },
+    {
+      "id": "ratio_formula_unknown",
+      "feature": "basic_aggregate",
+      "title": "Original ratio and engagement formulas not audited",
+      "claim": "The displayed percentages and average reaction values were copied from screenshots as reported, not validated against original raw data or calculation code.",
+      "certainty": "unknown",
+      "evidence_ids": [],
+      "action": null,
+      "before": {},
+      "after": {"original_ratio_formula": null, "original_average_reaction_formula": null}
+    }
+  ]
+}
