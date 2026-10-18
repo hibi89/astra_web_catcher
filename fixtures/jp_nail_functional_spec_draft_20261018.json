@@ -1,0 +1,125 @@
+{
+  "schema_version": "0.1",
+  "source_schema_version": "1.0",
+  "site_url": "https://daily-dashboard-ldh-1013.clevertide128.chatgpt.site/",
+  "source_sha256": "7fcb73929654ea072d224b779bfe3705ccbab9309eded1bd5204d6fae6fbb46a",
+  "provenance": "observation_bundle_only",
+  "status": "draft_requires_review",
+  "implementation_ready": false,
+  "db_api_mapping_status": "not_started",
+  "candidate_features": [
+    {
+      "observation_id": "brand_all_vs_ohora",
+      "feature": "filter",
+      "title": "Brand ALL and OHORA have different visible dashboard states",
+      "claim": "Historical screenshot comparison reports changed counts, chart series, and panel after the selected brand differs. No click-event trace was captured or independently replayed here.",
+      "recorded_action": null,
+      "changed_fields": [
+        {
+          "field": "analyzed_posts",
+          "before": 153,
+          "after": 79
+        },
+        {
+          "field": "average_reactions_displayed",
+          "before": 526,
+          "after": 629
+        },
+        {
+          "field": "collected_posts",
+          "before": 194,
+          "after": 94
+        },
+        {
+          "field": "direct_application_posts",
+          "before": 71,
+          "after": 0
+        },
+        {
+          "field": "reels_posts",
+          "before": 101,
+          "after": 78
+        },
+        {
+          "field": "reported_analyzed_percent",
+          "before": 79,
+          "after": 84
+        },
+        {
+          "field": "reported_reels_percent",
+          "before": 52,
+          "after": 83
+        },
+        {
+          "field": "selected_brand",
+          "before": "ALL",
+          "after": "OHORA"
+        },
+        {
+          "field": "sheet_posts",
+          "before": 82,
+          "after": 79
+        },
+        {
+          "field": "weekly_chart_brand_series",
+          "before": 4,
+          "after": 1
+        }
+      ],
+      "evidence": [
+        {
+          "id": "historic_brand_report",
+          "kind": "archived_report",
+          "source_ref": "evidence/jp_nail_brand_filter_source_20261018.md"
+        }
+      ],
+      "evidence_quality": "archived_secondary",
+      "review_status": "requires_review"
+    }
+  ],
+  "unresolved": [
+    {
+      "observation_id": "filter_execution_unknown",
+      "feature": "filter",
+      "claim": "The historical observations cannot establish whether client code, a backend API, static JSON, or n8n caused the displayed changes.",
+      "mentioned_fields": [
+        "click_event_trace_verified",
+        "filter_execution_implementation",
+        "n8n_live_connection_verified"
+      ],
+      "reason": "unknown"
+    },
+    {
+      "observation_id": "ratio_formula_unknown",
+      "feature": "basic_aggregate",
+      "claim": "The displayed percentages and average reaction values were copied from screenshots as reported, not validated against original raw data or calculation code.",
+      "mentioned_fields": [
+        "original_average_reaction_formula",
+        "original_ratio_formula"
+      ],
+      "reason": "unknown"
+    }
+  ],
+  "approval_gates": [
+    {
+      "key": "confirm_behavior",
+      "status": "pending",
+      "rationale": "A reviewer must approve observations as intended target behavior."
+    },
+    {
+      "key": "approve_db_api_mapping",
+      "status": "pending",
+      "rationale": "No user schema/API contract is supplied or modified by this step."
+    },
+    {
+      "key": "authorize_external_or_write_actions",
+      "status": "pending",
+      "rationale": "Any live connection, mutation or deployment requires separate approval."
+    },
+    {
+      "key": "confirm_metric_formulas",
+      "status": "pending",
+      "rationale": "Observed UI numbers do not establish original calculations."
+    }
+  ]
+}
