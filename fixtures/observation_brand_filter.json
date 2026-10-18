@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "site_url": "https://example.org/dashboard",
+  "scope": "Synthetic filter comparison fixture; not sourced from a real website",
+  "recorded_at": "2026-10-18T20:00:00+09:00",
+  "evidence": [
+    {
+      "id": "ev_all",
+      "kind": "screenshot",
+      "source_ref": "evidence/fixture_all.png",
+      "captured_at": "2026-10-18T20:00:00+09:00",
+      "notes": "Synthetic fixture path only; not a real screenshot"
+    },
+    {
+      "id": "ev_filtered",
+      "kind": "user_demonstration",
+      "source_ref": "evidence/fixture_filtered.txt",
+      "captured_at": "2026-10-18T20:00:00+09:00",
+      "notes": "Synthetic fixture path only; not a real demonstration"
+    }
+  ],
+  "observations": [
+    {
+      "id": "filter_kpi",
+      "feature": "filter",
+      "title": "Brand selection changes analysis count",
+      "claim": "In this synthetic example, selection changes the displayed analyzed count from 20 to 0.",
+      "certainty": "observed",
+      "evidence_ids": ["ev_all", "ev_filtered"],
+      "action": "Select Brand B",
+      "before": {"brand": "all", "analyzed_count": 20},
+      "after": {"brand": "B", "analyzed_count": 0}
+    },
+    {
+      "id": "aggregation_formula",
+      "feature": "basic_aggregate",
+      "title": "Underlying ratio formula",
+      "claim": "The underlying denominator cannot be established from visual behavior alone.",
+      "certainty": "unknown",
+      "evidence_ids": [],
+      "action": null,
+      "before": {},
+      "after": {"displayed_ratio": null}
+    }
+  ]
+}

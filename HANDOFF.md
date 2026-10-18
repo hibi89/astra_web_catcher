@@ -31,3 +31,16 @@
 8. **원본·백업·인증:** 테스트별 자체 temp DB 사용·종료 후 삭제, `data/app.db` 기존 개발 DB는 변경하지 않음. 데모 세션/암호 및 실제 개인정보·비밀은 GitHub 미업로드. 초기화 전 백업 필수.
 9. **다음 순서·완료 기준·승인:** 현 브라우저에 오류가 있으면 Console/Network의 비밀 제외 증거 확보→최소 수정→API 회귀검증→사용자 브라우저 확인. 기술 스택 재구현은 사용자 결정 전 하지 않음.
 10. **갱신 시간·확인 범위·기준 커밋:** 2026-10-18 16:35:59 KST; 테스트 로그 + 임시 DB와 실제 Uvicorn HTTP, 원격 GitHub 테스트 파일 재조회로 확인. 근거 검증 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`; 문서 갱신 SHA는 후속 커밋.
+
+## 2026-10-18 20:54 KST — p4 Step 2 observation contract / Step 4-A prerequisite (one unit)
+
+1. **Goal/stack:** Human-supplied read-only UI evidence normalized with Python Pydantic 2 (already in requirements). Common ASTRA engine foundation; not an OHORA-specific dashboard.
+2. **Completed:** New astra_contracts/observation.py models, CLI validate/schema; synthetic filter fixture, tests, docs/OBSERVATION_CONTRACT_V1.md. Compared JSON Schema-only vs Pydantic model; selected Pydantic to avoid duplicate validators.
+3. **Validation:** Python 3.13.5 / Pydantic 2.13.5 / pytest 9: 19/19 PASS; fixture CLI 2 observations / 2 references PASS; JSON Schema export PASS; compileall PASS. Github source blob SHA checked against local git hash. Original app, research and experiment suites NOT rerun.
+4. **Stop point:** Contract model only. Actual browser evidence collection, historic notes conversion, automatic functional spec, DB/API mapping, codegen and end-to-end are unfinished.
+5. **Failure / recovery:** Initial strict Pydantic model rejected JSON enum/datetime strings (3 failed / 16 pass); removed inappropriate global strict option, second run 19/19. Existing browser policy failures were not retried.
+6. **Repo/branch/paths:** hibi89/astra_web_catcher, feature/observation-contract-20261018 branched from main dc23ee604d02513c890615a3a98440c1ea8a5270. New astra_contracts/{__init__,observation}.py, fixtures/observation_brand_filter.json, tests/test_observation_contract.py and docs/OBSERVATION_CONTRACT_V1.md; commit SHA = feature branch HEAD for this update.
+7. **Production:** not applicable. Read-only CLI: python -m astra_contracts.observation validate fixtures/observation_brand_filter.json .
+8. **Data/backups/security:** existing shop/jobs, nail_dashboard, nail_practice and all databases unchanged. Fixture is synthetic and contains no real PII/API secrets; validator rejects common secret fields but not all possible sensitive prose.
+9. **Next single work unit:** convert ONE existing Japanese nail observation to the standardized evidence record using only grounded evidence pointers and explicit unknown claims; only then begin automatic Step 4-B specification. No original-site scraping, database/schema changes or deployments without permission.
+10. **Record time / verification:** 2026-10-18 20:54 KST; local independent unit tests; GitHub blob equality and feature branch commit readback required. Baseline main SHA dc23ee604d02513c890615a3a98440c1ea8a5270; documentation base blob HANDOFF 46ac526c4bc90c8f43fb61565186ba09230be0de.

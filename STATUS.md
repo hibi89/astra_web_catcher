@@ -45,3 +45,11 @@
 - 보조 AI 공수 추정은 공식 검증치가 아닌 약 **20% 진행/68~118시간 잔여(중심 90h)**. 실제 완료를 보장하지 않음.
 - 이번 반영은 **문서 및 인수인계만**. main 애플리케이션 코드·DB·기존 테스트 변경 없음. 실험과 연구 브랜치의 소스/데이터/동결 스냅샷 보존.
 - 다음 채팅은 `HANDOFF.md` 최상단의 확정 설계 링크를 최우선으로 읽은 뒤 **Step 2~3 표준화 및 Step 4-A/B 공통 엔진 제작**부터 진행.
+
+## 2026-10-18 20:54 KST — p4 Step 2/4-A observation evidence contract (isolated)
+
+- Branch: feature/observation-contract-20261018, forked from main dc23ee604d02513c890615a3a98440c1ea8a5270. Source, fixture, 19 tests and explanation added. No modifications to existing app and DB; no merge to main; production not deployed.
+- Implemented evidence-kind IDs, provenance certainty observed/inferred/unknown, UI state before/after, feature enum, link integrity, timezone-annotated timestamps, simple secret/path filtering, CLI validate + JSON Schema export.
+- Local verification: 19/19 pytest PASS, sample CLI 2 observations PASS, JSON Schema export PASS, compileall PASS, new source blob hash matches the tested file. Entire baseline app test suite and physical browser tests not rerun.
+- **Outstanding:** real observation records, Step 4-B function specification / DB mapping, code generation, live browser/API verification. JSON Schema export does not enforce Pydantic cross-record rules; use CLI validate.
+- **Next ㄱ (one unit):** safely transform one existing documented brand-filter observation into a versioned JSON record with original evidence distinctions, then test readback. The research docs remain the historical source of truth.
