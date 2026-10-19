@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 
 from scripts.public_selenium_capture import (
-    FORM, RESULT, ProbeResult, TEST_TEXT, _fingerprint, _exact_url,
+    FORM, RESULT, ProbeResult, TEST_TEXT, _fingerprint, _exact_url, _expected_result_url,
     capture_fixed_flow, make_review_package, main,
 )
 from astra_contracts.observation import ObservationBundle
@@ -98,12 +98,25 @@ def test_unexpected_origin_fails_before_click(invalid):
     assert not d.clicked and d.typed is None
 
 
-@pytest.mark.parametrize('dest',[ 'https://evil.example/landing',FORM,RESULT+'?other=value'])
+@pytest.mark.parametrize('dest',[ 'https://evil.example/landing',FORM,RESULT+'?access_token=abc'])
 def test_unexpected_submit_redirect_fails(dest):
     d=Driver(destination=dest)
     with pytest.raises(ValueError,match='unexpected source URL'):
         capture_fixed_flow(d,wait)
     assert d.clicked
+
+
+def test_result_get_query_allowed_but_never_persisted():
+    d=Driver(destination=RESULT+'?my-text=ASTRA+public+demo&my-select=1')
+    probe=capture_fixed_flow(d,wait)
+    assert probe.last_url == RESULT
+    target=fresh()
+    try:
+        make_review_package(probe,target)
+        assert 'my-select=1' not in '\n'.join(p.read_text() for p in target.rglob('*') if p.is_file())
+    finally:
+        import shutil
+        if target.exists():shutil.rmtree(target)
 
 
 def test_changed_expected_message_blocks():
