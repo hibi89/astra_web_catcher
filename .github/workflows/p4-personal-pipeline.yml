@@ -1,0 +1,63 @@
+name: P4 Personal Offline Pipeline
+
+on:
+  push:
+    branches: [codex-p4-20261019]
+    paths:
+      - scripts/p4_personal_pipeline.py
+      - tests/test_p4_personal_pipeline.py
+      - astra_contracts/**
+      - fixtures/**
+      - .github/workflows/p4-personal-pipeline.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p4-personal-pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  synthetic-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install declared project dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Validate syntax and focused tests
+        run: |
+          python -m compileall -q astra_contracts scripts tests
+          python -m pytest -q -p no:cacheprovider tests/test_p4_personal_pipeline.py
+      - name: Run actual synthetic generation and acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          def invoke(*args):
+              return subprocess.run([sys.executable, "-m", *args],
+                                    check=True, capture_output=True, text=True, timeout=90)
+
+          dry = json.loads(invoke("scripts.p4_personal_pipeline").stdout)
+          assert dry["generation_contract"] == "blocked_pending_review"
+          assert dry["preview_folder"] is None
+          created = json.loads(invoke("scripts.p4_personal_pipeline", "--generate").stdout)
+          assert created["generation_contract"] == "blocked_pending_review"
+          path = created["preview_folder"]
+          assert path
+          checked = json.loads(invoke("astra_contracts.synthetic_acceptance", path).stdout)
+          assert checked["status"] == "synthetic_only_passed"
+          assert checked["production_ready"] is False
+          assert checked["user_database_accessed"] is False
+          assert len(checked["checks"]) >= 12
+          print(json.dumps({"status": checked["status"], "checks": len(checked["checks"]),
+                            "approval": created["generation_contract"]}))
+          PY
