@@ -64,3 +64,21 @@
 **미검증:** 이 실행 환경에서는 Chromium 실제 조작/Console/Network 시연이 여전히 정책 차단됨. 사용자 수동 조작 성공 보고와 독립 테스트 통과를 혼동하지 않음. 실사용 부하·운영 보안 검증은 범위 밖.
 
 **재현용 코드:** `tests/live_integrity_check.py` (GitHub 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`). 로컬 실행 로그 `logs/pytest-2026-10-18-recheck.log`, `logs/live-http-2026-10-18-recheck.log`, `logs/live-integrity-2026-10-18.log` (로그 파일 자체는 Git 추적 대상 아님).
+
+## 2026-10-19 KST — p4 client-rendered owner Chart/Table
+
+### 실제 실행
+
+- `python -m pytest -q -ra tests/test_owner_client_chart_table.py tests/test_synthetic_owner_isolation.py tests/test_synthetic_sqlite_dashboard.py` → **53 passed, 1 warning**. 신규 client 계약 7건, 기존 owner isolation 33건, 기존 synthetic SQLite API 13건.
+- `python -m compileall -q app astra_contracts scripts tests` → **PASS**.
+- `node --check astra_contracts/owner_client_chart_table.js` → **PASS**.
+- `python -m scripts.p4_owner_client_chart_table_browser_smoke --schema examples/p4_owner_demo_schema.json --rows examples/p4_owner_demo_rows.json` → **PASS**, Windows Chromium 156.0.8078.4, 실제 loopback HTTP + shared synthetic SQLite `:memory:`.
+- Chromium 시나리오: A/B 각각 3행의 브라우저 렌더링, 교차 owner 404, 0행 상태, API 네트워크 실패 후 재시도, 변조된 행/자체 해시 응답 거부, 다른 owner 응답 거부, 지연된 이전 응답 무시, 같은 턴 중복 fetch 1회, Chart/Table 마우스·Enter·Space·화살표, 320/390/768/1366 viewport, XSS 문자열 text-only, JavaScript 예외 0, 예상 밖 Console 오류 0, 외부 요청 0. 의도된 교차 owner 404와 고의 네트워크 실패는 오류 증거에서 별도로 분류했다.
+
+### 전체 Python 회귀
+
+- 전체 저장소 명령 `python -m pytest -q -ra --tb=no tests`도 Python 3.12.14 Windows에서 실행했다. UTF-8 모드, 임시 Python 의존성, Selenium, 허용된 TEMP 경로, Python PATH를 설정한 최종 실행은 **752 passed, 96 failed, 108 errors, 3 skipped, 2 warnings**. 전체 회귀는 통과하지 않았다.
+- 세 건 skip: pinned OWID archive가 제공되지 않은 두 증거 통합 테스트와 Windows에서 symlink를 만들 수 없어 skip한 한 테스트. 개별 실패 전부를 원인 분석하지는 않았다. 대표 확인 원인은 `core.autocrlf=true`에 따른 CRLF 파일과 LF Git blob fingerprint 불일치, sandbox에서 symlink/일부 경로 작업이 거부된 점, Windows SQLite subprocess 파일 잠금이다. Linux CI 전용 조건에서 전체 suite를 재검증해야 한다.
+- 기준 커밋의 과거 **940 passed / 2 skipped**, Actions run `39225637124`는 이번 소스 결과가 아니다. `.github/workflows/p4-owner-isolation.yml`에 신규 계약 테스트와 Chromium E2E를 추가했지만 원격 workflow는 실행하지 않았다(원격 push 금지 유지).
+
+상세 기록과 재현 안내: `docs/P4_CLIENT_RENDERED_OWNER_CHART_TABLE_20261019.md`. 기존 `/preview`, 전체 owner isolation 코드·tests는 보존했다. 실제 고객 데이터/API, 운영 인증, 의미 승인, production/deployment는 미사용·미승인이다.

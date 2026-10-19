@@ -1,14 +1,17 @@
-name: p4 Synthetic Owner Isolation and Mapping Proof
+name: p4 Synthetic Owner Isolation and Client Chart Table
 
 on:
   push:
-    branches: [feature/observation-contract-20261018]
+    branches: [feature/observation-contract-20261018, codex-p4-20261019]
     paths:
       - astra_contracts/synthetic_owner_isolation.py
+      - astra_contracts/owner_client_chart_table.js
       - tests/test_synthetic_owner_isolation.py
+      - tests/test_owner_client_chart_table.py
       - examples/p4_owner_demo_schema.json
       - examples/p4_owner_demo_rows.json
       - scripts/p4_owner_isolation_browser_smoke.py
+      - scripts/p4_owner_client_chart_table_browser_smoke.py
       - .github/workflows/p4-owner-isolation.yml
   workflow_dispatch:
 
@@ -59,6 +62,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify synthetic owner session and database behavior
         run: python -m pytest -q -ra tests/test_synthetic_owner_isolation.py
+      - name: Verify client-rendered owner API contract
+        run: python -m pytest -q -ra tests/test_owner_client_chart_table.py
       - name: Run actual session-separated SQLite API browser integration
         shell: bash
         run: |
@@ -68,11 +73,22 @@ jobs:
             --rows examples/p4_owner_demo_rows.json \
             > p4-owner-browser.json
           cat p4-owner-browser.json
-      - name: Preserve only test results, never session cookies
+      - name: Run client-rendered owner API Chart/Table E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.p4_owner_client_chart_table_browser_smoke \
+            --schema examples/p4_owner_demo_schema.json \
+            --rows examples/p4_owner_demo_rows.json \
+            > p4-owner-client-browser.json
+          cat p4-owner-client-browser.json
+      - name: Preserve only browser evidence, never session cookies
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: p4-synthetic-owner-browser
-          path: p4-owner-browser.json
+          path: |
+            p4-owner-browser.json
+            p4-owner-client-browser.json
           retention-days: 7
           if-no-files-found: ignore

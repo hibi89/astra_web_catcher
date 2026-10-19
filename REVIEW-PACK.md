@@ -48,3 +48,15 @@
 - 실 HTTP 결과: A/B 접근 격리(타인 상세 404), 서버 재기동 데이터 유지, 원 단위 서버 주문 18,000원·재고 -2·금액 위변조 422, 가격 스냅샷·멱등, 재고 1개 병렬 주문 201/409, 동시 중복 지원 201/409·DB 1건.
 - 기존 초기 검증 시점의 '브라우저 검증 미완료'와 별개로 사용자 수동 동작 보고가 추가되었음. 모델이 실제 Chromium을 직접 제어한 검증이나 콘솔 오류 검사는 여전히 미완료.
 - 근거: GitHub 추가 테스트 `tests/live_integrity_check.py` 커밋 `9d2ce31aa353bcdbd53b3bcca815a5b87c372645`; 최종 명령·출력은 `TEST-REPORT.md`.
+
+## p4 client-rendered 합성 owner Chart/Table review (2026-10-19)
+
+`/client-preview`는 server-rendered row data가 없는 same-origin shell이다. 브라우저가 session-scoped `/api/demo/series` 응답의 owner, binding, status, row shape/count, duplicate key와 canonical SHA-256을 검사한 다음에만 차트와 표를 만든다. 기존 `/preview`를 보존했으며, 사용자 인증 결정은 계속 서버 HttpOnly cookie session에서만 한다.
+
+- 신규 7 + 기존 owner/API 46 = **53/53 targeted tests PASS**, compileall 및 JavaScript syntax PASS.
+- Windows 실제 Chromium 156 + loopback Uvicorn/SQLite E2E PASS: A/B 격리, stale/different-owner/modified response 차단, empty/loading/error/retry recovery, duplicate event coalescing, Chart/Table keyboard/click, mobile, XSS text rendering; JS exceptions 0, external requests 0.
+- 전체 Python suite의 실제 Windows 결과는 **752 pass, 96 fail, 108 error, 3 skip**이며 통과로 기록하지 않는다. 대표 실패 환경에는 Git autocrlf fingerprint 불일치, sandbox symlink 제한, Windows temp/database handle 제약이 있다. 오류 전부의 원인을 개별 분류하지는 않았다. CI full regression은 로컬 변경이 remote에 없어 아직 미실행이다.
+- 화면의 expected digest는 같은 origin shell과 API의 데이터 불일치를 잡는 fixture 검증이다. 응답 서명이나 운영 보안 인증으로 해석하지 않는다.
+- 모든 fixture는 invented synthetic values. `mapping_approved=false`, `owner_schema_connected=false`, `generation_authorized=false`, `deployment_authorized=false`, `generation_contract=blocked_pending_review` 유지. 고객 API/DB, external service, production, GitHub push/PR/merge 미사용.
+
+코드/테스트/브라우저 절차/전체 회귀 한계: `docs/P4_CLIENT_RENDERED_OWNER_CHART_TABLE_20261019.md`, `TEST-REPORT.md`.

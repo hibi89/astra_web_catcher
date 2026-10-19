@@ -57,3 +57,14 @@
 ## 9. 제한 / 운영 전 준비
 
 SQLite 단일 writer는 소규모 로컬 데모에 적합합니다. 다중 서버 운영에서는 PostgreSQL + 서버 세션 저장소·트랜잭션 부하 테스트로 전환해야 합니다. 추가 필요 사항: CSRF 방어 강화, 계정 관리, 사용자 비밀번호 정책, rate limit, 로깅/관측, 마이그레이션 버전 관리, 백업/복구·권한 분리, TLS, 보안 헤더, 운영 동시성 테스트, 실제 Chromium E2E, 접근성 개선. 디자인 모사는 의도적으로 하지 않았습니다.
+
+## 10. p4 소유자 API → 클라이언트 렌더링 Chart/Table
+
+- 기존 `GET /preview`는 owner-scoped SQLite 결과를 서버 렌더링해 제공한다. 신규 `GET /client-preview`는 행 값을 HTML에 넣지 않고 owner, dataset, 예상 row count/hash, 명시적 field binding만 메타데이터로 제공한다.
+- 브라우저는 same-origin `GET /client-assets/owner-client-chart-table.js`를 로드하고, HttpOnly 세션 쿠키와 함께 `GET /api/demo/series`를 호출한다. API는 쿠키에서 서버가 결정한 owner로 공유 in-memory SQLite를 조회한다.
+- 클라이언트는 owner/dataset/binding/approval flags, row shape, 날짜·수치, 중복 key, count와 canonical JSON SHA-256을 검증한다. 검증 전에는 표/차트를 비우며, 빈 응답·네트워크 오류·불일치 상태를 별도로 표시한다.
+- 요청 sequence 번호가 최신 요청만 화면에 반영한다. 이전 요청 응답은 버리고, 같은 이벤트 턴의 중복 호출은 합친다. 재시도는 오류 뒤 별도 API 호출로 복구한다.
+- SVG/표 값은 DOM 생성과 `textContent`로만 출력한다. CSP는 script 및 API 연결을 같은 출처로 제한한다. CSS overflow 컨테이너로 좁은 화면의 표를 유지한다.
+- 합성 owner A/B 데이터 격리와 API response mismatch는 실제 loopback Chromium에서 검증했다. 이 구조는 synthetic proof일 뿐이며 API/HTML의 같은 출처가 동시에 변조되는 공격을 막는 서명 구조가 아니다. 인증 발급, real owner DB, 의미 승인, generation/deployment는 여전히 차단되어 있다.
+
+신규 모듈: `astra_contracts/owner_client_chart_table.js`; 엔드포인트 팩토리 확장: `astra_contracts/synthetic_owner_isolation.py`. 신규 검증 기록: `docs/P4_CLIENT_RENDERED_OWNER_CHART_TABLE_20261019.md`.

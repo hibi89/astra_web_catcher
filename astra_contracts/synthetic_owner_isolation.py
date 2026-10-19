@@ -7,7 +7,9 @@ from __future__ import annotations
 
 from contextlib import asynccontextmanager
 import hashlib
+import html
 import json
+from pathlib import Path
 import re
 import secrets
 import sqlite3
@@ -71,7 +73,7 @@ def _declaration(schema: dict[str, Any]) -> tuple[dict[str, Any], list[str], str
 class DemoOwnerStore:
     """One shared ephemeral SQLite with unavoidable owner predicates on every read."""
 
-    def __init__(self, declaration: dict, input_rows: list[dict]):
+    def __init__(self, declaration: dict, input_rows: list[dict], *, allow_empty_owner: bool = False):
         # Freeze caller objects and reject NaN/Infinity in JSON.
         frozen = json.loads(json.dumps(declaration, allow_nan=False))
         self.schema, owner_ids, self.owner_field, self.diagnostic = _declaration(frozen)
@@ -81,7 +83,9 @@ class DemoOwnerStore:
         if not isinstance(input_rows, list) or not input_rows:
             raise ValueError('demo owner rows required')
         frozen_rows = json.loads(json.dumps(input_rows, allow_nan=False))
-        owners_to_rows = self._partition_and_validate(frozen_rows)
+        owners_to_rows = self._partition_and_validate(
+            frozen_rows, allow_empty_owner=allow_empty_owner,
+        )
         self._conn = sqlite3.connect(':memory:', check_same_thread=False)
         self._conn.execute('PRAGMA foreign_keys=ON')
         try:
@@ -98,7 +102,9 @@ class DemoOwnerStore:
             self._conn.close()
             raise
 
-    def _partition_and_validate(self, rows: list[dict]) -> dict[str, list[dict]]:
+    def _partition_and_validate(
+        self, rows: list[dict], *, allow_empty_owner: bool = False,
+    ) -> dict[str, list[dict]]:
         allowed = {x['name'] for x in self.schema['columns']} | {self.owner_field}
         groups: dict[str, list[dict]] = {owner: [] for owner in self.owner_ids}
         for row in rows:
@@ -109,10 +115,11 @@ class DemoOwnerStore:
                 raise ValueError('undeclared synthetic owner in row')
             groups[owner].append({key: value for key, value in row.items() if key != self.owner_field})
         for owner, group in groups.items():
-            if not group:
+            if not group and not allow_empty_owner:
                 raise ValueError('every declared demo owner needs rows')
-            validated, _, _, _ = _safe_rows(self.schema, group)
-            groups[owner] = validated
+            if group:
+                validated, _, _, _ = _safe_rows(self.schema, group)
+                groups[owner] = validated
         return groups
 
     def _insert_owner(self, owner: str, rows: list[dict]) -> None:
@@ -205,9 +212,20 @@ class InProcessDemoSessions:
             self._sessions.clear()
 
 
-def create_owner_like_app(declaration: dict, rows: list[dict]) -> FastAPI:
-    """Synthetic-only owner-scoped API and server-rendered read-only Chart/Table UI."""
-    store = DemoOwnerStore(declaration, rows)
+def create_owner_like_app(
+    declaration: dict,
+    rows: list[dict],
+    *,
+    allow_empty_owner: bool = False,
+) -> FastAPI:
+    """Synthetic-only owner-scoped API with SSR and client-rendered Chart/Table pages.
+
+    ``/preview`` preserves the original server-rendered behavior. ``/client-preview``
+    emits a data-free shell; browser JavaScript fetches and validates the owner API
+    before constructing any chart or table rows. Empty owners are opt-in so the
+    existing fixture completeness contract remains unchanged by default.
+    """
+    store = DemoOwnerStore(declaration, rows, allow_empty_owner=allow_empty_owner)
     sessions = InProcessDemoSessions(store.owner_ids)
 
     @asynccontextmanager
@@ -300,5 +318,82 @@ fetch('/api/demo/series',{cache:'no-store',credentials:'same-origin'})
             "form-action 'none'; frame-ancestors 'none'"
         )
         return HTMLResponse(html, headers=headers)
+
+    @app.get('/client-preview', response_class=HTMLResponse)
+    def client_preview(request: Request):
+        owner = principal(request)
+        records = store.snapshot(owner)
+        bindings = store.schema['proposed_bindings']
+        digest = _digest(records)
+        # Only fixed validated identifiers and HTML-escaped schema labels are put
+        # in this shell. Private row values remain exclusively in the API response.
+        metadata = {
+            'expected-owner': owner,
+            'expected-dataset': store.schema['dataset_id'],
+            'expected-count': str(len(records)),
+            'expected-sha256': digest,
+            'binding-entity': bindings['entity_identifier'],
+            'binding-period': bindings['time_period'],
+            'binding-measure': bindings['numeric_measure'],
+            'binding-aggregation': bindings['aggregation_semantics'],
+        }
+        meta_tags = '\n'.join(
+            f'<meta name="astra-{key}" content="{html.escape(value, quote=True)}">'
+            for key, value in metadata.items()
+        )
+        shell = f'''<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASTRA 합성 데이터 Chart/Table</title>{meta_tags}
+<style>
+:root{{font-family:system-ui,sans-serif;color:#18263a;background:#f5f7fb}}*{{box-sizing:border-box}}
+body{{margin:0}}main{{max-width:1040px;margin:0 auto;padding:28px 18px 48px}}
+.card{{background:#fff;border:1px solid #dfe6f0;border-radius:16px;padding:22px;box-shadow:0 5px 24px #1c31500b}}
+h1{{font-size:1.55rem;margin:0 0 8px}}.muted{{color:#61718a;line-height:1.55}}
+.toolbar{{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0}}
+button{{font:inherit;border:1px solid #b9c7d9;border-radius:9px;padding:10px 15px;background:#fff;color:#23456e;cursor:pointer}}
+button:hover{{border-color:#426fb5}}button:focus-visible{{outline:3px solid #8ab4ff;outline-offset:2px}}
+button[aria-selected="true"]{{background:#315fc3;color:#fff;border-color:#315fc3}}
+button:disabled{{opacity:.55;cursor:wait}}[hidden]{{display:none!important}}
+#client-status{{min-height:1.6em}}#client-status[data-state="error"]{{color:#a42f38}}#client-status[data-state="success"]{{color:#197451}}
+.chart-scroll,.table-scroll{{max-width:100%;overflow:auto;border:1px solid #e2e9f2;border-radius:12px}}
+svg{{display:block;width:100%;min-width:480px;height:auto;min-height:250px}}
+table{{border-collapse:collapse;width:100%;min-width:590px;font-size:.94rem}}
+th,td{{padding:11px 13px;border-bottom:1px solid #e7edf5;text-align:left;white-space:nowrap}}
+th{{background:#f4f7fb;color:#40536f}}tbody tr:last-child td{{border-bottom:0}}
+.empty{{padding:30px;text-align:center;border:1px dashed #bdc9da;border-radius:12px;color:#64748b}}
+.provenance{{font-size:.83rem;margin-top:20px}}@media(max-width:600px){{main{{padding:18px 12px 32px}}.card{{padding:16px}}h1{{font-size:1.3rem}}}}
+</style></head><body><main>
+<section class="card" aria-labelledby="page-title">
+<p class="muted">합성 데이터 · 브라우저에서 API 응답을 검증한 뒤 그립니다.</p>
+<h1 id="page-title">시계열 Chart / Table</h1>
+<p id="client-status" role="status" aria-live="polite" data-state="loading">합성 소유자 API를 불러오는 중입니다.</p>
+<button id="retry-load" type="button" aria-label="데이터 다시 불러오기">다시 불러오기</button>
+<div id="empty-state" class="empty" role="status" hidden>표시할 합성 데이터가 없습니다.</div>
+<section id="visualization" hidden aria-label="검증된 합성 시계열 데이터">
+  <div class="toolbar" role="tablist" aria-label="표시 방식">
+    <button id="show-chart" type="button" role="tab" aria-controls="chart-view" aria-selected="true">차트</button>
+    <button id="show-table" type="button" role="tab" aria-controls="table-view" aria-selected="false">테이블</button>
+  </div>
+  <section id="chart-view" role="tabpanel" aria-labelledby="show-chart">
+    <div class="chart-scroll"><svg id="series-chart" viewBox="0 0 720 320" role="img" aria-label="합성 시계열 차트"><g id="chart-grid"></g><g id="chart-lines"></g><g id="chart-points"></g><g id="chart-labels"></g></svg></div>
+  </section>
+  <section id="table-view" role="tabpanel" aria-labelledby="show-table" hidden>
+    <div class="table-scroll"><table><thead><tr id="table-head"></tr></thead><tbody id="table-body"></tbody></table></div>
+  </section>
+</section>
+<p class="muted provenance">데이터 원천: 합성 fixture · owner DB 연결 안 됨 · 의미 승인 안 됨 · generation_contract=blocked_pending_review</p>
+</section></main><script src="/client-assets/owner-client-chart-table.js" defer></script></body></html>'''
+        headers = dict(HEADERS)
+        headers['Content-Security-Policy'] = (
+            "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; "
+            "connect-src 'self'; img-src 'none'; base-uri 'none'; "
+            "form-action 'none'; frame-ancestors 'none'"
+        )
+        return HTMLResponse(shell, headers=headers)
+
+    @app.get('/client-assets/owner-client-chart-table.js')
+    def client_chart_table_script():
+        source = Path(__file__).with_name('owner_client_chart_table.js').read_text(encoding='utf-8')
+        return HTMLResponse(source, media_type='application/javascript', headers=HEADERS)
 
     return app
