@@ -34,10 +34,17 @@
 - python -m compileall -q app astra_contracts scripts tests: **PASS**.
 - 실제 Windows loopback HTTP + Chromium 156.0.8078.4: **PASS**. A/B 계정 각 3행 렌더링, 404 교차 owner, 빈 owner, 요청 실패 후 복구, 다른 owner 응답 거부, API 행 변조 거부, 지연된 이전 owner 응답 무시, 같은 턴 중복 요청 합치기, 키보드 전환, 반응형 화면, XSS 문자열 text-only, JavaScript 예외 0건, 외부 요청 0건을 확인했다.
 - 교차 owner 검증의 의도된 HTTP 404 1건과 재시도 시뮬레이션의 의도된 네트워크 실패 1건은 브라우저 증거에서 별도 분류했다. 예상되지 않은 Console 오류는 0건이다.
-- 전체 저장소 명령을 로컬 Windows에서 실제 실행했다: Python 3.12.14, UTF-8 모드, workspace 의존성, selenium 설치, 허용된 별도 TEMP 경로, Python을 PATH에 추가하고 python -m pytest -q -ra --tb=no tests 실행 결과 **752 passed, 96 failed, 108 errors, 3 skipped, 2 warnings**. 따라서 전체 회귀는 **통과하지 않았다**. 대표 원인은 core.autocrlf=true checkout으로 Git blob fingerprint test가 LF 원본과 CRLF 작업 파일을 다르게 비교한 점, Windows sandbox가 symlink 생성/외부 임시 파일 조작을 막은 점, Windows에서 subprocess가 SQLite 파일을 열린 상태로 두어 정리 중 잠금이 발생한 점이다. 모든 실패를 개별 수정하거나 프로젝트 회귀로 판정한 것은 아니다. Linux CI가 이 코드의 전체 회귀를 검증해야 한다.
+- 전체 저장소 명령을 로컬 Windows에서 실제 실행했다: Python 3.12.14, UTF-8 모드, workspace 의존성, selenium 설치, 허용된 별도 TEMP 경로, Python을 PATH에 추가하고 `python -m pytest -q -ra --tb=no tests` 실행 결과 **752 passed, 96 failed, 108 errors, 3 skipped, 2 warnings**. 따라서 전체 회귀는 **통과하지 않았다**. 당시 per-test JUnit/log는 저장되지 않았고 `.pytest_cache/v/cache/lastfailed`는 Windows 및 WSL에서 권한 거부되어 96/108의 정확한 테스트별 분포는 복구하지 못했다.
+- 2026-10-19 최소 범위 재검증: 로컬 Python 3.11.9 / pytest 9.1.1 / FastAPI 0.143.3 / Starlette 1.8.0 / httpx 0.28.1에서 다음 명령을 실행했다.
+
+  `& 'C:\Users\haein\AppData\Local\Programs\Python\Python311\python.exe' -m pytest -q -ra --tb=short -p no:cacheprovider tests/test_owned_migration_schema.py::test_exact_repository_migration_blob tests/test_synthetic_generator.py::test_symlink_destination_refused tests/test_synthetic_generator.py::test_generated_app_passes_its_own_pytest_and_persists_demo_sqlite`
+
+  종료 코드 1, **3 failed / 20.94s**. Migration blob 검증은 기대 `5f5bdcb950dcfa0587b0deec2b7afb5e17f155bd`, 작업 파일 bytes에서 계산한 `ab965a6f889db3c167ebdccf561ef47bc3955256`로 불일치했다. `git config core.autocrlf=true`; `git ls-files --eol migrations/001_initial.sql` 결과 `i/lf w/crlf`라 테스트가 CRLF working bytes를 직접 해시하는 환경 원인이 확인됐다. Symlink 재현은 generator 호출 전에 `OSError: [WinError 1314]`로 실패하여 테스트 capability setup이 막혔다.
+- 같은 생성 앱 하위 pytest는 plugin autoload를 끈 상태에서도 18초 timeout을 재현했다. `-vv -s` 출력은 테스트 수집 후 `test_health_list_filter_search_detail`에서 멈췄다. 추가 대조로 DB 없는 `FastAPI()` + `TestClient.get('/')`도 client 생성 뒤 8초 timeout이 났다. 따라서 이 재현은 프로젝트 SQLite lock 증거가 아니다. 이전 문서의 “subprocess SQLite file lock” 원인은 현재 보유한 로그로 확인하지 못해 미확정으로 낮춘다. timeout의 구체 원인도 이 단위에서 확정하지 않았다.
+- 기존 전체 실행의 3 skip은 두 pinned OWID archive 부재와 한 Windows symlink capability skip으로 문서화되어 있다. 이 대표 검증은 aggregate 96/108 전체를 분류하지 않으며, 이를 코드 결함이나 환경 문제로 일괄 판정하지 않는다. 패키지 다운로드나 외부 서비스 연결은 하지 않았다.
 - 기준 커밋의 과거 940 PASS / 2 SKIP 및 GitHub Actions 39225637124 결과를 이번 코드의 새 결과로 재사용하지 않는다.
 - 새 workflow는 수정했지만 push 제한으로 GitHub Actions를 새로 실행하지 않았다. 이 결과 문서의 Chromium PASS는 로컬 Windows에서 직접 실행한 결과다.
-- Linux 재검증 경로도 확인했다. Ubuntu WSL은 실행되지만 Python 3.14.4에 `pip`, `ensurepip`, `pytest`가 설치되어 있지 않았고, `/mnt/c` checkout의 Windows `.git` worktree pointer는 Linux Git에서 유효하지 않았다. Docker CLI에는 실행 중인 daemon이 연결되지 않았다. 이 환경에서 Linux 전체 suite는 실행하지 않았으며, package registry나 외부 서비스를 호출하지 않았다.
+- Linux 재검증 경로도 확인했다. Ubuntu WSL은 실행되지만 Python 3.14.4에 `pip`, `ensurepip`, `pytest`가 설치되어 있지 않았다. `/mnt/c` checkout의 Windows `.git` worktree pointer는 기본 Linux Git 경로로 유효하지 않지만 `GIT_DIR`/`GIT_WORK_TREE` 지정으로 HEAD 조회는 가능했다. Docker CLI에는 실행 중인 daemon이 연결되지 않았다. 이 환경에서 Linux 전체 suite는 실행하지 않았으며, package registry나 외부 서비스를 호출하지 않았다.
 - 별도로 Linux 구문 검증 `PYTHONPYCACHEPREFIX=/tmp/astra-p4-pycache python3 -m compileall -q app astra_contracts scripts tests`를 WSL에서 실행해 **PASS**를 확인했다. 이는 pytest 전체 회귀나 Chromium E2E 결과를 대신하지 않는다.
 
 ## 권한과 해석의 한계

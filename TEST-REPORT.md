@@ -78,7 +78,9 @@
 ### 전체 Python 회귀
 
 - 전체 저장소 명령 `python -m pytest -q -ra --tb=no tests`도 Python 3.12.14 Windows에서 실행했다. UTF-8 모드, 임시 Python 의존성, Selenium, 허용된 TEMP 경로, Python PATH를 설정한 최종 실행은 **752 passed, 96 failed, 108 errors, 3 skipped, 2 warnings**. 전체 회귀는 통과하지 않았다.
-- 세 건 skip: pinned OWID archive가 제공되지 않은 두 증거 통합 테스트와 Windows에서 symlink를 만들 수 없어 skip한 한 테스트. 개별 실패 전부를 원인 분석하지는 않았다. 대표 확인 원인은 `core.autocrlf=true`에 따른 CRLF 파일과 LF Git blob fingerprint 불일치, sandbox에서 symlink/일부 경로 작업이 거부된 점, Windows SQLite subprocess 파일 잠금이다. Linux CI 전용 조건에서 전체 suite를 재검증해야 한다.
+- 세 건 skip: pinned OWID archive가 제공되지 않은 두 증거 통합 테스트와 Windows symlink capability skip 1건. 원래 752/96/108 실행의 per-test JUnit/log는 없고 `.pytest_cache/v/cache/lastfailed`는 Windows 및 WSL에서 권한 거부되어 정확한 실패별 분포를 복구하지 못했다.
+- 대표 재현(별도 로컬 환경): Python 3.11.9/pytest 9.1.1의 3-test 실행은 exit 1, 3 failed. `test_exact_repository_migration_blob`은 `core.autocrlf=true`, `git ls-files --eol`의 `i/lf w/crlf`와 실제 hash 불일치(`5f5bd...` 기대, `ab965a...` 작업 파일)로 재현됐다. `test_symlink_destination_refused`는 앱 코드 전에 `WinError 1314`로 실패했다. 생성 앱 하위 pytest의 18초 timeout은 plugin autoload 비활성화 후에도 재현됐다.
+- timeout 진단: 생성 앱 pytest가 1개 테스트를 수집한 뒤 TestClient 요청에서 멈췄다. DB가 없는 빈 `FastAPI()` 앱의 `TestClient.get('/')`도 8초 timeout이라, 이 재현에서 SQLite 잠금은 확인되지 않았다. 이전에 기록한 SQLite subprocess lock은 현재 로그가 없어 미확정으로 정정한다. 752/96/108 전체를 환경 또는 제품 결함으로 일반화하지 않는다.
 - 기준 커밋의 과거 **940 passed / 2 skipped**, Actions run `39225637124`는 이번 소스 결과가 아니다. `.github/workflows/p4-owner-isolation.yml`에 신규 계약 테스트와 Chromium E2E를 추가했지만 원격 workflow는 실행하지 않았다(원격 push 금지 유지).
 
 상세 기록과 재현 안내: `docs/P4_CLIENT_RENDERED_OWNER_CHART_TABLE_20261019.md`. 기존 `/preview`, 전체 owner isolation 코드·tests는 보존했다. 실제 고객 데이터/API, 운영 인증, 의미 승인, production/deployment는 미사용·미승인이다.
