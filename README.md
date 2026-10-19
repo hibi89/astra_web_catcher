@@ -144,3 +144,7 @@ To reproduce from repo root:
     python -m scripts.p4_synthetic_sqlite_browser_smoke --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json
 
 See docs/P4_SYNTHETIC_SQLITE_API_E2E_20261019.md for implementation, test logs, limitations and security/authorization boundaries.
+
+### p4 Two-owner synthetic schema isolation (2026-10-19)
+
+New disposable owner-shaped test fixture and **shared** SQLite `:memory:` demonstration: `astra_contracts/synthetic_owner_isolation.py` and `examples/p4_owner_demo_{schema,rows}.json`. Four explicit chart/table roles plus one explicitly declared owner key; all mappings **structurally compatible but unapproved**. Separate opaque HttpOnly cookies issued **only by the in-process test harness**, owner-predicated SQLite queries, read-only `GET /api/demo/series`, `GET /api/demo/owners/{owner}/series` (404 cross-owner), and `GET /preview`. No login, session issue or write API routes exposed. GitHub Actions [run #39225637124](https://github.com/hibi89/astra_web_catcher/actions/runs/39225637124): **full pytest 940 passed / 2 existing OWID evidence ZIP skips**, zero failures; **33/33 new isolation tests PASS**; real Chromium HTTP/SQLite/browser E2E **PASS**. Detailed limits, proof, commands and security scope: `docs/P4_SYNTHETIC_OWNER_ISOLATION_20261019.md`. This is not production authentication nor any real customer data access, generation or deployment.
