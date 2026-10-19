@@ -124,3 +124,7 @@ GitHub의 [p4 공개 폼 브라우저 워크플](.github/workflows/p4-public-liv
 ### Synthetic Chart/Table browser regression (offline)
 
 Five-viewport Chromium + keyboard/XSS smoke (requires Playwright and installed Chromium): `python -m scripts.p4_synthetic_preview_browser_smoke --chromium /usr/bin/chromium --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json --archive /path/to/p4-owid-evidence.zip`. Latest local result: 50/50 selected pytest, 5/5 Chromium viewports, 1/1 HTML injection payload. No Windows Edge/Firefox/WebKit or full-repo claim; synthetic-only, all approval gates false. Full details: docs/SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md.
+
+### p4 Full regression and cross-engine browser evidence — 2026-10-19
+
+On GitHub Actions [run 39220632083](https://github.com/hibi89/astra_web_catcher/actions/runs/39220632083), feature-branch full Python regression **894 passed, 2 skipped (historic OWID ZIP unavailable in CI), 0 failed**. Real Linux Chromium/Firefox/WebKit preview smoke **12/12 PASS**, real Windows Microsoft Edge **4/4 PASS** at desktop/mobile/small-mobile viewports (Chart↔Table, keyboard, HTML injection, 0 network/JS error). Reusable `scripts/p4_multi_browser_smoke.py` supports optional `--archive`; omitting it explicitly does **not** verify provenance. See `docs/P4_FULL_REGRESSION_CROSS_ENGINE_20261019.md` for command, versions, artifacts, skips and limits. All preview data synthetic, customer DB and generation/deployment still blocked.
