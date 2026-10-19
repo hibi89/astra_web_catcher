@@ -120,3 +120,7 @@ GitHub의 [p4 공개 폼 브라우저 워크플](.github/workflows/p4-public-liv
 원본 OWID 관측 증거를 파일 단위로 확인하려면 선택적으로 --archive /path/to/p4-owid-evidence.zip 을 추가합니다. 실측·실제 고객 데이터 사용이 아니라 **15건의 임의 수치**입니다. 관련 신규 테스트 포함 로컬 선택적 회귀 50/50 PASS와 Chromium Chart→Table→Chart 클릭 검증을 수행했습니다. 다만 전체 저장소 CI, Windows Edge, 고객 API/DB, 실제 배포 검증은 **미실행**이며, GenerationContract는 blocked_pending_review입니다.
 
 전체 설명과 한계: [SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md](docs/SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md).
+
+### Synthetic Chart/Table browser regression (offline)
+
+Five-viewport Chromium + keyboard/XSS smoke (requires Playwright and installed Chromium): `python -m scripts.p4_synthetic_preview_browser_smoke --chromium /usr/bin/chromium --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json --archive /path/to/p4-owid-evidence.zip`. Latest local result: 50/50 selected pytest, 5/5 Chromium viewports, 1/1 HTML injection payload. No Windows Edge/Firefox/WebKit or full-repo claim; synthetic-only, all approval gates false. Full details: docs/SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md.
