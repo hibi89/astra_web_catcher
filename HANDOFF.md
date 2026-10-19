@@ -640,3 +640,11 @@
 8. **보안/승인:** server cookie owner가 유일 principal. Owner/database/schema semantic approval false. `generation_contract=blocked_pending_review`; generation, real owner connection, deployment flags false. SHA matching is mismatch detection only, not signed API authentication. 운영 수준 보안/정확성은 검증하지 않음.
 9. **기존 기능:** 기존 `/preview` SSR route, synthetic shared-table owner predicate, API routes, default non-empty owner fixture test와 전체 tests를 삭제하지 않음. 빈 owner 허용은 client demo의 선택 인자에서만 가능.
 10. **다음/기록:** 최신 Linux pytest 전체 회귀와 Chromium workflow는 실행되지 않았다. 로컬 Ubuntu WSL에서 Python 3.14.4 compileall은 통과했다. WSL에는 `pip`, `ensurepip`, `pytest`가 없고, `/mnt/c` checkout의 Windows `.git` worktree pointer는 기본 Linux Git 경로로 해석되지 않았다(검증할 때 `GIT_DIR`/`GIT_WORK_TREE`를 명시하면 HEAD 조회 가능). Docker CLI도 daemon에 연결되지 않았다. 고객 환경이나 외부 서비스 연결 없이 Linux 전체 suite를 재현할 수 없으므로 전체 회귀는 미검증으로 기록한다. 중앙 `project-book`은 원격 수정하지 않았으며, p4 client Chart/Table 구현·53 targeted tests·Windows Chromium 결과·Linux compileall·실패한 Windows 전체 회귀·미실행 Linux CI 상태를 추후 별도 승인 후 동기화한다. 로컬 최종 commit SHA는 작업 완료 보고의 HEAD를 참조.
+
+
+## 2026-10-19 — p4 개인용 오프라인 통합 CLI (검증 대기)
+
+- `scripts/p4_personal_pipeline.py` 신규 추가: 기존 observation → functional_spec → mapping → generation preflight → synthetic bridge를 명시적 로컬 JSON과 합성 데이터로 연결. `--generate`는 OS temp의 별도 합성 데모만 생성. 실제 URL 크롤링·원본 앱 생성·실 DB/API 연결은 미구현.
+- `tests/test_p4_personal_pipeline.py` 신규 4개 테스트 함수 작성. **실제 실행 및 PASS 검증은 아직 없음**(이 작업 환경 GitHub clone DNS 실패). 기존 53 PASS/Chromium E2E는 이번 변경 검증이 아님.
+- `docs/P4_PERSONAL_OFFLINE_PIPELINE_20261019.md`에 실행 및 제한사항 기록. 다음 작업: Windows 로컬에서 단위 테스트, dry-run, `--generate`, 임시 데모 검수기 실행. 실패 시 원인 확인 후 최소 수정.
+- `generation_contract=blocked_pending_review` 유지. `main`, 고객 데이터/DB/API, 배포, PR, merge 미변경.
