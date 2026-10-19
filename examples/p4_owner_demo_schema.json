@@ -1,0 +1,19 @@
+{
+  "source_kind": "synthetic_fixture",
+  "dataset_id": "original_demo_owner_nail_index",
+  "owner_binding": "workspace_key",
+  "owner_ids": ["demo_alpha", "demo_beta"],
+  "columns": [
+    {"name":"workspace_key","kind":"string"},
+    {"name":"design_label","kind":"string"},
+    {"name":"observation_month","kind":"string"},
+    {"name":"invented_score","kind":"number"},
+    {"name":"metric_label","kind":"string"}
+  ],
+  "proposed_bindings": {
+    "entity_identifier":"design_label",
+    "time_period":"observation_month",
+    "numeric_measure":"invented_score",
+    "aggregation_semantics":"metric_label"
+  }
+}
