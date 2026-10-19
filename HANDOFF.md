@@ -648,3 +648,10 @@
 - `tests/test_p4_personal_pipeline.py` 신규 4개 테스트 함수 작성. **실제 실행 및 PASS 검증은 아직 없음**(이 작업 환경 GitHub clone DNS 실패). 기존 53 PASS/Chromium E2E는 이번 변경 검증이 아님.
 - `docs/P4_PERSONAL_OFFLINE_PIPELINE_20261019.md`에 실행 및 제한사항 기록. 다음 작업: Windows 로컬에서 단위 테스트, dry-run, `--generate`, 임시 데모 검수기 실행. 실패 시 원인 확인 후 최소 수정.
 - `generation_contract=blocked_pending_review` 유지. `main`, 고객 데이터/DB/API, 배포, PR, merge 미변경.
+
+
+## 2026-10-19 — P4 개인용 통합 CLI 사용자 Windows 실검증
+
+- 사용자 PC (`C:\\Users\\haein\\Downloads\\astra_web_catcher_codex`)에서 `python -m pytest -q tests/test_p4_personal_pipeline.py`: **4 passed, 1 warning in 0.39s**. 유일한 warning은 `.pytest_cache` 기록에 대한 WinError 5 접근 거부.
+- `python -m scripts.p4_personal_pipeline`: **정상 종료**, 출력 `mode=synthetic_preview_only`, `generation_contract=blocked_pending_review`, `candidate_features=1`, `unresolved=2`, `mapping_discrepancies=7`, `simulated_features=1`, `original_behavior_verified=false`, `customer_database_accessed=false`, `preview_folder=null`.
+- **아직 미실행:** `--generate` 실제 합성 파일 생성 및 별도 acceptance/HTTP 브라우저 검증. 이번 결과로 실제 URL 자동 관찰이나 원본 앱 생성이 검증됐다고 표현하지 않는다.
