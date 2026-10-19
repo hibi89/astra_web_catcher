@@ -41,3 +41,25 @@ These selected existing test suites **63/63 PASS** and compileall PASS in the Py
 Check the p4 workflow/job results on GitHub (or execute the commands in a complete feature-branch checkout). If any of the five new cases fail, fix **the first real error**, rerun the new tests and prior 63, and update STATUS/HANDOFF. After true capture→intake integration is validated, collect **one actual** permitted reference-site before/after from an operator-owned browser and independently review provenance. Do not promote `inferred` into `observed` automatically. Owner DB/API, protected `main`, Vercel, application migrations, and confidential data remain untouched.
 
 `GenerationContract=blocked_pending_review`. Conservative overall roadmap estimate **~49% unchanged**, since no first-hand source behavior or customer-owned integration has yet been demonstrated.
+
+
+## 2026-10-19 follow-up — original GitHub-source local integration PASS
+
+The prior "5 new tests not executed locally" wording above describes the **earlier checkpoint** and is now superseded by this tested follow-up.
+
+**Method:** Direct `git clone` was unavailable because GitHub DNS resolution failed in the container. Restored the originally committed, byte-for-byte Python modules `capture_intake.py`, `evidence_integrity.py` and `generation_contract.py` alongside the existing Pydantic, functional-spec, observation and test files into a selected-file local workspace. Verified **16/16 Git blob SHA1 identifiers** against the exact feature-branch source/test/fixture blobs; including `capture_intake=5e9da4c676c3cb590870c69fd66bdaa6faf0823d`, `evidence_integrity=54d204776a10158225052b3e4ca98a2810336b10`, `generation_contract=7def1a4db497bcc1cc18cbff1134ea02c12fa0f5`, and new test `test_public_capture_intake_chain=3cc8922bcc352a6c2e2d4dc9b3645d1c5762a53f`.
+
+**Executed commands** (Python 3.13.5, container local OS temp):
+
+```sh
+python -m pytest -q tests/test_public_capture_intake_chain.py tests/test_public_selenium_capture.py tests/test_owned_migration_schema.py tests/test_data_mapping.py
+# 68 passed in 1.01s; 5 new +20 Selenium fake +18 schema +25 mapping
+python -m compileall -q astra_contracts scripts tests
+# PASS
+python -m scripts.public_selenium_capture
+# dry_run / browser_started=false / network_used=false / files_written=false
+```
+
+**Result:** **68/68 PASS, 0 FAIL, 0 SKIP**, on original GitHub byte-identical source files, with the **actual existing** `capture_intake` implementation, no stubs/mocks for its library functions. The successful register/verify path produced 2/2 matching `bytes_match_untrusted` evidence entries. Failing cases rejected tampered same-length bytes, stale observation fingerprint, bad observation association, and forged approval flags. These represent **synthetic prebuilt ProbeResult cases**, not actual live website behavior. The previous "5 tests PENDING" condition is **now closed for local execution**, while GitHub Actions status remains **independently unconfirmed** (connected GitHub commit status returned none, PR-workflow lookup excludes push runs).
+
+**Boundaries still outstanding:** No complete repository checkout or full 739+ test suite, no original-site Chrome click, no source screenshot provenance, no real owner DB/API, no GitHub Actions green check, no Vercel deployment. `GenerationContract=blocked_pending_review`. Feature branch changes in this follow-up are **documentation only**, no source alterations; main remains protected. Roadmap progress stays conservatively **~49%**.
