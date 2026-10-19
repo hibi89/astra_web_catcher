@@ -15,7 +15,7 @@ import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, parse_qsl
 
 from astra_contracts.observation import ObservationBundle
 
@@ -29,6 +29,19 @@ def _exact_url(value: str, expected: str) -> None:
     # Refuse redirects to other origins and unexpected query/fragment/userinfo.
     parts = urlsplit(value)
     if value != expected or (parts.scheme, parts.hostname, parts.port) != ('https', 'www.selenium.dev', None):
+        raise ValueError('unexpected source URL or redirect; do not capture')
+
+def _expected_result_url(value: str) -> None:
+    """GET forms can submit fixed demo fields as a URL query: never store it."""
+    parts = urlsplit(value)
+    expected = urlsplit(RESULT)
+    disallowed = {'access_token', 'refresh_token', 'password', 'token', 'api_key',
+                  'secret', 'authorization', 'client_secret', 'session'}
+    if (parts.scheme != 'https' or parts.hostname != 'www.selenium.dev'
+            or parts.username is not None or parts.password is not None
+            or parts.port is not None or parts.path != expected.path
+            or parts.fragment or len(parts.query) > 4096
+            or any(k.lower() in disallowed for k, _ in parse_qsl(parts.query, keep_blank_values=True))):
         raise ValueError('unexpected source URL or redirect; do not capture')
 
 
@@ -55,7 +68,7 @@ def capture_fixed_flow(driver, wait_for_received) -> ProbeResult:
     input_control.send_keys(TEST_TEXT)
     driver.find_element('css selector', 'button').click()
     wait_for_received(driver)
-    _exact_url(driver.current_url, RESULT)
+    _expected_result_url(driver.current_url)
     after_message = driver.find_element('id', 'message').text.strip()
     if after_message != 'Received!':
         raise ValueError('publisher expected result not confirmed')
@@ -79,7 +92,7 @@ def make_review_package(probe: ProbeResult, root: Path) -> dict:
         or not root.name.startswith('astra-selenium-public-')):
         raise ValueError('a new system-temp astra-selenium-public-* folder is required')
     _exact_url(probe.first_url, FORM)
-    _exact_url(probe.last_url, RESULT)
+    _expected_result_url(probe.last_url)
     if (probe.before_message != '' or probe.after_message != 'Received!'
         or probe.before_time.tzinfo is None or probe.after_time.tzinfo is None
         or probe.before_time.utcoffset() is None or probe.after_time.utcoffset() is None
