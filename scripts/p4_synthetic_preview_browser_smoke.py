@@ -24,7 +24,7 @@ def run(*, chromium: Path, fixture: Path, rows: Path, archive: Path) -> dict:
     cases = []
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=str(chromium), headless=True,
-                                     args=['--no-sandbox', '--disable-dev-shm-usage'])
+                                     args=['--disable-dev-shm-usage'])
         try:
             for name, width, height in VIEWPORTS:
                 context = browser.new_context(viewport={'width': width, 'height': height},
