@@ -1,0 +1,64 @@
+name: p4 Public Data Dashboard Observation
+
+on:
+  push:
+    branches: [feature/observation-contract-20261018]
+    paths:
+      - scripts/public_owid_dashboard_probe.py
+      - tests/test_public_owid_dashboard_probe.py
+      - .github/workflows/p4-public-owid-dashboard.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p4-public-owid-observation
+  cancel-in-progress: true
+
+jobs:
+  public-dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install minimal dependencies
+        run: python -m pip install 'pytest>=8,<10' 'pydantic>=2.10,<3' 'selenium>=4.27,<5'
+      - name: Run offline dashboard and previous source tests
+        run: python -m pytest -q tests/test_public_owid_dashboard_probe.py tests/test_public_capture_live_check.py tests/test_public_capture_intake_chain.py tests/test_public_selenium_capture.py
+      - name: One read-only publicly accessible chart-to-table browser action
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PROOF_DIR="$RUNNER_TEMP/p4-owid-evidence"
+          mkdir -p "$PROOF_DIR"
+          xvfb-run -a python -m scripts.public_owid_dashboard_probe --run > "$PROOF_DIR/result.json"
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          root=Path(os.environ['PROOF_DIR'])
+          result=json.loads((root/'result.json').read_text())
+          assert result['status']=='public_dashboard_capture_review_pending'
+          assert result['matched_screenshots']==2
+          assert result['after_table_rows']>result['before_table_rows']
+          assert result['original_site_behavior_verified'] is False
+          assert result['customer_schema_connected'] is False
+          assert result['generation_authorized'] is False
+          source=Path(result['capture_dir'])
+          for name in ('captures/before.png','captures/after.png','bundle.json','request.json','intake_manifest.json'):
+              target=root/name
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(source/name,target)
+          print('PUBLIC_DATA_DASHBOARD_TABLE_ACTION_REPORTED; SCREENSHOTS_2_OF_2_HASH_MATCH; HUMAN_REVIEW_PENDING')
+          PY
+      - name: Preserve bounded public data screenshots and manifest
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4-owid-chart-table-screenshots
+          path: ${{ runner.temp }}/p4-owid-evidence/
+          retention-days: 3
+          if-no-files-found: error
