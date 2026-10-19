@@ -109,3 +109,14 @@ python -m scripts.public_capture_live_check --run    # 허가된 Selenium 공개
 GitHub의 [p4 공개 폼 브라우저 워크플](.github/workflows/p4-public-live-browser.yml)은 해당 기능 브랜치만 대상으로 GitHub Actions Chrome/Xvfb를 통해 동일한 공개 테스트를 시도합니다. 성공 시 익명화된 증거를 단기 보관할 수 있습니다. **이 README 기준 실제 원격 워크플 성공 여부는 미확인**이며, 로컬 **74/74 선택적 자동 테스트만 통과**했습니다. 운영 권한·원본 사이트 기능의 독립 승인·실제 고객 DB/API 연동·배포가 완료됐다는 의미는 아닙니다.
 
 세부 한계와 재현 절차: [PUBLIC_SELENIUM_LIVE_RUNNER_20261019.md](docs/PUBLIC_SELENIUM_LIVE_RUNNER_20261019.md).
+
+
+## p4 합성 시계열 Chart/Table 미리보기 (2026-10-19)
+
+**실제 클릭 가능한 오프라인 HTML 시제품**을 기존 고객 DB와 무관한 합성 데이터로 생성합니다. 원본 사이트의 데이터/계산식/구현을 복제하지 않습니다.
+
+    python -m astra_contracts.synthetic_chart_table_preview --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json --output preview.html
+
+원본 OWID 관측 증거를 파일 단위로 확인하려면 선택적으로 --archive /path/to/p4-owid-evidence.zip 을 추가합니다. 실측·실제 고객 데이터 사용이 아니라 **15건의 임의 수치**입니다. 관련 신규 테스트 포함 로컬 선택적 회귀 50/50 PASS와 Chromium Chart→Table→Chart 클릭 검증을 수행했습니다. 다만 전체 저장소 CI, Windows Edge, 고객 API/DB, 실제 배포 검증은 **미실행**이며, GenerationContract는 blocked_pending_review입니다.
+
+전체 설명과 한계: [SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md](docs/SYNTHETIC_CHART_TABLE_PREVIEW_20261019.md).
