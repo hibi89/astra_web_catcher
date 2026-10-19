@@ -1,0 +1,35 @@
+name: p4 Public Capture Intake Integration
+
+on:
+  push:
+    branches:
+      - feature/observation-contract-20261018
+    paths:
+      - "tests/test_public_capture_intake_chain.py"
+      - "tests/test_public_selenium_capture.py"
+      - "scripts/public_selenium_capture.py"
+      - "astra_contracts/capture_intake.py"
+      - "astra_contracts/evidence_integrity.py"
+      - ".github/workflows/p4-public-capture-chain.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-capture-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+      - name: Install test dependencies
+        run: python -m pip install "pydantic>=2.10,<3" "pytest>=8,<10"
+      - name: Verify fixed demo and capture-to-intake contract
+        run: python -m pytest -q tests/test_public_capture_intake_chain.py tests/test_public_selenium_capture.py
+      - name: Compile source and tests
+        run: python -m compileall -q astra_contracts scripts tests
