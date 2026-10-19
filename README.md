@@ -95,3 +95,17 @@ python tests/live_integrity_check.py
 ```
 
 `live_integrity_check.py`는 서버 종료·재시작 시 세션·장바구니·관심·지원 데이터 유지, A/B 소유권, 금액/재고/기존 주문 가격, 재고 1개 병렬 주문, 병렬 중복 지원을 검증합니다. 2026-10-18 재검증: pytest **13/13 PASS**, HTTP 재시작 **PASS**, HTTP 무결성 **6/6 PASS**. 브라우저 자동 E2E는 환경 차단으로 미검증이며, 사용자는 별도 로컬 브라우저로 기본 UI 흐름 성공을 보고했습니다.
+
+## p4 공개 Selenium 실제 브라우저 검증 경로 (2026-10-19)
+
+참고 사이트 관찰 기능을 **기존 사용자 데이터나 main을 변경하지 않고** 검증하기 위한 선택적 공개 테스트 절차입니다. 일반 실행은 네트워크·Chrome·파일 생성이 없는 dry-run입니다.
+
+```sh
+python -m scripts.public_capture_live_check          # 안전한 준비 상태만 출력
+python -m pip install selenium                       # 실제 실행 가능한 환경에서만
+python -m scripts.public_capture_live_check --run    # 허가된 Selenium 공개 폼 1회 조작→전후 증거→기존 intake 검증
+```
+
+GitHub의 [p4 공개 폼 브라우저 워크플](.github/workflows/p4-public-live-browser.yml)은 해당 기능 브랜치만 대상으로 GitHub Actions Chrome/Xvfb를 통해 동일한 공개 테스트를 시도합니다. 성공 시 익명화된 증거를 단기 보관할 수 있습니다. **이 README 기준 실제 원격 워크플 성공 여부는 미확인**이며, 로컬 **74/74 선택적 자동 테스트만 통과**했습니다. 운영 권한·원본 사이트 기능의 독립 승인·실제 고객 DB/API 연동·배포가 완료됐다는 의미는 아닙니다.
+
+세부 한계와 재현 절차: [PUBLIC_SELENIUM_LIVE_RUNNER_20261019.md](docs/PUBLIC_SELENIUM_LIVE_RUNNER_20261019.md).
