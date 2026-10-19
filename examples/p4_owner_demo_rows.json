@@ -1,0 +1,8 @@
+[
+ {"workspace_key":"demo_alpha","design_label":"SharedDesign","observation_month":"2026-01","invented_score":10.125,"metric_label":"synthetic_alpha_index"},
+ {"workspace_key":"demo_alpha","design_label":"SharedDesign","observation_month":"2026-02","invented_score":11.5,"metric_label":"synthetic_alpha_index"},
+ {"workspace_key":"demo_alpha","design_label":"ALPHA_CANARY","observation_month":"2026-02","invented_score":12.25,"metric_label":"synthetic_alpha_index"},
+ {"workspace_key":"demo_beta","design_label":"SharedDesign","observation_month":"2026-01","invented_score":90.875,"metric_label":"synthetic_beta_index"},
+ {"workspace_key":"demo_beta","design_label":"SharedDesign","observation_month":"2026-02","invented_score":92.5,"metric_label":"synthetic_beta_index"},
+ {"workspace_key":"demo_beta","design_label":"BETA_CANARY","observation_month":"2026-02","invented_score":93.125,"metric_label":"synthetic_beta_index"}
+]
