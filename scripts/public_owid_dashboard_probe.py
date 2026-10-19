@@ -161,6 +161,11 @@ def main(argv=None) -> int:
         from selenium.webdriver.support.ui import WebDriverWait
         driver = webdriver.Chrome()
         driver.set_page_load_timeout(30)
+        driver.get(SOURCE)
+        WebDriverWait(driver, 20).until(
+            lambda d: any(c.is_displayed() for c in d.find_elements(
+                "xpath", "//button[normalize-space()='Table'] | //a[normalize-space()='Table'] "
+                         "| //*[@role='tab' and normalize-space()='Table']")))
         def wait(d):
             return WebDriverWait(d, 15).until(
                 lambda x: len(x.find_elements("css selector", "table tbody tr")) > 0)
