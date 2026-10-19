@@ -1,0 +1,66 @@
+name: p4 Synthetic SQLite API to Chart Table Integration
+
+on:
+  push:
+    branches: [feature/observation-contract-20261018]
+    paths:
+      - astra_contracts/synthetic_sqlite_dashboard.py
+      - tests/test_synthetic_sqlite_dashboard.py
+      - scripts/p4_synthetic_sqlite_browser_smoke.py
+      - .github/workflows/p4-synthetic-sqlite-integration.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p4-synthetic-sqlite-integration
+  cancel-in-progress: true
+
+jobs:
+  api-contract:
+    name: Offline synthetic SQLite API contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install declared dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Python compilation
+        run: python -m compileall -q astra_contracts/synthetic_sqlite_dashboard.py tests/test_synthetic_sqlite_dashboard.py scripts/p4_synthetic_sqlite_browser_smoke.py
+      - name: Test isolated SQLite API and HTML contract
+        run: python -m pytest -q -ra tests/test_synthetic_sqlite_dashboard.py
+
+  chromium-e2e:
+    name: Actual loopback HTTP Chromium E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install declared dependencies and Chromium
+        run: |
+          python -m pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Run real synthetic SQLite API and browser integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.p4_synthetic_sqlite_browser_smoke \
+            --fixture examples/p4_chart_table_synthetic_schema.json \
+            --rows examples/p4_chart_table_synthetic_rows.json \
+            > p4-sqlite-browser.json
+          cat p4-sqlite-browser.json
+      - name: Preserve bounded E2E findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4-synthetic-sqlite-browser-results
+          path: p4-sqlite-browser.json
+          if-no-files-found: ignore
+          retention-days: 7
