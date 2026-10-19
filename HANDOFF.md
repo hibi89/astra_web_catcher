@@ -671,3 +671,10 @@
 - 실제 응답에 12개 `checks`가 포함: health, HTML, 목록 정확성, category filter, 검색, 상세, 404, 422, 와일드카드 %, _, trace route, SQLite 재시작 지속성. `features_exercised=list/filter/search/detail`.
 - `original_behavior_verified=false`, `production_ready=false`, `user_database_accessed=false`, `original_generation_approved=false`; 관찰 2건 미해결. 이것은 합성 데이터 인수검사 통과이며 실제 URL 자동 관찰/원본 행동 검증/상용 준비 완료가 아님.
 - 향후 로컬 명령은 가능한 최소화. 현재 ChatGPT 컨테이너의 `git ls-remote`는 github.com DNS 조회 실패라 원격 저장소 clone 불가. GitHub connector로 코드/문서 수정 가능하나 그 자체는 테스트 실행 아님. GitHub Actions 실행은 별도 실행 및 상태 검증 필요.
+
+
+## 2026-10-19 — P4 개인용 CI 검증 경로 추가
+
+- P4 작업 브랜치 전용 `.github/workflows/p4-personal-pipeline.yml` 추가 (커밋 `66dd345`). Python 3.11, 신규 통합 pytest, dry run, 합성 임시 앱 생성, synthetic_acceptance 12개 이상 검사를 실행하도록 구성. timeout으로 TestClient 교착 시 실패 처리.
+- 사용자 PC 작업을 우선하지 않고 Actions 자동 검증을 사용. workflow 작성/원격 저장 확인과 workflow 실행 성공은 별개다. **이번 기록 시점 CI 실행 결과 미확인**; PASS로 기재하지 않는다.
+- 고객 데이터·원본 URL 접근·main·PR·배포 무변경. `generation_contract=blocked_pending_review` 유지.
