@@ -1,0 +1,78 @@
+name: p4 Synthetic Owner Isolation and Mapping Proof
+
+on:
+  push:
+    branches: [feature/observation-contract-20261018]
+    paths:
+      - astra_contracts/synthetic_owner_isolation.py
+      - tests/test_synthetic_owner_isolation.py
+      - examples/p4_owner_demo_schema.json
+      - examples/p4_owner_demo_rows.json
+      - scripts/p4_owner_isolation_browser_smoke.py
+      - .github/workflows/p4-owner-isolation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p4-owner-isolation
+  cancel-in-progress: true
+
+jobs:
+  full-python-regression:
+    name: Full offline Python regression with owner isolation
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install project and test dependencies
+        run: python -m pip install -r requirements.txt 'selenium>=4.27,<5'
+      - name: Compile checked out Python modules
+        run: python -m compileall -q app astra_contracts scripts tests
+      - name: Run all pytest modules
+        run: python -m pytest -q -ra tests --junitxml=p4-owner-full-pytest.xml
+      - name: Preserve exact summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4-owner-full-pytest
+          path: p4-owner-full-pytest.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  owner-chromium-http:
+    name: Actual loopback Chromium cross-owner HTTP isolation
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install declared dependencies and Chromium
+        run: |
+          python -m pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Verify synthetic owner session and database behavior
+        run: python -m pytest -q -ra tests/test_synthetic_owner_isolation.py
+      - name: Run actual session-separated SQLite API browser integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.p4_owner_isolation_browser_smoke \
+            --schema examples/p4_owner_demo_schema.json \
+            --rows examples/p4_owner_demo_rows.json \
+            > p4-owner-browser.json
+          cat p4-owner-browser.json
+      - name: Preserve only test results, never session cookies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4-synthetic-owner-browser
+          path: p4-owner-browser.json
+          retention-days: 7
+          if-no-files-found: ignore
