@@ -1,6 +1,6 @@
 """Cross-engine offline browser smoke for the synthetic ASTRA chart/table preview.
 
-Checks explicitly pinned public observation provenance but uses fabricated local data.
+Optionally verifies pinned public observation provenance; always uses fabricated data.
 No owner DB, server, external URL or deployment is accessed.
 """
 from __future__ import annotations
@@ -20,7 +20,7 @@ VIEWPORTS = (
 ENGINES = ('chromium', 'firefox', 'webkit', 'msedge')
 
 
-def run(*, schema_path: Path, rows_path: Path, archive: Path,
+def run(*, schema_path: Path, rows_path: Path, archive: Path | None,
         engines: tuple[str, ...], chromium_path: Path | None = None) -> dict:
     if not engines or len(set(engines)) != len(engines) or any(e not in ENGINES for e in engines):
         raise ValueError('Specify distinct supported engines')
@@ -95,6 +95,7 @@ def run(*, schema_path: Path, rows_path: Path, archive: Path,
                 browser.close()
     return {'status': 'PASS', 'engines_tested': list(engines), 'cases': results,
             'preview_data_kind': 'synthetic_fixture', 'render_mode': 'page.set_content',
+            'pinned_archive_verified': archive is not None,
             'windows_edge_tested': 'msedge' in engines,
             'original_source_semantics_verified': False,
             'owner_schema_approved': False, 'generation_contract': 'blocked_pending_review'}
@@ -104,7 +105,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--fixture', required=True, type=Path)
     parser.add_argument('--rows', required=True, type=Path)
-    parser.add_argument('--archive', required=True, type=Path)
+    parser.add_argument('--archive', type=Path)
     parser.add_argument('--engine', action='append', choices=ENGINES, required=True)
     parser.add_argument('--chromium-path', type=Path)
     args = parser.parse_args(argv)
