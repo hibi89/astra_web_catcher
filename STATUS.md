@@ -405,3 +405,9 @@
 - Added `astra_contracts/synthetic_timeseries_review.py` and `tests/test_synthetic_timeseries_review.py` to feature branch. Strict synthetic_fixture only; four explicit semantic roles, no guessed column names; missing/unknown/type conflict diagnostics. Compatible bindings are `structurally_compatible_unapproved` only.
 - Local Python targeted tests: **21/21 PASS** (11 new + 10 prior pinned evidence tests). GitHub code/test files read back after push; source blob `5e7cd3fc90d85aa1c28e4965ab323a7569239886`, test blob `6cb5713c9eb0abb98cda9bb6d206ce9c227e8c81`. Whole repo/CI/Windows/Production NOT RUN.
 - No customer DB/API, no code generation or deployment. `generation_contract=blocked_pending_review`, all approval flags false. Next unit: offline fixture demonstration and cross-link pinned mechanism evidence to synthetic schema review, then broader regression when available.
+
+
+## 2026-10-19 — pinned browser proof + synthetic mapping bridge
+- Added `astra_contracts/chart_table_synthetic_bridge.py` and `tests/test_chart_table_synthetic_bridge.py` to feature branch. Bridge calls `review_pinned_artifact` on original OWID ZIP first, then synthetic-only schema reviewer; outputs blocked review contract and provenance IDs. Missing/forged archive fails closed. No DB, browser, generation, deployment.
+- Tests authored: missing archive, forged bytes, structural-but-unapproved, and conditional exact-archive integration. **No new local or CI execution verified in this unit**; the original archive may be unavailable after expiry. Existing 21/21 local test result belongs to previous unit only. Real archive integration test skips if file unavailable; skip is not proof.
+- Next unit: run actual bridge tests and full selected regression in clean environment, retrieve exact evidence ZIP if still available; fix only confirmed defects. Whole suite and customer integration unverified. Estimated overall progress ~49% unchanged.
