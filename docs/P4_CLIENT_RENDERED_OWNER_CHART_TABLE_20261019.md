@@ -37,6 +37,7 @@
 - 전체 저장소 명령을 로컬 Windows에서 실제 실행했다: Python 3.12.14, UTF-8 모드, workspace 의존성, selenium 설치, 허용된 별도 TEMP 경로, Python을 PATH에 추가하고 python -m pytest -q -ra --tb=no tests 실행 결과 **752 passed, 96 failed, 108 errors, 3 skipped, 2 warnings**. 따라서 전체 회귀는 **통과하지 않았다**. 대표 원인은 core.autocrlf=true checkout으로 Git blob fingerprint test가 LF 원본과 CRLF 작업 파일을 다르게 비교한 점, Windows sandbox가 symlink 생성/외부 임시 파일 조작을 막은 점, Windows에서 subprocess가 SQLite 파일을 열린 상태로 두어 정리 중 잠금이 발생한 점이다. 모든 실패를 개별 수정하거나 프로젝트 회귀로 판정한 것은 아니다. Linux CI가 이 코드의 전체 회귀를 검증해야 한다.
 - 기준 커밋의 과거 940 PASS / 2 SKIP 및 GitHub Actions 39225637124 결과를 이번 코드의 새 결과로 재사용하지 않는다.
 - 새 workflow는 수정했지만 push 제한으로 GitHub Actions를 새로 실행하지 않았다. 이 결과 문서의 Chromium PASS는 로컬 Windows에서 직접 실행한 결과다.
+- Linux 재검증 경로도 확인했다. Ubuntu WSL은 실행되지만 Python 3.14.4에 `pip`, `ensurepip`, `pytest`가 설치되어 있지 않았고, `/mnt/c` checkout의 Windows `.git` worktree pointer는 Linux Git에서 유효하지 않았다. Docker CLI에는 실행 중인 daemon이 연결되지 않았다. 이 환경에서 Linux 전체 suite는 실행하지 않았으며, package registry나 외부 서비스를 호출하지 않았다.
 
 ## 권한과 해석의 한계
 
