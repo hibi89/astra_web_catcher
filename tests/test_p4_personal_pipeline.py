@@ -31,3 +31,15 @@ def test_invalid_observation_fails_without_generation(tmp_path, capsys):
     bad.write_text('{"invalid":true}', encoding="utf-8")
     assert main(["--observation", str(bad), "--generate"]) == 1
     assert "FAIL:" in capsys.readouterr().err
+
+def test_generate_reports_preview_path(monkeypatch, tmp_path, capsys):
+    import scripts.p4_personal_pipeline as pipeline
+    destination = tmp_path / "astra-synth-test"
+    destination.mkdir()
+    monkeypatch.setattr(pipeline.tempfile, "mkdtemp", lambda prefix: str(destination))
+    called = []
+    monkeypatch.setattr(pipeline, "generate_bridge_preview",
+                        lambda *args: called.append(args[-1]) or [])
+    assert main(["--generate"]) == 0
+    assert called == [destination]
+    assert '"generation_contract": "blocked_pending_review"' in capsys.readouterr().out
