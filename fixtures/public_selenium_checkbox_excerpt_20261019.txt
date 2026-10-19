@@ -1,0 +1,5 @@
+Publisher documentation: https://www.selenium.dev/documentation/webdriver/elements/interactions/
+Public example target: https://www.selenium.dev/selenium/web/inputs.html
+Read-only publisher documentation, human-curated summary (2026-10-19 KST): Python example finds checkbox_input by name, calls click(), then is_selected() and asserts False. This documents a checkbox interaction and expected post-click state in the publisher example.
+Public target page was read as text titled Testing Inputs; its HTML and initial checkbox state were not independently captured.
+This is NOT a firsthand executed click, authenticated screenshot, original-site HTTP contract, copied source code, owner-data permission, or production approval.
