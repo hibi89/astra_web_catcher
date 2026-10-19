@@ -128,3 +128,19 @@ Five-viewport Chromium + keyboard/XSS smoke (requires Playwright and installed C
 ### p4 Full regression and cross-engine browser evidence — 2026-10-19
 
 On GitHub Actions [run 39220632083](https://github.com/hibi89/astra_web_catcher/actions/runs/39220632083), feature-branch full Python regression **894 passed, 2 skipped (historic OWID ZIP unavailable in CI), 0 failed**. Real Linux Chromium/Firefox/WebKit preview smoke **12/12 PASS**, real Windows Microsoft Edge **4/4 PASS** at desktop/mobile/small-mobile viewports (Chart↔Table, keyboard, HTML injection, 0 network/JS error). Reusable `scripts/p4_multi_browser_smoke.py` supports optional `--archive`; omitting it explicitly does **not** verify provenance. See `docs/P4_FULL_REGRESSION_CROSS_ENGINE_20261019.md` for command, versions, artifacts, skips and limits. All preview data synthetic, customer DB and generation/deployment still blocked.
+
+
+### p4 synthetic SQLite API ↔ Chart/Table browser demo (2026-10-19)
+
+An **isolated, in-memory SQLite** fixture now feeds a read-only FastAPI GET /api/demo/series and a GET /preview page. The page renders the existing original synthetic chart/table view from SQL results, then fetches the local API and compares a SHA-256 snapshot fingerprint. It flags a mismatch rather than falsely claiming live-data equality. No customer DB, credentials, persistent storage, main merge or production deployment.
+
+Verified in [GitHub Actions run 39222673267](https://github.com/hibi89/astra_web_catcher/actions/runs/39222673267): **13/13 new API/DB tests PASS**, actual loopback HTTP Chromium E2E **PASS** including API GET, Chart/Table click/keyboard, DB-value change reflected after refresh, forged API SHA rejected; 0 requests to external origins and 0 JavaScript errors. This is not real customer integration or verified source semantics.
+
+To reproduce from repo root:
+
+    python -m pip install -r requirements.txt
+    python -m pytest -q tests/test_synthetic_sqlite_dashboard.py
+    python -m playwright install --with-deps chromium
+    python -m scripts.p4_synthetic_sqlite_browser_smoke --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json
+
+See docs/P4_SYNTHETIC_SQLITE_API_E2E_20261019.md for implementation, test logs, limitations and security/authorization boundaries.
