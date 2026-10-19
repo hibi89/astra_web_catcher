@@ -38,6 +38,7 @@
 - 기준 커밋의 과거 940 PASS / 2 SKIP 및 GitHub Actions 39225637124 결과를 이번 코드의 새 결과로 재사용하지 않는다.
 - 새 workflow는 수정했지만 push 제한으로 GitHub Actions를 새로 실행하지 않았다. 이 결과 문서의 Chromium PASS는 로컬 Windows에서 직접 실행한 결과다.
 - Linux 재검증 경로도 확인했다. Ubuntu WSL은 실행되지만 Python 3.14.4에 `pip`, `ensurepip`, `pytest`가 설치되어 있지 않았고, `/mnt/c` checkout의 Windows `.git` worktree pointer는 Linux Git에서 유효하지 않았다. Docker CLI에는 실행 중인 daemon이 연결되지 않았다. 이 환경에서 Linux 전체 suite는 실행하지 않았으며, package registry나 외부 서비스를 호출하지 않았다.
+- 별도로 Linux 구문 검증 `PYTHONPYCACHEPREFIX=/tmp/astra-p4-pycache python3 -m compileall -q app astra_contracts scripts tests`를 WSL에서 실행해 **PASS**를 확인했다. 이는 pytest 전체 회귀나 Chromium E2E 결과를 대신하지 않는다.
 
 ## 권한과 해석의 한계
 
