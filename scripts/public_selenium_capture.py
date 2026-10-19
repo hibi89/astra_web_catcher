@@ -31,6 +31,7 @@ def _exact_url(value: str, expected: str) -> None:
     if value != expected or (parts.scheme, parts.hostname, parts.port) != ('https', 'www.selenium.dev', None):
         raise ValueError('unexpected source URL or redirect; do not capture')
 
+
 def _expected_result_url(value: str) -> None:
     """GET forms can submit fixed demo fields as a URL query: never store it."""
     parts = urlsplit(value)
