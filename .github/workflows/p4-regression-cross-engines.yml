@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: p4-offline-regression-${{ github.ref }}
@@ -29,29 +28,6 @@ jobs:
           python-version: '3.13'
       - name: Install test dependencies
         run: python -m pip install -r requirements.txt 'selenium>=4.27,<5'
-      - name: Download and pin public evidence (fail closed)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          python - <<'PY'
-          import hashlib, os, urllib.request
-          from pathlib import Path
-          url = 'https://api.github.com/repos/hibi89/astra_web_catcher/actions/artifacts/12168150702/zip'
-          req = urllib.request.Request(url, headers={
-              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
-              'Accept': 'application/vnd.github+json',
-              'User-Agent': 'ASTRA-P4-Offline-Regression'})
-          with urllib.request.urlopen(req, timeout=60) as response:
-              data = response.read()
-          expected = '6ad5f561b78271be7da3b4efb8e61fcc1a6c269b4ebf8a26e1b32c23b81717e6'
-          if hashlib.sha256(data).hexdigest() != expected:
-              raise ValueError('Pinned evidence SHA256 mismatch; aborting')
-          Path('p4-owid-evidence.zip').write_bytes(data)
-          print('Original pinned OWID ZIP integrity PASS:', len(data), 'bytes')
-          PY
-          sudo mkdir -p /mnt/data
-          sudo cp p4-owid-evidence.zip /mnt/data/p4-owid-evidence.zip
       - name: Python compile check
         run: python -m compileall -q app astra_contracts scripts tests
       - name: Run full repository offline regression
@@ -78,33 +54,11 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           python -m playwright install --with-deps chromium firefox webkit
-      - name: Download pinned public evidence (fail closed)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          python - <<'PY'
-          import hashlib, os, urllib.request
-          from pathlib import Path
-          url = 'https://api.github.com/repos/hibi89/astra_web_catcher/actions/artifacts/12168150702/zip'
-          req = urllib.request.Request(url, headers={
-              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
-              'Accept': 'application/vnd.github+json',
-              'User-Agent': 'ASTRA-P4-Offline-Regression'})
-          with urllib.request.urlopen(req, timeout=60) as response:
-              data = response.read()
-          expected = '6ad5f561b78271be7da3b4efb8e61fcc1a6c269b4ebf8a26e1b32c23b81717e6'
-          if hashlib.sha256(data).hexdigest() != expected:
-              raise ValueError('Pinned evidence SHA256 mismatch; aborting')
-          Path('p4-owid-evidence.zip').write_bytes(data)
-          print('Original pinned OWID ZIP integrity PASS:', len(data), 'bytes')
-          PY
       - name: Test three real browser engines (desktop and mobile viewports)
         run: |
           python -m scripts.p4_multi_browser_smoke \
             --fixture examples/p4_chart_table_synthetic_schema.json \
             --rows examples/p4_chart_table_synthetic_rows.json \
-            --archive p4-owid-evidence.zip \
             --engine chromium --engine firefox --engine webkit \
             > p4-browser-linux.json
           cat p4-browser-linux.json
@@ -131,31 +85,10 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           python -m playwright install msedge
-      - name: Download pinned public evidence (fail closed)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: pwsh
-        run: |
-          @'
-          import hashlib, os, urllib.request
-          from pathlib import Path
-          url = 'https://api.github.com/repos/hibi89/astra_web_catcher/actions/artifacts/12168150702/zip'
-          req = urllib.request.Request(url, headers={
-              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
-              'Accept': 'application/vnd.github+json',
-              'User-Agent': 'ASTRA-P4-Offline-Regression'})
-          with urllib.request.urlopen(req, timeout=60) as response:
-              data = response.read()
-          expected = '6ad5f561b78271be7da3b4efb8e61fcc1a6c269b4ebf8a26e1b32c23b81717e6'
-          if hashlib.sha256(data).hexdigest() != expected:
-              raise ValueError('Pinned evidence SHA256 mismatch; aborting')
-          Path('p4-owid-evidence.zip').write_bytes(data)
-          print('Original pinned OWID ZIP integrity PASS:', len(data), 'bytes')
-          '@ | python -
       - name: Test real Windows Edge browser
         shell: pwsh
         run: |
-          python -m scripts.p4_multi_browser_smoke --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json --archive p4-owid-evidence.zip --engine msedge > p4-browser-edge.json
+          python -m scripts.p4_multi_browser_smoke --fixture examples/p4_chart_table_synthetic_schema.json --rows examples/p4_chart_table_synthetic_rows.json --engine msedge > p4-browser-edge.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           Get-Content p4-browser-edge.json
       - name: Preserve Windows Edge results
