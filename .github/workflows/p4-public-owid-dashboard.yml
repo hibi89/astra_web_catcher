@@ -7,6 +7,10 @@ on:
       - scripts/public_owid_dashboard_probe.py
       - tests/test_public_owid_dashboard_probe.py
       - .github/workflows/p4-public-owid-dashboard.yml
+  pull_request:
+    branches: [feature/observation-contract-20261018]
+    paths:
+      - .github/workflows/p4-public-owid-dashboard.yml
   workflow_dispatch:
 
 permissions:
