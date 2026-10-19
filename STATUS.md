@@ -501,3 +501,11 @@ python -m scripts.p4_synthetic_preview_browser_smoke --chromium /usr/bin/chromiu
 - 출력: `mode=synthetic_preview_only`, `generation_contract=blocked_pending_review`, candidate 1, unresolved 2, mapping discrepancies 7, simulated features 1, original behavior verified false, customer database accessed false.
 - `preview_folder=C:\\Users\\haein\\AppData\\Local\\Temp\\astra-synth-ouk50s88`가 반환되어 합성 파일 생성 CLI 성공 확인. 파일 내용 검수, 생성 앱의 API/HTTP 및 브라우저 실행 결과는 **아직 미검증**.
 - 다음 검증: `python -m astra_contracts.synthetic_acceptance "C:\\Users\\haein\\AppData\\Local\\Temp\\astra-synth-ouk50s88"` (기존 Windows TestClient timeout 위험). 외부 데이터, 고객 DB/API, PR, main, 배포 무변경.
+
+
+## 2026-10-19 — P4 synthetic acceptance Windows 사용자 실행 증거
+
+- 사용자 실행: `python -m astra_contracts.synthetic_acceptance "C:\\Users\\haein\\AppData\\Local\\Temp\\astra-synth-ouk50s88"` → `status=synthetic_only_passed`, exit 성공 출력.
+- 실제 응답에 12개 `checks`가 포함: health, HTML, 목록 정확성, category filter, 검색, 상세, 404, 422, 와일드카드 %, _, trace route, SQLite 재시작 지속성. `features_exercised=list/filter/search/detail`.
+- `original_behavior_verified=false`, `production_ready=false`, `user_database_accessed=false`, `original_generation_approved=false`; 관찰 2건 미해결. 이것은 합성 데이터 인수검사 통과이며 실제 URL 자동 관찰/원본 행동 검증/상용 준비 완료가 아님.
+- 향후 로컬 명령은 가능한 최소화. 현재 ChatGPT 컨테이너의 `git ls-remote`는 github.com DNS 조회 실패라 원격 저장소 clone 불가. GitHub connector로 코드/문서 수정 가능하나 그 자체는 테스트 실행 아님. GitHub Actions 실행은 별도 실행 및 상태 검증 필요.
