@@ -46,13 +46,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         destination = None
         if args.generate:
-            import os
             root = Path(tempfile.mkdtemp(prefix="astra-synth-"))
-            try:
-                generate_bridge_preview(spec, schema, report, request, contract, demo, root)
-            except Exception:
-                # Preserve evidence for inspection; do not delete any user-owned files.
-                raise
+            generate_bridge_preview(spec, schema, report, request, contract, demo, root)
             destination = str(root)
         summary = {
             "mode": "synthetic_preview_only",
