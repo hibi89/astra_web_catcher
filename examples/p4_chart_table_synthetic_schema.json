@@ -1,0 +1,16 @@
+{
+  "source_kind": "synthetic_fixture",
+  "dataset_id": "original_synthetic_nail_trends",
+  "columns": [
+    {"name": "design", "kind": "string"},
+    {"name": "period", "kind": "string"},
+    {"name": "value", "kind": "number"},
+    {"name": "metric_definition", "kind": "string"}
+  ],
+  "proposed_bindings": {
+    "entity_identifier": "design",
+    "time_period": "period",
+    "numeric_measure": "value",
+    "aggregation_semantics": "metric_definition"
+  }
+}
