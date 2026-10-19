@@ -10,6 +10,11 @@ on:
       - tests/test_public_capture_live_check.py
       - tests/test_public_selenium_capture.py
       - .github/workflows/p4-public-live-browser.yml
+  pull_request:
+    branches:
+      - feature/observation-contract-20261018
+    paths:
+      - .github/workflows/p4-public-live-browser.yml
   workflow_dispatch:
 
 permissions:
