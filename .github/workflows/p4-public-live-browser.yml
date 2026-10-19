@@ -1,0 +1,70 @@
+name: p4 Public Selenium Live Browser Proof
+
+on:
+  push:
+    branches:
+      - feature/observation-contract-20261018
+    paths:
+      - scripts/public_capture_live_check.py
+      - scripts/public_selenium_capture.py
+      - tests/test_public_capture_live_check.py
+      - tests/test_public_selenium_capture.py
+      - .github/workflows/p4-public-live-browser.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: p4-public-browser-proof
+  cancel-in-progress: true
+
+jobs:
+  live-public-form:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install minimal test and browser dependencies
+        run: python -m pip install 'pydantic>=2.10,<3' 'pytest>=8,<10' 'selenium>=4.27,<5'
+      - name: Run offline integration tests first
+        run: python -m pytest -q tests/test_public_capture_live_check.py tests/test_public_capture_intake_chain.py tests/test_public_selenium_capture.py
+      - name: Run one first-hand permitted public Selenium demo click
+        shell: bash
+        run: |
+          set -euo pipefail
+          export EVIDENCE_ROOT="$RUNNER_TEMP/p4-public-proof"
+          mkdir -p "$EVIDENCE_ROOT"
+          xvfb-run -a python -m scripts.public_capture_live_check --run > "$EVIDENCE_ROOT/summary.json"
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          root = Path(os.environ['EVIDENCE_ROOT'])
+          result = json.loads((root / 'summary.json').read_text(encoding='utf-8'))
+          assert result['status'] == 'local_evidence_bytes_consistent_review_pending'
+          assert result['evidence_file_count'] == result['evidence_files_matching'] == 2
+          for key in ('original_site_behavior_verified', 'operator_origin_authenticated',
+                      'semantics_independently_reviewed', 'user_data_accessed',
+                      'generation_authorized', 'deployment_authorized'):
+              assert result[key] is False
+          capture = Path(result['capture_folder'])
+          intake = Path(result['intake_folder'])
+          for name in ('bundle.json', 'request.json', 'run_metadata.json',
+                       'evidence/before.txt', 'evidence/after.txt'):
+              out = root / 'capture' / name
+              out.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(capture / name, out)
+          shutil.copyfile(intake / 'capture_intake.json', root / 'capture_intake.json')
+          print('LIVE_PUBLIC_BROWSER_ACTION_REPORTED; EVIDENCE_BYTES_2_OF_2_MATCH; HUMAN_REVIEW_PENDING')
+          PY
+      - name: Preserve sanitized public demo evidence for review
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4-selenium-public-evidence
+          path: ${{ runner.temp }}/p4-public-proof/
+          retention-days: 3
+          if-no-files-found: error
