@@ -411,3 +411,8 @@
 - Added `astra_contracts/chart_table_synthetic_bridge.py` and `tests/test_chart_table_synthetic_bridge.py` to feature branch. Bridge calls `review_pinned_artifact` on original OWID ZIP first, then synthetic-only schema reviewer; outputs blocked review contract and provenance IDs. Missing/forged archive fails closed. No DB, browser, generation, deployment.
 - Tests authored: missing archive, forged bytes, structural-but-unapproved, and conditional exact-archive integration. **No new local or CI execution verified in this unit**; the original archive may be unavailable after expiry. Existing 21/21 local test result belongs to previous unit only. Real archive integration test skips if file unavailable; skip is not proof.
 - Next unit: run actual bridge tests and full selected regression in clean environment, retrieve exact evidence ZIP if still available; fix only confirmed defects. Whole suite and customer integration unverified. Estimated overall progress ~49% unchanged.
+
+
+## 2026-10-19 — actual retained evidence archive independent recheck
+- Located retained `/mnt/data/p4-owid-evidence.zip` (274126 bytes). Local independent Python check **PASS**: SHA-256 exact `6ad5f561b78271be7da3b4efb8e61fcc1a6c269b4ebf8a26e1b32c23b81717e6`, six members, PNG signatures, observed table rows 0→265, all relevant archive approval flags false.
+- This is an independent ZIP integrity and recorded-state check, **not** execution of `tests/test_chart_table_synthetic_bridge.py` or entire repository regression. Those remain **NOT RUN** and must not be marked passed. No code changes or customer DB access. Next unit: execute exact checked-out feature source pytest in an environment with the pinned ZIP; keep archive path configurable and avoid silent skips.
