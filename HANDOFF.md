@@ -655,3 +655,11 @@
 - 사용자 PC (`C:\\Users\\haein\\Downloads\\astra_web_catcher_codex`)에서 `python -m pytest -q tests/test_p4_personal_pipeline.py`: **4 passed, 1 warning in 0.39s**. 유일한 warning은 `.pytest_cache` 기록에 대한 WinError 5 접근 거부.
 - `python -m scripts.p4_personal_pipeline`: **정상 종료**, 출력 `mode=synthetic_preview_only`, `generation_contract=blocked_pending_review`, `candidate_features=1`, `unresolved=2`, `mapping_discrepancies=7`, `simulated_features=1`, `original_behavior_verified=false`, `customer_database_accessed=false`, `preview_folder=null`.
 - **아직 미실행:** `--generate` 실제 합성 파일 생성 및 별도 acceptance/HTTP 브라우저 검증. 이번 결과로 실제 URL 자동 관찰이나 원본 앱 생성이 검증됐다고 표현하지 않는다.
+
+
+## 2026-10-19 — P4 개인용 통합 합성 미리보기 생성 Windows 실검증
+
+- 사용자 Windows PowerShell에서 `git pull --ff-only`로 `93743f8` 반영 후 `python -m scripts.p4_personal_pipeline --generate` 정상 종료.
+- 출력: `mode=synthetic_preview_only`, `generation_contract=blocked_pending_review`, candidate 1, unresolved 2, mapping discrepancies 7, simulated features 1, original behavior verified false, customer database accessed false.
+- `preview_folder=C:\\Users\\haein\\AppData\\Local\\Temp\\astra-synth-ouk50s88`가 반환되어 합성 파일 생성 CLI 성공 확인. 파일 내용 검수, 생성 앱의 API/HTTP 및 브라우저 실행 결과는 **아직 미검증**.
+- 다음 검증: `python -m astra_contracts.synthetic_acceptance "C:\\Users\\haein\\AppData\\Local\\Temp\\astra-synth-ouk50s88"` (기존 Windows TestClient timeout 위험). 외부 데이터, 고객 DB/API, PR, main, 배포 무변경.
