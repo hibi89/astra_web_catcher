@@ -478,3 +478,11 @@ python -m scripts.p4_synthetic_preview_browser_smoke --chromium /usr/bin/chromiu
 - **승인/연동 상태:** 합성 값만, no real DB/API/credential/service. `mapping_approved=false`, `owner_schema_connected=false`, code generation/deployment authorization false, `generation_contract=blocked_pending_review`. GitHub push/PR/merge/deployment 미수행.
 - **문서:** `README.md`, `ARCHITECTURE.md`, `TEST-REPORT.md`, `REVIEW-PACK.md`, `HANDOFF.md` 및 상세 `docs/P4_CLIENT_RENDERED_OWNER_CHART_TABLE_20261019.md` 갱신. 중앙 `project-book` 원격 수정은 하지 않았으며 추후 동기화 메모는 HANDOFF에 기록.
 - **다음:** 새 코드의 Linux 전체 회귀와 Linux Chromium workflow는 미검증이다. 현재 명시된 원격 push 금지를 유지한다. 로컬 구현 및 targeted/browser 검증은 완료했지만 전체 회귀는 통과하지 않았다.
+
+
+## 2026-10-19 — p4 개인용 오프라인 통합 CLI (검증 대기)
+
+- `scripts/p4_personal_pipeline.py` 신규 추가: 기존 observation → functional_spec → mapping → generation preflight → synthetic bridge를 명시적 로컬 JSON과 합성 데이터로 연결. `--generate`는 OS temp의 별도 합성 데모만 생성. 실제 URL 크롤링·원본 앱 생성·실 DB/API 연결은 미구현.
+- `tests/test_p4_personal_pipeline.py` 신규 4개 테스트 함수 작성. **실제 실행 및 PASS 검증은 아직 없음**(이 작업 환경 GitHub clone DNS 실패). 기존 53 PASS/Chromium E2E는 이번 변경 검증이 아님.
+- `docs/P4_PERSONAL_OFFLINE_PIPELINE_20261019.md`에 실행 및 제한사항 기록. 다음 작업: Windows 로컬에서 단위 테스트, dry-run, `--generate`, 임시 데모 검수기 실행. 실패 시 원인 확인 후 최소 수정.
+- `generation_contract=blocked_pending_review` 유지. `main`, 고객 데이터/DB/API, 배포, PR, merge 미변경.
